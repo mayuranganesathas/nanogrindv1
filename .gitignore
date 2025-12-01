@@ -1,0 +1,4 @@
+.claude/
+scripts/
+*.pyc
+__pycache__/
