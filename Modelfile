@@ -1,0 +1,15 @@
+FROM mistral-small3.2:24b-instruct-2506-q4_K_M
+
+# Context window — must match contextWindow in AGENTS.md
+# 49152 = 48k — covers full day session (~20k tokens) with headroom
+# VRAM: 15GB weights + ~6GB KV cache at 48k = ~21GB (fits 3090 with 3GB headroom)
+PARAMETER num_ctx 49152
+
+# Max tokens per response — keeps replies concise for Telegram
+PARAMETER num_predict 2048
+
+# Mistral's recommended temperature for reliable tool/function calling
+PARAMETER temperature 0.15
+
+# Reduce repetition in long sessions
+PARAMETER repeat_penalty 1.1
