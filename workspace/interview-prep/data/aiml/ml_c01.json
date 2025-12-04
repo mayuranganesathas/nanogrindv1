@@ -1,0 +1,31 @@
+{
+  "id": "ml_c01",
+  "type": "implementation",
+  "category": "Core ML",
+  "subcategory": "Supervised Learning",
+  "week": 3,
+  "day": 1,
+  "title": "Linear Regression from Scratch",
+  "estimated_minutes": 60,
+  "summary": "The simplest ML model. Master this and you understand gradient descent, loss functions, and overfitting.",
+  "key_concepts": [
+    "Hypothesis: ŷ = Xθ",
+    "MSE loss: L = (1/n)||Xθ - y||²",
+    "Normal equation: θ = (X^T X)^{-1} X^T y",
+    "Gradient descent solution",
+    "Ridge regression (L2): θ = (X^T X + λI)^{-1} X^T y",
+    "Lasso regression (L1): no closed form, use coordinate descent"
+  ],
+  "ml_connection": "Foundation for understanding all supervised learning. The math here extends directly to logistic regression and neural networks.",
+  "exercises": [
+    "Implement linear regression using the normal equation. Compare to gradient descent solution.",
+    "Implement ridge regression. Show how λ affects the coefficient magnitudes.",
+    "Implement lasso with coordinate descent. Show sparsity of coefficients.",
+    "Implement polynomial regression and show overfitting at high degree."
+  ],
+  "code_example": "import numpy as np\n\nclass LinearRegression:\n    def fit_normal_eq(self, X, y):\n        X_b = np.c_[np.ones((len(X), 1)), X]  # add bias column\n        self.theta = np.linalg.pinv(X_b.T @ X_b) @ X_b.T @ y\n        return self\n\n    def fit_gd(self, X, y, lr=0.01, epochs=1000):\n        X_b = np.c_[np.ones((len(X), 1)), X]\n        self.theta = np.zeros(X_b.shape[1])\n        n = len(y)\n        for _ in range(epochs):\n            grad = (2/n) * X_b.T @ (X_b @ self.theta - y)\n            self.theta -= lr * grad\n        return self\n\n    def predict(self, X):\n        X_b = np.c_[np.ones((len(X), 1)), X]\n        return X_b @ self.theta\n\n    def r2_score(self, X, y):\n        y_pred = self.predict(X)\n        ss_res = np.sum((y - y_pred)**2)\n        ss_tot = np.sum((y - y.mean())**2)\n        return 1 - ss_res / ss_tot\n",
+  "thinking_questions": [
+    "When does the normal equation fail? (Hint: what if X^T X is singular?)",
+    "Why does ridge regression always have a unique solution even when X^T X is singular?"
+  ]
+}
