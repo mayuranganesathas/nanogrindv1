@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "8ab0af9f",
+      "name": "🌅 Morning Interview Prep Reminder",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "0 8 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/morning-reminder",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "state": {
+        "nextRunAtMs": null,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1772851025044,
+      "updatedAtMs": null,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "8a179242",
+      "name": "🌙 Evening Pattern Drill",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "0 21 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/evening-drill",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "state": {
+        "nextRunAtMs": null,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 1772851034992,
+      "updatedAtMs": null,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "7f3c912b",
+      "name": "📊 Weekly Summary",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "0 17 * * 6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/weekly-summary",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "state": {
+        "nextRunAtMs": null,
+        "lastRunAtMs": null,
+        "lastStatus": null,
+        "lastError": null
+      },
+      "createdAtMs": 0,
+      "updatedAtMs": null,
+      "deleteAfterRun": false
+    }
+  ]
+}
