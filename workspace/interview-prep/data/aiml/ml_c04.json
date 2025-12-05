@@ -1,0 +1,31 @@
+{
+  "id": "ml_c04",
+  "type": "theory",
+  "category": "Core ML",
+  "subcategory": "Ensemble Methods",
+  "week": 3,
+  "day": 4,
+  "title": "Random Forests and Gradient Boosting",
+  "estimated_minutes": 60,
+  "summary": "Ensemble methods that combine weak learners into a strong one. Dominant on tabular data.",
+  "key_concepts": [
+    "Bagging (Bootstrap Aggregation): train on random subsets, average predictions",
+    "Random Forest: bagging + random feature subsets at each split",
+    "Boosting: sequential ensemble, each tree corrects previous errors",
+    "Gradient Boosting: fit new tree to negative gradient of loss",
+    "XGBoost: regularized gradient boosting with second-order optimization",
+    "Feature importance via impurity decrease"
+  ],
+  "ml_connection": "XGBoost/LightGBM win most Kaggle tabular competitions. Random Forest is robust baseline. Both are standard industry tools.",
+  "exercises": [
+    "Implement Random Forest from scratch using your Decision Tree.",
+    "Explain why bagging reduces variance but not bias.",
+    "What hyperparameters matter most in XGBoost? (n_estimators, max_depth, learning_rate, subsample)",
+    "Implement feature importance from a trained Random Forest."
+  ],
+  "code_example": "from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nimport xgboost as xgb\nimport numpy as np\n\n# Random Forest\nrf = RandomForestClassifier(n_estimators=100, max_features='sqrt', random_state=42)\n\n# XGBoost\nxgb_model = xgb.XGBClassifier(\n    n_estimators=200, max_depth=6, learning_rate=0.1,\n    subsample=0.8, colsample_bytree=0.8, random_state=42)\n\n# Feature importance\nrf.fit(X_train, y_train)\nimportances = rf.feature_importances_\n",
+  "thinking_questions": [
+    "Why does Random Forest use sqrt(n_features) at each split?",
+    "When would you choose Random Forest over XGBoost?"
+  ]
+}
