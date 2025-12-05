@@ -1,0 +1,31 @@
+{
+  "id": "ml_c02",
+  "type": "implementation",
+  "category": "Core ML",
+  "subcategory": "Supervised Learning",
+  "week": 3,
+  "day": 2,
+  "title": "Logistic Regression from Scratch",
+  "estimated_minutes": 60,
+  "summary": "Binary classification using sigmoid activation and cross-entropy loss.",
+  "key_concepts": [
+    "Sigmoid: σ(z) = 1/(1+e^{-z})",
+    "Binary cross-entropy: L = -[y log(ŷ) + (1-y) log(1-ŷ)]",
+    "No closed form — must use gradient descent",
+    "Decision boundary is linear in feature space",
+    "Multiclass via softmax + categorical cross-entropy",
+    "Regularization: C parameter in sklearn"
+  ],
+  "ml_connection": "Last layer of any binary classifier. Understanding sigmoid + cross-entropy is essential for neural network output layers.",
+  "exercises": [
+    "Implement logistic regression with gradient descent from scratch.",
+    "Implement softmax regression (multinomial logistic) for 3-class classification.",
+    "Show that the gradient of cross-entropy + sigmoid simplifies beautifully to ŷ - y.",
+    "Implement L2-regularized logistic regression."
+  ],
+  "code_example": "import numpy as np\n\nclass LogisticRegression:\n    def __init__(self, lr=0.01, epochs=1000, l2=0.0):\n        self.lr = lr; self.epochs = epochs; self.l2 = l2\n\n    def sigmoid(self, z):\n        return 1 / (1 + np.exp(-np.clip(z, -500, 500)))\n\n    def fit(self, X, y):\n        X_b = np.c_[np.ones((len(X), 1)), X]\n        self.theta = np.zeros(X_b.shape[1])\n        n = len(y)\n\n        for _ in range(self.epochs):\n            z = X_b @ self.theta\n            y_pred = self.sigmoid(z)\n            grad = X_b.T @ (y_pred - y) / n\n            grad[1:] += self.l2 * self.theta[1:]  # L2 (skip bias)\n            self.theta -= self.lr * grad\n\n    def predict_proba(self, X):\n        X_b = np.c_[np.ones((len(X), 1)), X]\n        return self.sigmoid(X_b @ self.theta)\n\n    def predict(self, X, threshold=0.5):\n        return (self.predict_proba(X) >= threshold).astype(int)\n",
+  "thinking_questions": [
+    "Why can't you use MSE loss with logistic regression? (Hint: non-convex)",
+    "What is the log-odds interpretation of logistic regression coefficients?"
+  ]
+}
