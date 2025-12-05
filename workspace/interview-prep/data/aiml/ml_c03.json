@@ -1,0 +1,31 @@
+{
+  "id": "ml_c03",
+  "type": "implementation",
+  "category": "Core ML",
+  "subcategory": "Supervised Learning",
+  "week": 3,
+  "day": 3,
+  "title": "Decision Trees from Scratch",
+  "estimated_minutes": 60,
+  "summary": "Tree-based models using information gain / Gini impurity for splitting.",
+  "key_concepts": [
+    "Gini impurity: 1 - Σ p_i²",
+    "Information gain: H(parent) - weighted_H(children)",
+    "Greedy splitting: try all features and thresholds",
+    "Max depth, min samples as regularization",
+    "Pruning to reduce overfitting",
+    "Trees are non-parametric, high variance"
+  ],
+  "ml_connection": "Foundation for Random Forest, XGBoost, and all ensemble methods. Still competitive for tabular data.",
+  "exercises": [
+    "Implement a decision tree classifier from scratch using Gini impurity.",
+    "Implement a decision tree regressor using MSE as split criterion.",
+    "Show that an unpruned tree perfectly memorizes training data (overfits).",
+    "Visualize the decision boundary of a depth-3 tree on 2D data."
+  ],
+  "code_example": "import numpy as np\n\nclass DecisionTree:\n    def __init__(self, max_depth=5, min_samples=2):\n        self.max_depth = max_depth\n        self.min_samples = min_samples\n\n    def gini(self, y):\n        classes, counts = np.unique(y, return_counts=True)\n        probs = counts / len(y)\n        return 1 - np.sum(probs**2)\n\n    def best_split(self, X, y):\n        best_gain, best_feat, best_thresh = 0, None, None\n        parent_gini = self.gini(y)\n\n        for feat in range(X.shape[1]):\n            thresholds = np.unique(X[:, feat])\n            for thresh in thresholds:\n                left = y[X[:, feat] <= thresh]\n                right = y[X[:, feat] > thresh]\n                if len(left) == 0 or len(right) == 0:\n                    continue\n                gain = parent_gini - (len(left)/len(y))*self.gini(left) - (len(right)/len(y))*self.gini(right)\n                if gain > best_gain:\n                    best_gain, best_feat, best_thresh = gain, feat, thresh\n\n        return best_feat, best_thresh\n\n    def fit(self, X, y, depth=0):\n        if depth >= self.max_depth or len(y) < self.min_samples or len(np.unique(y)) == 1:\n            return {'leaf': True, 'class': np.bincount(y).argmax()}\n        feat, thresh = self.best_split(X, y)\n        if feat is None:\n            return {'leaf': True, 'class': np.bincount(y).argmax()}\n        left_mask = X[:, feat] <= thresh\n        return {\n            'leaf': False, 'feat': feat, 'thresh': thresh,\n            'left': self.fit(X[left_mask], y[left_mask], depth+1),\n            'right': self.fit(X[~left_mask], y[~left_mask], depth+1)\n        }\n",
+  "thinking_questions": [
+    "Why are decision trees high variance? What makes them unstable?",
+    "What's the time complexity of fitting a decision tree?"
+  ]
+}
