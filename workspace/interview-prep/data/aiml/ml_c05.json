@@ -1,0 +1,31 @@
+{
+  "id": "ml_c05",
+  "type": "theory",
+  "category": "Core ML",
+  "subcategory": "Supervised Learning",
+  "week": 3,
+  "day": 5,
+  "title": "Support Vector Machines",
+  "estimated_minutes": 60,
+  "summary": "Maximum margin classifiers. The kernel trick allows non-linear classification in high dimensions.",
+  "key_concepts": [
+    "Hard margin SVM: maximize margin = 2/||w||",
+    "Soft margin SVM: C parameter trades margin vs misclassification",
+    "Dual formulation and support vectors",
+    "Kernel trick: K(x,z) = φ(x)·φ(z) — implicit high-dim mapping",
+    "Common kernels: linear, RBF (Gaussian), polynomial",
+    "SVMs are convex: guaranteed global optimum"
+  ],
+  "ml_connection": "SVMs were SOTA pre-deep learning. Kernel trick appears in Gaussian Processes, kernel PCA. Understanding duality is important for optimization theory.",
+  "exercises": [
+    "Train an SVM with RBF kernel on a non-linearly-separable dataset.",
+    "Show how C affects the decision boundary (try C=0.1, 1, 100).",
+    "What is the kernel trick and why does it make SVMs tractable?",
+    "Compare SVM vs logistic regression on the same dataset."
+  ],
+  "code_example": "from sklearn.svm import SVC\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\n# SVMs need feature scaling!\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X_train)\n\n# RBF kernel SVM\nsvm = SVC(kernel='rbf', C=1.0, gamma='scale', probability=True)\nsvm.fit(X_scaled, y_train)\n\n# Support vectors\nprint(f'Number of support vectors: {svm.n_support_}')\n",
+  "thinking_questions": [
+    "Why do SVMs only depend on support vectors (not all training points)?",
+    "What is the curse of dimensionality and how does the kernel trick help?"
+  ]
+}
