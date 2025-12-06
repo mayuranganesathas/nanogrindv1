@@ -1,0 +1,31 @@
+{
+  "id": "ml_c07",
+  "type": "theory",
+  "category": "Core ML",
+  "subcategory": "Model Evaluation",
+  "week": 4,
+  "day": 2,
+  "title": "Metrics, Validation, and Model Selection",
+  "estimated_minutes": 60,
+  "summary": "Choosing the right metric and validation strategy is as important as the model itself.",
+  "key_concepts": [
+    "Classification: accuracy, precision, recall, F1, ROC-AUC, PR-AUC",
+    "Regression: MAE, MSE, RMSE, R², MAPE",
+    "Imbalanced classes: use F1, PR-AUC, not accuracy",
+    "Confusion matrix: TP, FP, TN, FN",
+    "ROC curve: TPR vs FPR at different thresholds",
+    "Stratified k-fold for imbalanced data"
+  ],
+  "ml_connection": "Choosing the wrong metric is a top cause of ML project failure in industry. ROC-AUC is the standard for ranking models.",
+  "exercises": [
+    "Implement precision, recall, F1 from scratch.",
+    "Implement ROC curve and AUC from scratch without sklearn.",
+    "When would you use PR-AUC over ROC-AUC?",
+    "A model has 99% accuracy on a dataset with 1% positive class. Is it good?"
+  ],
+  "code_example": "import numpy as np\n\ndef precision_recall_f1(y_true, y_pred):\n    tp = np.sum((y_pred == 1) & (y_true == 1))\n    fp = np.sum((y_pred == 1) & (y_true == 0))\n    fn = np.sum((y_pred == 0) & (y_true == 1))\n    precision = tp / (tp + fp + 1e-9)\n    recall = tp / (tp + fn + 1e-9)\n    f1 = 2 * precision * recall / (precision + recall + 1e-9)\n    return precision, recall, f1\n\ndef roc_auc(y_true, y_scores):\n    thresholds = np.sort(np.unique(y_scores))[::-1]\n    tprs, fprs = [], []\n    for t in thresholds:\n        y_pred = (y_scores >= t).astype(int)\n        tp = np.sum((y_pred == 1) & (y_true == 1))\n        fp = np.sum((y_pred == 1) & (y_true == 0))\n        fn = np.sum((y_pred == 0) & (y_true == 1))\n        tn = np.sum((y_pred == 0) & (y_true == 0))\n        tprs.append(tp / (tp + fn + 1e-9))\n        fprs.append(fp / (fp + tn + 1e-9))\n    auc = np.trapz(tprs, fprs)\n    return abs(auc)\n",
+  "thinking_questions": [
+    "Why does ROC-AUC not change with class imbalance but accuracy does?",
+    "When is recall more important than precision? Give a real example."
+  ]
+}
