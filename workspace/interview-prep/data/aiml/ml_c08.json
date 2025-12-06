@@ -1,0 +1,31 @@
+{
+  "id": "ml_c08",
+  "type": "theory",
+  "category": "Core ML",
+  "subcategory": "Feature Engineering",
+  "week": 4,
+  "day": 3,
+  "title": "Feature Engineering and Selection",
+  "estimated_minutes": 60,
+  "summary": "In industry, feature engineering often matters more than model choice.",
+  "key_concepts": [
+    "Normalization vs standardization",
+    "Encoding: one-hot, ordinal, target encoding",
+    "Feature crosses and polynomial features",
+    "Handling missing data: imputation strategies",
+    "Feature selection: filter (correlation), wrapper (RFE), embedded (Lasso)",
+    "Feature importance from trees"
+  ],
+  "ml_connection": "Production ML spends 80% of time on feature engineering. Bad features → bad model regardless of algorithm.",
+  "exercises": [
+    "Given a dataset with missing values, compare mean/median/mode imputation vs model-based.",
+    "Implement target encoding and show why it causes data leakage without proper cross-encoding.",
+    "Use Lasso to perform feature selection on a high-dimensional dataset.",
+    "Create polynomial features and show when they help vs overfit."
+  ],
+  "code_example": "import numpy as np\nfrom sklearn.preprocessing import StandardScaler, PolynomialFeatures\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.pipeline import Pipeline\n\n# Standard preprocessing pipeline\npipeline = Pipeline([\n    ('imputer', SimpleImputer(strategy='median')),\n    ('scaler', StandardScaler()),\n    ('poly', PolynomialFeatures(degree=2, include_bias=False))\n])\n\nX_transformed = pipeline.fit_transform(X_train)\n",
+  "thinking_questions": [
+    "What is data leakage and how does target encoding cause it?",
+    "Why standardize before SVM and neural networks but not before trees?"
+  ]
+}
