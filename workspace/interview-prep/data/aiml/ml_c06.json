@@ -1,0 +1,31 @@
+{
+  "id": "ml_c06",
+  "type": "implementation",
+  "category": "Core ML",
+  "subcategory": "Unsupervised Learning",
+  "week": 4,
+  "day": 1,
+  "title": "K-Means Clustering from Scratch",
+  "estimated_minutes": 60,
+  "summary": "The most fundamental clustering algorithm. EM-style optimization via alternating assignment and update.",
+  "key_concepts": [
+    "Algorithm: assign points to nearest centroid, update centroids, repeat",
+    "Convergence guaranteed but to local minimum",
+    "K-means++ initialization for better results",
+    "Elbow method and silhouette score for choosing k",
+    "Limitations: assumes spherical clusters, sensitive to outliers",
+    "Time complexity: O(nkdi) — n points, k clusters, d dims, i iterations"
+  ],
+  "ml_connection": "Used for customer segmentation, document clustering, image compression, initialization for other algorithms.",
+  "exercises": [
+    "Implement K-means from scratch with K-means++ initialization.",
+    "Implement the elbow method to find optimal k.",
+    "Implement silhouette score from scratch.",
+    "Show a case where K-means fails (non-spherical clusters) vs DBSCAN succeeds."
+  ],
+  "code_example": "import numpy as np\n\nclass KMeans:\n    def __init__(self, k, max_iter=100, tol=1e-4):\n        self.k = k; self.max_iter = max_iter; self.tol = tol\n\n    def fit(self, X):\n        # K-means++ initialization\n        centroids = [X[np.random.randint(len(X))]]\n        for _ in range(self.k - 1):\n            dists = np.min([np.sum((X - c)**2, axis=1) for c in centroids], axis=0)\n            probs = dists / dists.sum()\n            centroids.append(X[np.random.choice(len(X), p=probs)])\n        self.centroids = np.array(centroids)\n\n        for _ in range(self.max_iter):\n            # Assign\n            dists = np.array([np.sum((X - c)**2, axis=1) for c in self.centroids])\n            labels = np.argmin(dists, axis=0)\n            # Update\n            new_centroids = np.array([X[labels == i].mean(axis=0) for i in range(self.k)])\n            if np.max(np.abs(new_centroids - self.centroids)) < self.tol:\n                break\n            self.centroids = new_centroids\n        self.labels_ = labels\n        return self\n",
+  "thinking_questions": [
+    "Why is K-means an EM algorithm?",
+    "What are the assumptions K-means makes about cluster shape?"
+  ]
+}
