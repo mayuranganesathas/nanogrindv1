@@ -1,0 +1,30 @@
+{
+  "id": "ml_d02",
+  "type": "theory",
+  "category": "Deep Learning",
+  "subcategory": "Regularization",
+  "week": 5,
+  "day": 2,
+  "title": "Regularization in Deep Learning",
+  "estimated_minutes": 60,
+  "summary": "Techniques to prevent overfitting in neural networks.",
+  "key_concepts": [
+    "Dropout: randomly zero activations during training, scale at inference",
+    "Batch normalization: normalize layer inputs, learnable γ,β",
+    "Layer normalization: normalize across features (used in Transformers)",
+    "Weight decay (L2 in Adam is NOT weight decay — use AdamW)",
+    "Early stopping",
+    "Data augmentation"
+  ],
+  "exercises": [
+    "Implement dropout from scratch (including inference scaling).",
+    "Implement batch normalization forward and backward pass from scratch.",
+    "Show empirically that BatchNorm speeds up training.",
+    "Why is AdamW different from Adam + L2 regularization?"
+  ],
+  "code_example": "import numpy as np\n\nclass Dropout:\n    def __init__(self, p=0.5):\n        self.p = p\n\n    def forward(self, x, training=True):\n        if not training:\n            return x  # no dropout at inference\n        self.mask = np.random.binomial(1, 1-self.p, x.shape) / (1-self.p)  # inverted dropout\n        return x * self.mask\n\nclass BatchNorm:\n    def __init__(self, dim, eps=1e-5, momentum=0.1):\n        self.gamma = np.ones(dim)\n        self.beta = np.zeros(dim)\n        self.eps = eps; self.momentum = momentum\n        self.running_mean = np.zeros(dim)\n        self.running_var = np.ones(dim)\n\n    def forward(self, x, training=True):\n        if training:\n            mean = x.mean(axis=0)\n            var = x.var(axis=0)\n            self.running_mean = (1-self.momentum)*self.running_mean + self.momentum*mean\n            self.running_var = (1-self.momentum)*self.running_var + self.momentum*var\n        else:\n            mean, var = self.running_mean, self.running_var\n        self.x_norm = (x - mean) / np.sqrt(var + self.eps)\n        return self.gamma * self.x_norm + self.beta\n",
+  "thinking_questions": [
+    "Why does dropout act as an ensemble method?",
+    "Why use Layer Norm instead of Batch Norm in Transformers?"
+  ]
+}
