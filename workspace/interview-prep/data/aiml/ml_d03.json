@@ -1,0 +1,30 @@
+{
+  "id": "ml_d03",
+  "type": "theory",
+  "category": "Deep Learning",
+  "subcategory": "Architectures",
+  "week": 6,
+  "day": 1,
+  "title": "Convolutional Neural Networks (CNNs)",
+  "estimated_minutes": 60,
+  "summary": "Spatial feature extraction using local receptive fields and parameter sharing.",
+  "key_concepts": [
+    "Convolution: kernel slides over input, local feature detection",
+    "Parameter sharing reduces params vs fully connected",
+    "Pooling: max pool, average pool for spatial invariance",
+    "Feature maps stack to detect hierarchical features",
+    "Classic architectures: LeNet, AlexNet, VGG, ResNet",
+    "Residual connections: solve vanishing gradient in deep nets"
+  ],
+  "exercises": [
+    "Implement 2D convolution from scratch (no loops preferred).",
+    "Implement a simple CNN with PyTorch for MNIST classification.",
+    "Explain why ResNet residual connections work: F(x) + x.",
+    "What is the receptive field of a 3-layer CNN with 3x3 kernels?"
+  ],
+  "code_example": "import torch\nimport torch.nn as nn\n\nclass ResidualBlock(nn.Module):\n    def __init__(self, channels):\n        super().__init__()\n        self.conv1 = nn.Conv2d(channels, channels, 3, padding=1)\n        self.bn1 = nn.BatchNorm2d(channels)\n        self.conv2 = nn.Conv2d(channels, channels, 3, padding=1)\n        self.bn2 = nn.BatchNorm2d(channels)\n        self.relu = nn.ReLU()\n\n    def forward(self, x):\n        residual = x\n        out = self.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n        return self.relu(out + residual)  # skip connection\n\nclass SimpleCNN(nn.Module):\n    def __init__(self, num_classes=10):\n        super().__init__()\n        self.features = nn.Sequential(\n            nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),\n            ResidualBlock(32),\n            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2)\n        )\n        self.classifier = nn.Linear(64*7*7, num_classes)\n\n    def forward(self, x):\n        x = self.features(x)\n        return self.classifier(x.flatten(1))\n",
+  "thinking_questions": [
+    "Why does parameter sharing in CNNs make sense for image data?",
+    "What problem do residual connections solve and why mathematically?"
+  ]
+}
