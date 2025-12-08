@@ -1,0 +1,30 @@
+{
+  "id": "ml_f01",
+  "type": "theory",
+  "category": "Frontier AI",
+  "subcategory": "LLMs",
+  "week": 7,
+  "day": 1,
+  "title": "GPT Architecture and Language Modeling",
+  "estimated_minutes": 90,
+  "summary": "How GPT-style models work end to end: tokenization → embeddings → Transformer decoder → next token prediction.",
+  "key_concepts": [
+    "Autoregressive language modeling: P(x_t | x_{<t})",
+    "Tokenization: BPE, WordPiece, SentencePiece",
+    "Token + positional embeddings",
+    "Causal (masked) self-attention: tokens can't see the future",
+    "KV cache: avoid recomputing keys/values at inference",
+    "Scaling laws: loss ~ (compute, params, data) power laws"
+  ],
+  "exercises": [
+    "Implement a minimal GPT (nanoGPT style) in PyTorch from scratch.",
+    "What is KV cache and why does it matter for inference speed?",
+    "Explain the scaling laws (Chinchilla). How do you decide model size vs dataset size?",
+    "What is perplexity and how does it relate to cross-entropy loss?"
+  ],
+  "code_example": "import torch\nimport torch.nn as nn\n\nclass GPTBlock(nn.Module):\n    def __init__(self, d_model, n_heads, d_ff, dropout=0.1):\n        super().__init__()\n        self.attn = nn.MultiheadAttention(d_model, n_heads, dropout=dropout, batch_first=True)\n        self.ff = nn.Sequential(\n            nn.Linear(d_model, d_ff), nn.GELU(), nn.Linear(d_ff, d_model))\n        self.ln1 = nn.LayerNorm(d_model)\n        self.ln2 = nn.LayerNorm(d_model)\n        self.drop = nn.Dropout(dropout)\n\n    def forward(self, x, causal_mask=None):\n        # Pre-norm architecture (GPT-2 style)\n        attn_out, _ = self.attn(self.ln1(x), self.ln1(x), self.ln1(x), attn_mask=causal_mask)\n        x = x + self.drop(attn_out)\n        x = x + self.drop(self.ff(self.ln2(x)))\n        return x\n",
+  "thinking_questions": [
+    "Why does causal masking matter — what would happen without it?",
+    "What is 'emergent behavior' in LLMs and at what scale does it appear?"
+  ]
+}
