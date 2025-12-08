@@ -1,0 +1,30 @@
+{
+  "id": "ml_d04",
+  "type": "theory",
+  "category": "Deep Learning",
+  "subcategory": "Architectures",
+  "week": 6,
+  "day": 2,
+  "title": "Attention Mechanism and Transformers",
+  "estimated_minutes": 90,
+  "summary": "The architecture behind GPT, BERT, and all modern LLMs. Understand this deeply.",
+  "key_concepts": [
+    "Self-attention: Q, K, V = XW_Q, XW_K, XW_V",
+    "Attention scores: softmax(QK^T / sqrt(d_k))V",
+    "Multi-head attention: parallel attention heads concatenated",
+    "Positional encoding: inject position information",
+    "Transformer block: attention + FFN + LayerNorm + residual",
+    "Encoder vs Decoder vs Encoder-Decoder architectures"
+  ],
+  "exercises": [
+    "Implement scaled dot-product attention from scratch in numpy.",
+    "Implement multi-head attention in PyTorch.",
+    "Why do we divide by sqrt(d_k) in attention?",
+    "What is the time and space complexity of self-attention? (O(n^2 d)) — why is this a problem for long sequences?"
+  ],
+  "code_example": "import numpy as np\nimport torch\nimport torch.nn as nn\n\n# Scaled dot-product attention (numpy)\ndef attention(Q, K, V, mask=None):\n    d_k = Q.shape[-1]\n    scores = Q @ K.transpose(-2, -1) / np.sqrt(d_k)\n    if mask is not None:\n        scores = scores.masked_fill(mask == 0, -1e9)\n    weights = np.softmax(scores, axis=-1)\n    return weights @ V, weights\n\n# Multi-head attention (PyTorch)\nclass MultiHeadAttention(nn.Module):\n    def __init__(self, d_model, n_heads):\n        super().__init__()\n        self.d_k = d_model // n_heads\n        self.n_heads = n_heads\n        self.W_Q = nn.Linear(d_model, d_model)\n        self.W_K = nn.Linear(d_model, d_model)\n        self.W_V = nn.Linear(d_model, d_model)\n        self.W_O = nn.Linear(d_model, d_model)\n\n    def forward(self, x, mask=None):\n        B, T, D = x.shape\n        Q = self.W_Q(x).view(B, T, self.n_heads, self.d_k).transpose(1,2)\n        K = self.W_K(x).view(B, T, self.n_heads, self.d_k).transpose(1,2)\n        V = self.W_V(x).view(B, T, self.n_heads, self.d_k).transpose(1,2)\n        scores = (Q @ K.transpose(-2,-1)) / self.d_k**0.5\n        weights = torch.softmax(scores, dim=-1)\n        out = (weights @ V).transpose(1,2).contiguous().view(B, T, D)\n        return self.W_O(out)\n",
+  "thinking_questions": [
+    "Why can attention capture long-range dependencies better than RNNs?",
+    "What is the difference between self-attention and cross-attention?"
+  ]
+}
