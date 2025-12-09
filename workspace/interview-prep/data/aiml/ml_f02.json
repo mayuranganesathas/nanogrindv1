@@ -1,0 +1,30 @@
+{
+  "id": "ml_f02",
+  "type": "theory",
+  "category": "Frontier AI",
+  "subcategory": "Fine-tuning",
+  "week": 7,
+  "day": 2,
+  "title": "Fine-tuning, LoRA, and RLHF",
+  "estimated_minutes": 90,
+  "summary": "How to adapt pre-trained LLMs: full fine-tuning, parameter-efficient methods, and alignment via RLHF.",
+  "key_concepts": [
+    "Full fine-tuning: update all params — expensive, catastrophic forgetting risk",
+    "LoRA: W = W_0 + AB where rank(AB) << rank(W) — train only A,B",
+    "QLoRA: quantize base model to 4-bit, LoRA adapters in 16-bit",
+    "Instruction tuning: train on (instruction, response) pairs",
+    "RLHF: SFT → reward model → PPO",
+    "DPO: direct preference optimization — simpler alternative to RLHF"
+  ],
+  "exercises": [
+    "Fine-tune a small LLM (GPT-2) with LoRA using HuggingFace PEFT.",
+    "What is rank in LoRA and how do you choose it?",
+    "Explain RLHF pipeline: what is the reward model trained on?",
+    "Why does DPO not require a separate reward model?"
+  ],
+  "code_example": "from peft import LoraConfig, get_peft_model\nfrom transformers import AutoModelForCausalLM\n\nmodel = AutoModelForCausalLM.from_pretrained(\"gpt2\")\n\nlora_config = LoraConfig(\n    r=16,           # rank\n    lora_alpha=32,  # scaling factor\n    target_modules=[\"c_attn\", \"c_proj\"],  # which layers to adapt\n    lora_dropout=0.1,\n    bias=\"none\"\n)\n\npeft_model = get_peft_model(model, lora_config)\npeft_model.print_trainable_parameters()\n# trainable params: 294,912 || all params: 124,734,720 || trainable%: 0.24%\n",
+  "thinking_questions": [
+    "Why is LoRA so parameter-efficient? What's the intuition behind low-rank updates?",
+    "What is catastrophic forgetting and how does LoRA mitigate it?"
+  ]
+}
