@@ -1,0 +1,31 @@
+{
+  "id": "ml_f04",
+  "type": "theory",
+  "category": "Frontier AI",
+  "subcategory": "Diffusion Models",
+  "week": 8,
+  "day": 1,
+  "title": "Diffusion Models",
+  "estimated_minutes": 90,
+  "summary": "The generative model behind Stable Diffusion, DALL-E, and Sora. Your PDE background gives you an edge here.",
+  "key_concepts": [
+    "Forward process: gradually add Gaussian noise over T steps",
+    "Reverse process: learn to denoise — train neural net to predict noise",
+    "Score matching: model learns ∇_x log p(x) (score function)",
+    "DDPM: Denoising Diffusion Probabilistic Models",
+    "DDIM: deterministic sampling, fewer steps",
+    "Latent diffusion: work in compressed latent space (Stable Diffusion)",
+    "Classifier-free guidance: control generation quality/diversity tradeoff"
+  ],
+  "exercises": [
+    "Implement DDPM forward noising process and visualize.",
+    "What is the connection between diffusion models and stochastic differential equations (SDEs)?",
+    "What is classifier-free guidance and how does the guidance scale affect output?",
+    "Compare diffusion vs GAN vs VAE on mode coverage vs sample quality."
+  ],
+  "code_example": "import numpy as np\nimport torch\n\n# DDPM forward process\ndef cosine_schedule(T, s=0.008):\n    t = np.arange(T+1)\n    f = np.cos((t/T + s)/(1+s) * np.pi/2)**2\n    alphas = np.clip(f[1:]/f[:-1], 0.0001, 0.9999)\n    return torch.tensor(alphas, dtype=torch.float32)\n\ndef add_noise(x0, t, alphas_cumprod):\n    sqrt_alpha = alphas_cumprod[t].sqrt().view(-1,1,1,1)\n    sqrt_one_minus = (1-alphas_cumprod[t]).sqrt().view(-1,1,1,1)\n    noise = torch.randn_like(x0)\n    noisy = sqrt_alpha * x0 + sqrt_one_minus * noise\n    return noisy, noise\n",
+  "thinking_questions": [
+    "How do diffusion models relate to the heat equation from thermodynamics?",
+    "Why do diffusion models produce higher quality samples than GANs despite being slower?"
+  ]
+}
