@@ -1,0 +1,29 @@
+{
+  "id": "ml_f05",
+  "type": "theory",
+  "category": "Frontier AI",
+  "subcategory": "Efficiency",
+  "week": 8,
+  "day": 2,
+  "title": "Quantization, Inference Optimization, and MoE",
+  "estimated_minutes": 60,
+  "summary": "Making LLMs fast and cheap to run — critical for production AI systems.",
+  "key_concepts": [
+    "Quantization: FP32 → FP16 → INT8 → INT4 (GGUF, AWQ, GPTQ)",
+    "Speculative decoding: draft model proposes tokens, large model verifies",
+    "Flash Attention: memory-efficient attention via tiling",
+    "Mixture of Experts (MoE): sparse activation, only k of N experts fire",
+    "Tensor parallelism, pipeline parallelism for multi-GPU",
+    "KV cache management: paged attention (vLLM)"
+  ],
+  "exercises": [
+    "Run a quantized model with llama.cpp or ollama. Measure quality vs speed tradeoff.",
+    "What is speculative decoding and what speedup does it provide?",
+    "How does Flash Attention reduce memory from O(n^2) to O(n)?",
+    "What is Mixture of Experts and how does Mixtral implement it?"
+  ],
+  "thinking_questions": [
+    "Why does INT4 quantization barely hurt quality for LLMs?",
+    "What is the bottleneck in LLM inference: compute or memory bandwidth?"
+  ]
+}
