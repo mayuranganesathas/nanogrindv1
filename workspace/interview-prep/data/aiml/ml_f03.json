@@ -1,0 +1,31 @@
+{
+  "id": "ml_f03",
+  "type": "theory",
+  "category": "Frontier AI",
+  "subcategory": "RAG & Agents",
+  "week": 7,
+  "day": 3,
+  "title": "RAG, Vector Databases, and LLM Agents",
+  "estimated_minutes": 90,
+  "summary": "Grounding LLMs with external knowledge via retrieval, and building agents with tool use.",
+  "key_concepts": [
+    "RAG: embed docs → store in vector DB → retrieve top-k → inject into prompt",
+    "Embeddings: text → dense vector via encoder (e.g., text-embedding-ada-002)",
+    "Vector search: approximate nearest neighbor (FAISS, Pinecone, Weaviate)",
+    "Chunking strategies and embedding granularity",
+    "Agent loop: observe → think → act → observe",
+    "Tool use: function calling, code interpreter, search",
+    "ReAct, Chain-of-Thought, Tree-of-Thought prompting"
+  ],
+  "exercises": [
+    "Build a RAG pipeline from scratch: chunk docs, embed, store in FAISS, retrieve, answer.",
+    "What are the tradeoffs between fine-tuning vs RAG for adding domain knowledge?",
+    "Implement a simple ReAct agent with tool use (calculator + search).",
+    "What is 'hallucination' in LLMs and how does RAG help?"
+  ],
+  "code_example": "from sentence_transformers import SentenceTransformer\nimport faiss\nimport numpy as np\n\n# Simple RAG pipeline\nmodel = SentenceTransformer('all-MiniLM-L6-v2')\n\n# Index documents\ndocs = [\"The Eiffel Tower is in Paris.\", \"Python was created by Guido van Rossum.\"]\ndoc_embeddings = model.encode(docs)\nindex = faiss.IndexFlatL2(doc_embeddings.shape[1])\nindex.add(doc_embeddings.astype('float32'))\n\n# Retrieve for query\nquery = \"Who made Python?\"\nq_embedding = model.encode([query]).astype('float32')\nD, I = index.search(q_embedding, k=2)  # top-2 results\n\ncontext = [docs[i] for i in I[0]]\nprompt = f\"Context: {context}\\nQuestion: {query}\\nAnswer:\"\n",
+  "thinking_questions": [
+    "When would you choose RAG over fine-tuning?",
+    "What is the 'lost in the middle' problem in long-context LLMs?"
+  ]
+}
