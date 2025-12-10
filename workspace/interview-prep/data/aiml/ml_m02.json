@@ -1,0 +1,30 @@
+{
+  "id": "ml_m02",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Linear Algebra",
+  "week": 1,
+  "day": 2,
+  "title": "Matrices and Linear Transformations",
+  "estimated_minutes": 60,
+  "summary": "Matrices as functions that transform vectors. Foundation for neural network layers.",
+  "key_concepts": [
+    "Matrix multiplication as function composition",
+    "Matrix as a linear transformation (rotation, scaling, projection)",
+    "Transpose: (AB)^T = B^T A^T",
+    "Identity matrix, inverse matrix",
+    "Rank and null space"
+  ],
+  "ml_connection": "Every neural network layer is a matrix multiplication followed by a nonlinearity. Weight matrix W transforms input x to output Wx.",
+  "exercises": [
+    "What does a 2x2 rotation matrix look like? Apply it to vector [1,0] and [0,1].",
+    "Why can't you invert a non-square matrix? What does rank tell you?",
+    "In numpy: implement a forward pass of one linear layer (no bias) for a batch of 32 samples with 10 features each, mapping to 5 outputs.",
+    "Show that matrix multiplication is NOT commutative (AB ≠ BA) with a simple example."
+  ],
+  "code_example": "import numpy as np\n\n# Linear layer: batch of 32 samples, 10 features → 5 outputs\nX = np.random.randn(32, 10)  # input batch\nW = np.random.randn(10, 5)   # weight matrix\nb = np.random.randn(5)        # bias\n\noutput = X @ W + b            # shape: (32, 5)\n",
+  "thinking_questions": [
+    "What transformation does a diagonal matrix perform?",
+    "If W has rank < n, what information is lost in the transformation Wx?"
+  ]
+}
