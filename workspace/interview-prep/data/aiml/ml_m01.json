@@ -1,0 +1,30 @@
+{
+  "id": "ml_m01",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Linear Algebra",
+  "week": 1,
+  "day": 1,
+  "title": "Vectors and Vector Operations",
+  "estimated_minutes": 60,
+  "summary": "Vectors as geometric objects and data containers. Operations that underpin all of ML.",
+  "key_concepts": [
+    "Vector addition and scalar multiplication",
+    "Dot product: a·b = |a||b|cos(θ) — measures similarity",
+    "L1 and L2 norms — regularization foundations",
+    "Orthogonality: a·b = 0 means independent features",
+    "Unit vectors and normalization"
+  ],
+  "ml_connection": "Every data point is a vector. Dot products appear in linear regression, SVMs, attention mechanisms, and cosine similarity.",
+  "exercises": [
+    "Given vectors a=[1,2,3] and b=[4,5,6], compute a·b, ||a||_2, and the angle between them.",
+    "Why does L2 regularization penalize large weights? Show mathematically using the norm.",
+    "In Python with numpy: implement cosine similarity between two word embedding vectors.",
+    "Why is orthogonality important for features in a dataset? Give an example of highly collinear features causing problems."
+  ],
+  "code_example": "import numpy as np\n\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\n\ndot = np.dot(a, b)                          # 32\nl2_norm = np.linalg.norm(a)                 # 3.742\ncosine_sim = dot / (np.linalg.norm(a) * np.linalg.norm(b))  # 0.974\nangle = np.arccos(cosine_sim) * 180 / np.pi  # degrees\n",
+  "thinking_questions": [
+    "What does a high cosine similarity between two vectors mean geometrically?",
+    "Why is L2 norm differentiable everywhere but L1 is not at 0?"
+  ]
+}
