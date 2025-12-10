@@ -1,0 +1,30 @@
+{
+  "id": "ml_m03",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Linear Algebra",
+  "week": 1,
+  "day": 3,
+  "title": "Eigenvalues, Eigenvectors, and Decomposition",
+  "estimated_minutes": 60,
+  "summary": "Eigenvectors reveal the 'natural axes' of a transformation. Foundation for PCA, SVD, and spectral methods.",
+  "key_concepts": [
+    "Av = λv — eigenvector v is only scaled, not rotated",
+    "Characteristic equation: det(A - λI) = 0",
+    "Symmetric matrices have orthogonal eigenvectors",
+    "Eigendecomposition: A = QΛQ^T (for symmetric A)",
+    "Spectral theorem: real symmetric matrices are always diagonalizable"
+  ],
+  "ml_connection": "PCA finds eigenvectors of the covariance matrix. PageRank uses the dominant eigenvector. Kernel methods use eigendecomposition.",
+  "exercises": [
+    "Find eigenvalues and eigenvectors of [[2,1],[1,2]] by hand.",
+    "What do large vs small eigenvalues of the covariance matrix tell you about the data?",
+    "In numpy: compute eigendecomposition of a covariance matrix from a 100x5 dataset.",
+    "Why must the covariance matrix always have non-negative eigenvalues?"
+  ],
+  "code_example": "import numpy as np\n\n# Covariance matrix eigendecomposition\ndata = np.random.randn(100, 5)\ncov = np.cov(data.T)                          # 5x5 covariance matrix\neigenvalues, eigenvectors = np.linalg.eigh(cov)  # sorted ascending\n\n# Variance explained by each component\nexplained_variance = eigenvalues / eigenvalues.sum()\n",
+  "thinking_questions": [
+    "What does it mean geometrically when a matrix has a zero eigenvalue?",
+    "Why are eigenvectors of a symmetric matrix orthogonal to each other?"
+  ]
+}
