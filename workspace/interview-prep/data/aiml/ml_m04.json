@@ -1,0 +1,30 @@
+{
+  "id": "ml_m04",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Linear Algebra",
+  "week": 1,
+  "day": 4,
+  "title": "SVD and PCA",
+  "estimated_minutes": 60,
+  "summary": "SVD is the most important matrix decomposition in ML. PCA is its direct application for dimensionality reduction.",
+  "key_concepts": [
+    "A = UΣV^T — any matrix, not just square",
+    "U: left singular vectors (output space), V: right singular vectors (input space), Σ: singular values",
+    "Low-rank approximation: keep top-k singular values",
+    "PCA = SVD on centered data",
+    "Explained variance ratio from singular values"
+  ],
+  "ml_connection": "Used in: PCA, LSA (NLP), collaborative filtering (matrix factorization), image compression, word embeddings (GloVe).",
+  "exercises": [
+    "Implement PCA from scratch using SVD on the iris dataset. Project to 2D and plot.",
+    "What is the relationship between SVD and eigendecomposition?",
+    "Why do we center data before PCA?",
+    "How would you choose the number of components k? What threshold for explained variance?"
+  ],
+  "code_example": "import numpy as np\n\n# PCA from scratch using SVD\ndata = np.random.randn(100, 10)\ndata_centered = data - data.mean(axis=0)\n\nU, S, Vt = np.linalg.svd(data_centered, full_matrices=False)\n\n# Project to 2D (keep top 2 components)\nk = 2\ndata_2d = data_centered @ Vt[:k].T  # shape: (100, 2)\n\n# Explained variance\nexplained = (S**2) / (S**2).sum()\nprint(f'Top 2 components explain {explained[:k].sum():.1%} of variance')\n",
+  "thinking_questions": [
+    "Why is SVD more numerically stable than directly computing eigenvalues of A^T A?",
+    "How is PCA related to finding the axes of maximum variance?"
+  ]
+}
