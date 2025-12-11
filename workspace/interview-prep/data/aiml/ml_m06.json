@@ -1,0 +1,31 @@
+{
+  "id": "ml_m06",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Calculus & Optimization",
+  "week": 2,
+  "day": 1,
+  "title": "Gradient Descent and Optimization",
+  "estimated_minutes": 60,
+  "summary": "How ML models learn: iteratively moving in the direction of steepest descent.",
+  "key_concepts": [
+    "Gradient descent: θ ← θ - η∇L(θ)",
+    "Learning rate η: too large (diverge), too small (slow)",
+    "SGD vs Mini-batch vs Full-batch",
+    "Momentum, Adam, RMSProp",
+    "Convex vs non-convex loss landscapes",
+    "Local minima, saddle points, vanishing gradients"
+  ],
+  "ml_connection": "Every ML model trains by gradient descent. Understanding optimizers is critical for debugging training instability.",
+  "exercises": [
+    "Implement vanilla gradient descent to minimize f(x) = x^2 + 2x + 1.",
+    "Implement SGD with momentum from scratch on a simple linear regression.",
+    "Why does Adam work better than SGD in practice for deep learning?",
+    "What is the 'learning rate warmup' trick and why does it help?"
+  ],
+  "code_example": "import numpy as np\n\n# Adam optimizer from scratch\nclass Adam:\n    def __init__(self, lr=0.001, beta1=0.9, beta2=0.999, eps=1e-8):\n        self.lr = lr; self.beta1 = beta1; self.beta2 = beta2; self.eps = eps\n        self.m = None; self.v = None; self.t = 0\n\n    def update(self, params, grads):\n        if self.m is None:\n            self.m = np.zeros_like(params)\n            self.v = np.zeros_like(params)\n        self.t += 1\n        self.m = self.beta1 * self.m + (1 - self.beta1) * grads\n        self.v = self.beta2 * self.v + (1 - self.beta2) * grads**2\n        m_hat = self.m / (1 - self.beta1**self.t)  # bias correction\n        v_hat = self.v / (1 - self.beta2**self.t)\n        return params - self.lr * m_hat / (np.sqrt(v_hat) + self.eps)\n",
+  "thinking_questions": [
+    "Why does momentum help escape shallow local minima?",
+    "What's the difference between a saddle point and a local minimum?"
+  ]
+}
