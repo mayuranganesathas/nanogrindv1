@@ -1,0 +1,30 @@
+{
+  "id": "ml_m05",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Linear Algebra",
+  "week": 1,
+  "day": 5,
+  "title": "Matrix Calculus and Gradients",
+  "estimated_minutes": 60,
+  "summary": "Extending calculus to vectors and matrices. This is the backbone of backpropagation.",
+  "key_concepts": [
+    "Gradient ∇f: vector of partial derivatives",
+    "Jacobian: matrix of partial derivatives for vector-valued functions",
+    "Hessian: matrix of second derivatives (curvature)",
+    "Chain rule for vectors: dL/dx = (dL/dy)(dy/dx)",
+    "Common gradients: d/dx(Wx) = W^T, d/dx(x^T Ax) = 2Ax"
+  ],
+  "ml_connection": "Backpropagation is repeated application of the chain rule on matrix operations. Every gradient update in neural networks is matrix calculus.",
+  "exercises": [
+    "Derive the gradient of MSE loss L = ||Wx - y||^2 with respect to W.",
+    "What is the Jacobian of the softmax function?",
+    "In numpy: verify your analytical gradient for L=||Wx-y||^2 using numerical differentiation.",
+    "Why does the Hessian being positive definite indicate a minimum?"
+  ],
+  "code_example": "import numpy as np\n\n# Gradient verification using finite differences\ndef mse_loss(W, X, y):\n    pred = X @ W\n    return np.mean((pred - y)**2)\n\ndef analytical_gradient(W, X, y):\n    pred = X @ W\n    return 2 * X.T @ (pred - y) / len(y)\n\n# Numerical gradient check\nW = np.random.randn(5, 1)\nX = np.random.randn(10, 5)\ny = np.random.randn(10, 1)\neps = 1e-5\n\nnumerical_grad = np.zeros_like(W)\nfor i in range(W.shape[0]):\n    W_plus = W.copy(); W_plus[i] += eps\n    W_minus = W.copy(); W_minus[i] -= eps\n    numerical_grad[i] = (mse_loss(W_plus, X, y) - mse_loss(W_minus, X, y)) / (2*eps)\n\nanalytical = analytical_gradient(W, X, y)\nprint('Max diff:', np.max(np.abs(numerical_grad - analytical)))  # should be ~1e-7\n",
+  "thinking_questions": [
+    "Why do we transpose weight matrices when computing gradients?",
+    "What does a zero gradient tell you about a point? Can it be a saddle point?"
+  ]
+}
