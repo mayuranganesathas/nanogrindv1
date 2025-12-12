@@ -1,0 +1,31 @@
+{
+  "id": "ml_m07",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Probability & Statistics",
+  "week": 2,
+  "day": 2,
+  "title": "Probability Distributions",
+  "estimated_minutes": 60,
+  "summary": "Core distributions that appear constantly in ML: Gaussian, Bernoulli, Categorical, Beta, Dirichlet.",
+  "key_concepts": [
+    "Gaussian N(μ,σ²): bell curve, sum of many independent variables (CLT)",
+    "Bernoulli/Binomial: binary outcomes",
+    "Categorical/Multinomial: multi-class classification",
+    "Poisson: count data",
+    "Exponential family: unified framework for many distributions",
+    "KL Divergence: D_KL(P||Q) = E[log P/Q] — measures distribution difference"
+  ],
+  "ml_connection": "Loss functions arise from distribution assumptions. MSE assumes Gaussian noise. Cross-entropy assumes Categorical/Bernoulli. VAEs use KL divergence.",
+  "exercises": [
+    "Derive MSE loss from the assumption that noise is Gaussian (MLE derivation).",
+    "Derive cross-entropy loss from the categorical distribution MLE.",
+    "Compute KL divergence between two Gaussians analytically.",
+    "In numpy: sample from a Gaussian mixture model with 3 components."
+  ],
+  "code_example": "import numpy as np\n\n# KL divergence between two Gaussians (analytical formula)\ndef kl_gaussian(mu1, sigma1, mu2, sigma2):\n    return (np.log(sigma2/sigma1) +\n            (sigma1**2 + (mu1-mu2)**2) / (2*sigma2**2) - 0.5)\n\n# Sample from Gaussian Mixture Model\ndef sample_gmm(means, stds, weights, n=1000):\n    components = np.random.choice(len(means), size=n, p=weights)\n    samples = np.array([np.random.normal(means[c], stds[c]) for c in components])\n    return samples\n",
+  "thinking_questions": [
+    "Why is KL divergence not symmetric? When does that matter?",
+    "What distribution assumption underlies L1 loss (MAE)?"
+  ]
+}
