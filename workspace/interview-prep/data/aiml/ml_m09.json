@@ -1,0 +1,30 @@
+{
+  "id": "ml_m09",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Probability & Statistics",
+  "week": 2,
+  "day": 4,
+  "title": "Information Theory for ML",
+  "estimated_minutes": 60,
+  "summary": "Entropy, mutual information, and KL divergence — the theoretical foundation of loss functions and feature selection.",
+  "key_concepts": [
+    "Entropy H(X) = -Σ p(x) log p(x) — measures uncertainty",
+    "Cross-entropy H(P,Q) = -Σ p(x) log q(x) — used as loss function",
+    "KL Divergence = Cross-entropy - Entropy",
+    "Mutual Information I(X;Y) — feature relevance measure",
+    "Information gain — used in decision trees"
+  ],
+  "ml_connection": "Cross-entropy loss for classification. Information gain for tree splits. KL divergence in VAEs and distillation. Mutual information in representation learning.",
+  "exercises": [
+    "Compute entropy of a fair coin vs a biased coin (p=0.9).",
+    "Show that cross-entropy loss = negative log likelihood for categorical distribution.",
+    "Implement information gain from scratch and use it to pick the best split for a decision tree.",
+    "What is the relationship between cross-entropy and KL divergence?"
+  ],
+  "code_example": "import numpy as np\n\ndef entropy(probs):\n    probs = np.array(probs)\n    return -np.sum(probs * np.log(probs + 1e-9))\n\ndef cross_entropy(y_true, y_pred):\n    return -np.sum(y_true * np.log(y_pred + 1e-9))\n\ndef information_gain(parent, left, right):\n    n = len(parent)\n    nl, nr = len(left), len(right)\n    ig = entropy(parent) - (nl/n)*entropy(left) - (nr/n)*entropy(right)\n    return ig\n\n# KL divergence\ndef kl_divergence(p, q):\n    return np.sum(p * np.log((p + 1e-9) / (q + 1e-9)))\n",
+  "thinking_questions": [
+    "Why is entropy maximized for a uniform distribution?",
+    "Why can KL(P||Q) be infinite even when KL(Q||P) is finite?"
+  ]
+}
