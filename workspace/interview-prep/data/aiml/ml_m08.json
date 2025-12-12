@@ -1,0 +1,31 @@
+{
+  "id": "ml_m08",
+  "type": "theory",
+  "category": "Math Refresher",
+  "subcategory": "Probability & Statistics",
+  "week": 2,
+  "day": 3,
+  "title": "Bayesian Thinking: MLE, MAP, and Bayes",
+  "estimated_minutes": 60,
+  "summary": "The probabilistic framework underlying all of ML. MLE, MAP, and full Bayesian inference.",
+  "key_concepts": [
+    "MLE: find θ that maximizes P(data|θ)",
+    "MAP: find θ that maximizes P(θ|data) ∝ P(data|θ)P(θ)",
+    "Bayes: P(θ|data) = P(data|θ)P(θ) / P(data)",
+    "Prior, likelihood, posterior, evidence",
+    "L2 regularization = Gaussian prior (MAP)",
+    "L1 regularization = Laplace prior (MAP)"
+  ],
+  "ml_connection": "Every regularized ML model is doing MAP estimation. Dropout is approximate Bayesian inference. Uncertainty quantification requires Bayesian thinking.",
+  "exercises": [
+    "Show that ridge regression (L2) is equivalent to MAP with Gaussian prior.",
+    "Show that lasso regression (L1) is equivalent to MAP with Laplace prior.",
+    "Implement Naive Bayes classifier from scratch for text classification.",
+    "What is the 'evidence' P(data) in Bayes theorem and why is it hard to compute?"
+  ],
+  "code_example": "import numpy as np\n\n# Naive Bayes from scratch\nclass NaiveBayes:\n    def fit(self, X, y):\n        self.classes = np.unique(y)\n        self.priors = {c: np.mean(y == c) for c in self.classes}\n        self.means = {c: X[y == c].mean(axis=0) for c in self.classes}\n        self.stds = {c: X[y == c].std(axis=0) + 1e-9 for c in self.classes}\n\n    def predict(self, X):\n        log_probs = []\n        for c in self.classes:\n            log_prior = np.log(self.priors[c])\n            # Gaussian likelihood (log)\n            log_likelihood = -0.5 * np.sum(\n                np.log(2*np.pi*self.stds[c]**2) +\n                ((X - self.means[c])**2 / self.stds[c]**2), axis=1)\n            log_probs.append(log_prior + log_likelihood)\n        return self.classes[np.argmax(np.array(log_probs), axis=0)]\n",
+  "thinking_questions": [
+    "When would you prefer MAP over MLE?",
+    "What happens to the posterior as you collect more data?"
+  ]
+}
