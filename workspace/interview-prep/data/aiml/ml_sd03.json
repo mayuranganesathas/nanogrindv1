@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd03",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 9,
+  "day": 3,
+  "title": "Design a Search Ranking System",
+  "focus": [
+    "Query understanding (NLP)",
+    "Candidate retrieval (BM25 + ANN)",
+    "Learning to rank (LambdaMART)",
+    "Personalization",
+    "Serving latency constraints"
+  ],
+  "companies": [
+    "google",
+    "amazon",
+    "linkedin",
+    "airbnb"
+  ]
+}
