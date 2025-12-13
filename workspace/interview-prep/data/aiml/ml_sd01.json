@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd01",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 9,
+  "day": 1,
+  "title": "Design a Recommendation System (Netflix/Spotify)",
+  "focus": [
+    "Candidate generation (ANN search)",
+    "Ranking model (two-tower, GBDT)",
+    "Feature store",
+    "A/B testing",
+    "Cold start problem"
+  ],
+  "companies": [
+    "netflix",
+    "spotify",
+    "amazon",
+    "youtube"
+  ]
+}
