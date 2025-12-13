@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd02",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 9,
+  "day": 2,
+  "title": "Design a Real-Time Fraud Detection System",
+  "focus": [
+    "Feature engineering on transactions",
+    "Online vs batch features",
+    "Low-latency scoring (<50ms)",
+    "Model drift monitoring",
+    "Handling class imbalance"
+  ],
+  "companies": [
+    "stripe",
+    "paypal",
+    "visa",
+    "square"
+  ]
+}
