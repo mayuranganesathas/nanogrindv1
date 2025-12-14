@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd05",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 10,
+  "day": 1,
+  "title": "Design a Large Language Model API (OpenAI-like)",
+  "focus": [
+    "Request batching for throughput",
+    "KV cache management (vLLM/paged attention)",
+    "Model parallelism (tensor + pipeline)",
+    "Rate limiting and billing",
+    "Prompt caching"
+  ],
+  "companies": [
+    "openai",
+    "anthropic",
+    "google",
+    "microsoft"
+  ]
+}
