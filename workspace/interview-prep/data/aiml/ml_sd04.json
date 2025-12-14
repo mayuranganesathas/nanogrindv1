@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd04",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 9,
+  "day": 4,
+  "title": "Design an ML Training and Serving Platform",
+  "focus": [
+    "Feature store (online + offline)",
+    "Training pipeline orchestration",
+    "Model registry and versioning",
+    "Online serving (latency SLAs)",
+    "Shadow mode + canary deployments"
+  ],
+  "companies": [
+    "uber",
+    "airbnb",
+    "doordash",
+    "lyft"
+  ]
+}
