@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd06",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 10,
+  "day": 2,
+  "title": "Design a Content Moderation System",
+  "focus": [
+    "Multi-modal detection (text, image, video)",
+    "Human-in-the-loop pipeline",
+    "Appeals and false positive handling",
+    "Latency vs accuracy tradeoff",
+    "Adversarial robustness"
+  ],
+  "companies": [
+    "facebook",
+    "twitter",
+    "youtube",
+    "tiktok"
+  ]
+}
