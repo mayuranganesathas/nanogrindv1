@@ -1,0 +1,70 @@
+{
+  "id": "nc_001",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "217",
+  "title": "Contains Duplicate",
+  "url": "https://leetcode.com/problems/contains-duplicate/",
+  "description": "Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "difficulty": "easy",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_set"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "If you compared every pair, how many comparisons for n elements?",
+    "What data structure checks membership in O(1) average time?",
+    "What are you trading when you use a HashSet instead of nested loops?"
+  ],
+  "hints": {
+    "L1": "Think about what you need to track as you scan — which data structure lets you check 'seen this before?' in O(1)?",
+    "L2": "Use a HashSet. For each element, check if it already exists — if yes, return true. If no, add it. One pass.",
+    "L3": "// INSIGHT: trade O(n) space for O(1) lookup → O(n) instead of O(n²)\nseen = set()\nfor num in nums:\n    if num in seen:   # O(1) avg\n        return True\n    seen.add(num)\nreturn False\n# Alt: sort → check adjacent pairs → O(n log n) time, O(1) space"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,2,3,1]",
+      "expected": "true"
+    },
+    {
+      "input": "nums=[1,2,3,4]",
+      "expected": "false"
+    },
+    {
+      "input": "nums=[1,1,1,3,3,4]",
+      "expected": "true"
+    },
+    {
+      "input": "nums=[]",
+      "expected": "false"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "What if you needed to return the duplicate value itself?",
+    "With O(1) space required, what's your approach and complexity tradeoff?",
+    "When would you prefer sort+scan over HashSet?"
+  ],
+  "solution_notes": "HashSet one-pass: O(n) time, O(n) space. Sort alt: O(n log n), O(1) space."
+}
