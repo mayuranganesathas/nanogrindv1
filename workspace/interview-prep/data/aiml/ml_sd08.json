@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd08",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 10,
+  "day": 4,
+  "title": "Design a Model Monitoring and Drift Detection System",
+  "focus": [
+    "Data drift vs concept drift",
+    "Statistical tests (KS, PSI)",
+    "Alert thresholds and dashboards",
+    "Automated retraining triggers",
+    "A/B test analysis"
+  ],
+  "companies": [
+    "netflix",
+    "uber",
+    "airbnb",
+    "datadog"
+  ]
+}
