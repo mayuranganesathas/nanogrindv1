@@ -1,0 +1,21 @@
+{
+  "id": "ml_sd07",
+  "type": "system_design",
+  "category": "ML System Design",
+  "week": 10,
+  "day": 3,
+  "title": "Design a Real-Time Bidding (RTB) System with ML",
+  "focus": [
+    "Click-through rate prediction (<10ms)",
+    "Bid optimization",
+    "Feature engineering at auction time",
+    "Feedback loop and delayed labels",
+    "Budget pacing"
+  ],
+  "companies": [
+    "google",
+    "meta",
+    "amazon",
+    "trade_desk"
+  ]
+}
