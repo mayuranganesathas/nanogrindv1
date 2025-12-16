@@ -1,0 +1,71 @@
+{
+  "id": "nc_002",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "242",
+  "title": "Valid Anagram",
+  "url": "https://leetcode.com/problems/valid-anagram/",
+  "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, using all the original letters exactly once.",
+  "constraints": [
+    "1 <= s.length, t.length <= 5 * 10^4",
+    "s and t consist of lowercase English letters"
+  ],
+  "difficulty": "easy",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_map",
+    "sorting"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "yahoo"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "What property must every character in s satisfy for t to be an anagram?",
+    "If you counted character frequencies in both strings, what would anagrams have in common?",
+    "The alphabet has 26 lowercase letters — does space complexity actually depend on n?"
+  ],
+  "hints": {
+    "L1": "Two strings are anagrams if they use identical characters with identical frequencies — think about how to verify that efficiently.",
+    "L2": "Frequency counter: increment for each char in s, decrement for each char in t. If all counts are zero at end, they're anagrams.",
+    "L3": "# INSIGHT: anagram ⟺ identical char frequency maps\nif len(s) != len(t): return False\ncount = [0] * 26\nfor i in range(len(s)):\n    count[ord(s[i]) - ord('a')] += 1\n    count[ord(t[i]) - ord('a')] -= 1\nreturn all(c == 0 for c in count)\n# Time: O(n)  Space: O(1) — fixed 26-char alphabet\n# Unicode follow-up: use dict instead of fixed array"
+  },
+  "test_cases": [
+    {
+      "input": "s='anagram',t='nagaram'",
+      "expected": "true"
+    },
+    {
+      "input": "s='rat',t='car'",
+      "expected": "false"
+    },
+    {
+      "input": "s='',t=''",
+      "expected": "true"
+    },
+    {
+      "input": "s='ab',t='a'",
+      "expected": "false"
+    },
+    {
+      "input": "s='aa',t='bb'",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "What if input could contain Unicode? How does your solution change?",
+    "Can you solve it O(n) time AND O(1) space simultaneously?",
+    "How would you check if t is a permutation of any substring of s?"
+  ],
+  "solution_notes": "Frequency counter array[26]: O(n) time, O(1) space. Length check first as early exit."
+}
