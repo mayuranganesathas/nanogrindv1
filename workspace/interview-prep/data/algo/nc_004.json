@@ -1,0 +1,72 @@
+{
+  "id": "nc_004",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "49",
+  "title": "Group Anagrams",
+  "url": "https://leetcode.com/problems/group-anagrams/",
+  "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, using all the original letters exactly once.",
+  "constraints": [
+    "1 <= strs.length <= 10^4",
+    "0 <= strs[i].length <= 100",
+    "strs[i] consists of lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_map",
+    "sorting"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 1,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n·k log k)",
+  "optimal_space": "O(n·k)",
+  "brute_force_time": "O(n²·k log k)",
+  "thinking_questions": [
+    "What property do all anagrams of a word share that you could use as a dictionary key?",
+    "If you sorted each word, what would all anagrams sort to?",
+    "Is there a canonical 'fingerprint' for a word that doesn't require sorting?"
+  ],
+  "hints": {
+    "L1": "You need a key that all anagrams of a word share — think about what operation produces identical results for anagrams.",
+    "L2": "Sort each word to get its canonical key. All anagrams sort identically. Group words by sorted key in a HashMap.",
+    "L3": "# INSIGHT: sort word → canonical key; all anagrams share the same key\nfrom collections import defaultdict\ngroups = defaultdict(list)\nfor word in strs:\n    key = ''.join(sorted(word))  # 'eat','tea','ate' all → 'aet'\n    groups[key].append(word)\nreturn list(groups.values())\n# Time: O(n·k log k)  Space: O(n·k)\n# Faster key: tuple of 26 char counts — O(n·k) time\n# count=[0]*26; for c in word: count[ord(c)-97]+=1; key=tuple(count)"
+  },
+  "test_cases": [
+    {
+      "input": "strs=['eat','tea','tan','ate','nat','bat']",
+      "expected": "[['eat','tea','ate'],['tan','nat'],['bat']]"
+    },
+    {
+      "input": "strs=['']",
+      "expected": "[['']]"
+    },
+    {
+      "input": "strs=['a']",
+      "expected": "[['a']]"
+    },
+    {
+      "input": "strs=['abc','bca','cab','xyz']",
+      "expected": "[['abc','bca','cab'],['xyz']]"
+    },
+    {
+      "input": "strs=['ab','ba','abc']",
+      "expected": "[['ab','ba'],['abc']]"
+    }
+  ],
+  "follow_up_questions": [
+    "Compare sorted-string key vs char-count-tuple key — complexity and when to prefer each?",
+    "What if words could contain uppercase or special characters?",
+    "How would you also group by number of distinct characters?"
+  ],
+  "solution_notes": "Sort-as-key: O(n·k log k). Char-count-tuple: O(n·k). Key insight: canonical form as HashMap key."
+}
