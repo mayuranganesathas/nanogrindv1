@@ -1,0 +1,74 @@
+{
+  "id": "nc_005",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "347",
+  "title": "Top K Frequent Elements",
+  "url": "https://leetcode.com/problems/top-k-frequent-elements/",
+  "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-10^4 <= nums[i] <= 10^4",
+    "k is in the range [1, the number of unique elements in the array]",
+    "It is guaranteed that the answer is unique"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_map",
+    "heap",
+    "bucket_sort"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 1,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "How would you count element frequencies efficiently?",
+    "Once you have frequencies, how do you get top k without fully sorting?",
+    "The maximum frequency is n — can you use that as an array index?"
+  ],
+  "hints": {
+    "L1": "Count frequencies first. Then think about getting the top k without sorting everything — there's a structure designed for 'give me the k largest'.",
+    "L2": "Count with HashMap, then use bucket sort: bucket[freq] holds all elements with that frequency. Scan from highest freq down, collect k elements.",
+    "L3": "# INSIGHT: freq bounded by [1..n] → use freq as bucket index → O(n)\ncount = {}\nfor num in nums:\n    count[num] = count.get(num, 0) + 1\n\nbuckets = [[] for _ in range(len(nums) + 1)]\nfor num, freq in count.items():\n    buckets[freq].append(num)\n\nresult = []\nfor freq in range(len(buckets)-1, 0, -1):\n    for num in buckets[freq]:\n        result.append(num)\n        if len(result) == k: return result\n# Time: O(n)  Space: O(n)\n# Heap alt: O(n log k) — fine for interviews, mention both"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,1,1,2,2,3],k=2",
+      "expected": "[1,2]"
+    },
+    {
+      "input": "nums=[1],k=1",
+      "expected": "[1]"
+    },
+    {
+      "input": "nums=[1,2],k=2",
+      "expected": "[1,2]"
+    },
+    {
+      "input": "nums=[4,1,1,2,2,3,3,3],k=2",
+      "expected": "[3,1] or [3,2]"
+    },
+    {
+      "input": "nums=[1,1,2,2,3],k=3",
+      "expected": "[1,2,3]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does bucket sort work here but not for general sorting?",
+    "When would you prefer a heap approach over bucket sort?",
+    "What if k equals the number of unique elements?"
+  ],
+  "solution_notes": "Bucket sort: O(n). Heap: O(n log k). Key: frequency bounded by n enables bucket sort."
+}
