@@ -1,0 +1,72 @@
+{
+  "id": "nc_008",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "271",
+  "title": "Encode and Decode Strings",
+  "url": "https://neetcode.io/problems/string-encode-and-decode",
+  "description": "Design an algorithm to encode a list of strings to a single string. The encoded string is then sent over the network and is decoded back to the original list of strings. Implement encode(strs) which encodes a list of strings to a single string, and decode(s) which decodes a single string to a list of strings. The string may contain any possible characters including special characters. Your algorithm should be generalized enough to work on any possible characters.",
+  "constraints": [
+    "1 <= strs.length <= 200",
+    "0 <= strs[i].length <= 200",
+    "strs[i] contains any possible characters out of 256 valid ASCII characters"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "strings",
+    "encoding"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 1,
+  "day": 3,
+  "companies": [
+    "google",
+    "meta",
+    "amazon"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "If you joined strings with '#', what goes wrong when a string itself contains '#'?",
+    "What if you encoded the length of each string before it?",
+    "How do protocols like HTTP handle this same framing problem?"
+  ],
+  "hints": {
+    "L1": "A simple delimiter breaks when strings contain that delimiter — you need encoding that unambiguously marks where each string ends regardless of its content.",
+    "L2": "Length-prefix encoding: encode each string as '{len}#{string}'. Since you know the length, read exactly that many characters — no ambiguity.",
+    "L3": "# INSIGHT: encode length before content — '#' can appear inside strings safely\ndef encode(strs):\n    return ''.join(f'{len(s)}#{s}' for s in strs)\n\ndef decode(s):\n    result, i = [], 0\n    while i < len(s):\n        j = s.index('#', i)          # find next '#'\n        length = int(s[i:j])         # read length\n        result.append(s[j+1:j+1+length])  # extract exactly 'length' chars\n        i = j + 1 + length           # advance past this string\n    return result\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "['hello','world']",
+      "expected": "roundtrip → ['hello','world']"
+    },
+    {
+      "input": "['']",
+      "expected": "roundtrip → ['']"
+    },
+    {
+      "input": "['a#b','c']",
+      "expected": "# inside string handled correctly"
+    },
+    {
+      "input": "['123','#','1#2']",
+      "expected": "numbers and delimiters handled"
+    },
+    {
+      "input": "[]",
+      "expected": "roundtrip → []"
+    }
+  ],
+  "follow_up_questions": [
+    "Why doesn't '#' alone work as delimiter? Give a concrete failing example.",
+    "What other encoding strategies could work? (escaping, non-printable delimiter, netstring format)",
+    "Where else do you see length-prefix encoding in real systems?"
+  ],
+  "solution_notes": "Length-prefix: '{len}#{str}'. Decode: find '#', read length, extract that many chars. O(n)."
+}
