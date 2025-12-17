@@ -1,0 +1,72 @@
+{
+  "id": "nc_007",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "36",
+  "title": "Valid Sudoku",
+  "url": "https://leetcode.com/problems/valid-sudoku/",
+  "description": "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules: (1) Each row must contain the digits 1-9 without repetition. (2) Each column must contain the digits 1-9 without repetition. (3) Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition. Note: A Sudoku board (partially filled) could be valid but is not necessarily solvable. Only the filled cells need to be validated.",
+  "constraints": [
+    "board.length == 9",
+    "board[i].length == 9",
+    "board[i][j] is a digit 1-9 or '.'"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_set",
+    "matrix"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 1,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "uber"
+  ],
+  "optimal_time": "O(1)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(1)",
+  "thinking_questions": [
+    "Three constraints: no repeats in any row, column, or 3×3 box. How many sets do you need?",
+    "For cell (row, col), which 3×3 box does it belong to? Can you compute the box index mathematically?",
+    "The board is always 9×9 — what does that mean for your complexity?"
+  ],
+  "hints": {
+    "L1": "You need to detect duplicates across three independent constraints simultaneously — maintain a seen-set for each row, column, and box.",
+    "L2": "Three arrays of 9 HashSets each: rows[9], cols[9], boxes[9]. Box index = (r//3)*3 + (c//3). Check all three sets per cell, add to all three.",
+    "L3": "# INSIGHT: one pass, 3 constraints, 27 sets\nrows = [set() for _ in range(9)]\ncols = [set() for _ in range(9)]\nboxes = [set() for _ in range(9)]\nfor r in range(9):\n    for c in range(9):\n        val = board[r][c]\n        if val == '.': continue\n        box_id = (r // 3) * 3 + (c // 3)\n        if val in rows[r] or val in cols[c] or val in boxes[box_id]:\n            return False\n        rows[r].add(val)\n        cols[c].add(val)\n        boxes[box_id].add(val)\nreturn True\n# Time/Space: O(1) — fixed 9×9 board"
+  },
+  "test_cases": [
+    {
+      "input": "valid board",
+      "expected": "true"
+    },
+    {
+      "input": "duplicate 8 in row 0",
+      "expected": "false"
+    },
+    {
+      "input": "duplicate 6 in col 5",
+      "expected": "false"
+    },
+    {
+      "input": "duplicate 3 in top-left box",
+      "expected": "false"
+    },
+    {
+      "input": "all '.'",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain the formula (r//3)*3 + (c//3) for the box index.",
+    "How would you extend this to actually SOLVE a Sudoku puzzle?",
+    "Complexity is O(1) because input is fixed size — is that a useful answer?"
+  ],
+  "solution_notes": "27 sets. Box index: (r//3)*3+(c//3). One pass. O(1) fixed size."
+}
