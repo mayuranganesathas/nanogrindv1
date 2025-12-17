@@ -1,0 +1,72 @@
+{
+  "id": "nc_006",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "238",
+  "title": "Product of Array Except Self",
+  "url": "https://leetcode.com/problems/product-of-array-except-self/",
+  "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation.",
+  "constraints": [
+    "2 <= nums.length <= 10^5",
+    "-30 <= nums[i] <= 30",
+    "The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "prefix_product"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 1,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "apple",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "output[i] = product of all left of i × product of all right of i. Can you compute these separately?",
+    "If you had a prefix product array, what would prefix[i] represent?",
+    "Can you compute in-place using only the output array and a running variable?"
+  ],
+  "hints": {
+    "L1": "For each position you need the product of everything to its left and everything to its right — compute these two parts in two separate passes.",
+    "L2": "Pass 1 (left→right): fill result[i] with prefix product (product of everything before i). Pass 2 (right→left): multiply in suffix product using a running variable.",
+    "L3": "# INSIGHT: result[i] = prefix_product[i] × suffix_product[i] — two passes, O(1) extra space\nresult = [1] * len(nums)\n# Pass 1: prefix products\nprefix = 1\nfor i in range(len(nums)):\n    result[i] = prefix       # product of everything LEFT of i\n    prefix *= nums[i]\n# Pass 2: multiply suffix products in-place\nsuffix = 1\nfor i in range(len(nums)-1, -1, -1):\n    result[i] *= suffix      # multiply in product of everything RIGHT of i\n    suffix *= nums[i]\nreturn result\n# Time: O(n)  Space: O(1) extra (output array excluded)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,2,3,4]",
+      "expected": "[24,12,8,6]"
+    },
+    {
+      "input": "nums=[-1,1,0,-3,3]",
+      "expected": "[0,0,9,0,0]"
+    },
+    {
+      "input": "nums=[2,3]",
+      "expected": "[3,2]"
+    },
+    {
+      "input": "nums=[0,0]",
+      "expected": "[0,0]"
+    },
+    {
+      "input": "nums=[1,1,1,1]",
+      "expected": "[1,1,1,1]"
+    }
+  ],
+  "follow_up_questions": [
+    "If division were allowed, how would you solve it? What edge case makes division tricky?",
+    "Walk through the zero cases — what happens to prefix and suffix products?",
+    "Could you solve this in a single pass? Why or why not?"
+  ],
+  "solution_notes": "Two-pass prefix×suffix. Build prefix left→right in result[], then multiply suffix right→left in-place. O(n), O(1) extra."
+}
