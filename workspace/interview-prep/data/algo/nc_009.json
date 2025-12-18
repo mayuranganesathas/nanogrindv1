@@ -1,0 +1,70 @@
+{
+  "id": "nc_009",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "128",
+  "title": "Longest Consecutive Sequence",
+  "url": "https://leetcode.com/problems/longest-consecutive-sequence/",
+  "description": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.",
+  "constraints": [
+    "0 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "difficulty": "medium",
+  "category": "Arrays & Hashing",
+  "pattern_tags": [
+    "arrays",
+    "hash_set"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 1,
+  "day": 3,
+  "companies": [
+    "google",
+    "amazon",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "Sorting works in O(n log n) — can you do O(n) without sorting?",
+    "For sequence [100,101,102,103], you only need to start counting from 100. How do you know 100 is the start?",
+    "What number would NOT be in the set if n were the start of a consecutive sequence?"
+  ],
+  "hints": {
+    "L1": "O(n) means no sorting. Identify where sequences start so you only begin counting from those, not from every element.",
+    "L2": "Put all numbers in a HashSet. For each n, check if (n-1) is NOT in the set — if so, n is a sequence start. Count up from n while consecutive numbers exist.",
+    "L3": "# INSIGHT: only count from sequence starts (where n-1 not in set)\n# Each element visited at most twice → O(n) amortized\nnum_set = set(nums)\nbest = 0\nfor n in num_set:\n    if (n - 1) not in num_set:  # n is a sequence start\n        cur, streak = n, 1\n        while (cur + 1) in num_set:\n            cur += 1\n            streak += 1\n        best = max(best, streak)\nreturn best\n# Time: O(n) — inner while runs only for sequence starts; total steps ≤ 2n\n# Space: O(n) for set"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[100,4,200,1,3,2]",
+      "expected": "4 (1,2,3,4)"
+    },
+    {
+      "input": "nums=[0,3,7,2,5,8,4,6,0,1]",
+      "expected": "9"
+    },
+    {
+      "input": "nums=[]",
+      "expected": "0"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1,2,0,1]",
+      "expected": "3 (handles duplicates)"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does checking (n-1) not in set guarantee we're at a sequence start?",
+    "Explain why the while loop doesn't make this O(n²) — what's the total number of inner iterations?",
+    "How does your solution handle duplicate numbers?"
+  ],
+  "solution_notes": "HashSet + start-only counting. Each element visited ≤2 times → O(n). Key: n-1 not in set ⟹ sequence start."
+}
