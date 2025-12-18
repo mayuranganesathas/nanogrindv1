@@ -1,0 +1,71 @@
+{
+  "id": "nc_011",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "167",
+  "title": "Two Sum II - Input Array Is Sorted",
+  "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+  "description": "Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length. Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2. The tests are generated such that there is exactly one solution. You may not use the same element twice. Your solution must use only constant extra space.",
+  "constraints": [
+    "2 <= numbers.length <= 3 * 10^4",
+    "-1000 <= numbers[i] <= 1000",
+    "numbers is sorted in non-decreasing order",
+    "-1000 <= target <= 1000",
+    "The tests are generated such that there is exactly one solution"
+  ],
+  "difficulty": "medium",
+  "category": "Two Pointers",
+  "pattern_tags": [
+    "two_pointers",
+    "arrays"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 4,
+  "companies": [
+    "amazon"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "The array is sorted — how does that change your options vs unsorted Two Sum?",
+    "If your current sum is too big, which pointer moves? Too small?",
+    "Can you do this in O(1) space (unlike Two Sum I)?"
+  ],
+  "hints": {
+    "L1": "The array is sorted — use that. If sum is too large you need smaller numbers; too small you need larger. Think pointers at opposite ends.",
+    "L2": "left=0, right=end. sum>target → right--. sum<target → left++. Sorted order guarantees convergence.",
+    "L3": "# INSIGHT: sorted + two pointers → O(n) O(1) space\nleft, right = 0, len(numbers) - 1\nwhile left < right:\n    s = numbers[left] + numbers[right]\n    if s == target:\n        return [left + 1, right + 1]  # 1-indexed\n    elif s > target:\n        right -= 1\n    else:\n        left += 1\n# Time: O(n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "numbers=[2,7,11,15],target=9",
+      "expected": "[1,2]"
+    },
+    {
+      "input": "numbers=[2,3,4],target=6",
+      "expected": "[1,3]"
+    },
+    {
+      "input": "numbers=[-1,0],target=-1",
+      "expected": "[1,2]"
+    },
+    {
+      "input": "numbers=[1,2,3,4,5],target=9",
+      "expected": "[4,5]"
+    },
+    {
+      "input": "numbers=[1,3,4,5,7,11,11],target=9",
+      "expected": "[1,5]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does sorting enable O(1) space vs Two Sum I's O(n) HashMap?",
+    "Could you use binary search here? What would the complexity be?",
+    "What if there were duplicate values — does your solution still work?"
+  ],
+  "solution_notes": "Two pointers both ends. Sorted: sum too big→right--, too small→left++. O(n), O(1)."
+}
