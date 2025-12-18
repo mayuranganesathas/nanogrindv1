@@ -1,0 +1,70 @@
+{
+  "id": "nc_010",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "125",
+  "title": "Valid Palindrome",
+  "url": "https://leetcode.com/problems/valid-palindrome/",
+  "description": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
+  "constraints": [
+    "1 <= s.length <= 2 * 10^5",
+    "s consists only of printable ASCII characters"
+  ],
+  "difficulty": "easy",
+  "category": "Two Pointers",
+  "pattern_tags": [
+    "two_pointers",
+    "strings"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 3,
+  "companies": [
+    "meta",
+    "amazon",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "What characters should you ignore — and how do you check for alphanumeric?",
+    "If you reversed the filtered string and compared, that works — but can you avoid creating new strings?",
+    "Can you check palindrome from both ends simultaneously without extra space?"
+  ],
+  "hints": {
+    "L1": "Compare characters from both ends while skipping non-alphanumeric characters — two pointers converging inward.",
+    "L2": "Left and right pointers. Skip non-alphanumeric on each side. Compare lowercased. Mismatch → false.",
+    "L3": "# INSIGHT: two pointers + skip non-alnum — O(1) space\nleft, right = 0, len(s) - 1\nwhile left < right:\n    while left < right and not s[left].isalnum():\n        left += 1\n    while left < right and not s[right].isalnum():\n        right -= 1\n    if s[left].lower() != s[right].lower():\n        return False\n    left += 1\n    right -= 1\nreturn True\n# Time: O(n)  Space: O(1) — no new string created"
+  },
+  "test_cases": [
+    {
+      "input": "s='A man, a plan, a canal: Panama'",
+      "expected": "true"
+    },
+    {
+      "input": "s='race a car'",
+      "expected": "false"
+    },
+    {
+      "input": "s=' '",
+      "expected": "true"
+    },
+    {
+      "input": "s='0P'",
+      "expected": "false"
+    },
+    {
+      "input": "s='Was it a car or a cat I saw?'",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "Space complexity difference between two-pointer vs filter-then-reverse?",
+    "How would you check palindrome after deleting at most one character? (LC 680)",
+    "What if case sensitivity mattered?"
+  ],
+  "solution_notes": "Two pointers, skip non-alnum, compare lowercased. O(n), O(1). Inner while loops skip invalid chars."
+}
