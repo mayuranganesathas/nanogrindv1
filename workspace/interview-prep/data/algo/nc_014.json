@@ -1,0 +1,71 @@
+{
+  "id": "nc_014",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "42",
+  "title": "Trapping Rain Water",
+  "url": "https://leetcode.com/problems/trapping-rain-water/",
+  "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+  "constraints": [
+    "n == height.length",
+    "1 <= n <= 2 * 10^4",
+    "0 <= height[i] <= 10^5"
+  ],
+  "difficulty": "hard",
+  "category": "Two Pointers",
+  "pattern_tags": [
+    "two_pointers",
+    "dynamic_programming"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 1,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "Water at i = min(max_left, max_right) - height[i]. How do you know both maxes efficiently?",
+    "You could precompute left_max[] and right_max[] arrays — what's that approach's complexity?",
+    "Can you compute both maxes simultaneously with two pointers, avoiding those arrays?"
+  ],
+  "hints": {
+    "L1": "At each position, water = min(tallest to the left, tallest to the right) - height[i]. Think about efficiently knowing both maxes.",
+    "L2": "Two-pointer approach: maintain left_max and right_max. Process from the side with the smaller max — that side's water level is fully determined.",
+    "L3": "# INSIGHT: process smaller-max side first — it's the bottleneck\nleft, right = 0, len(height) - 1\nleft_max, right_max = 0, 0\nwater = 0\nwhile left < right:\n    if left_max <= right_max:\n        left_max = max(left_max, height[left])\n        water += left_max - height[left]  # left_max is the limiting factor\n        left += 1\n    else:\n        right_max = max(right_max, height[right])\n        water += right_max - height[right]\n        right -= 1\nreturn water\n# Time: O(n)  Space: O(1)\n# Why safe: when left_max≤right_max, water at left is exactly left_max-height[left]\n# because right_max ≥ left_max, so left_max is the min"
+  },
+  "test_cases": [
+    {
+      "input": "height=[0,1,0,2,1,0,1,3,2,1,2,1]",
+      "expected": "6"
+    },
+    {
+      "input": "height=[4,2,0,3,2,5]",
+      "expected": "9"
+    },
+    {
+      "input": "height=[1,0,1]",
+      "expected": "1"
+    },
+    {
+      "input": "height=[3,0,2,0,4]",
+      "expected": "7"
+    },
+    {
+      "input": "height=[1]",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "When left_max≤right_max, why is the water at left guaranteed to be left_max-height[left]?",
+    "Walk through the precompute arrays approach then explain how two pointers reduce space.",
+    "How would the monotonic stack approach work? When might you prefer it?"
+  ],
+  "solution_notes": "Two-pointer: process smaller-max side. O(n), O(1). Key: smaller max is the water ceiling; other side ≥ it."
+}
