@@ -1,0 +1,71 @@
+{
+  "id": "nc_013",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "11",
+  "title": "Container With Most Water",
+  "url": "https://leetcode.com/problems/container-with-most-water/",
+  "description": "You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]). Find two lines that together with the x-axis form a container, such that the container contains the most water. Return the maximum amount of water a container can store. Notice that you may not slant the container.",
+  "constraints": [
+    "n == height.length",
+    "2 <= n <= 10^5",
+    "0 <= height[i] <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Two Pointers",
+  "pattern_tags": [
+    "two_pointers",
+    "greedy"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 1,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "bloomberg"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "Area = min(h[l], h[r]) × (r-l). Width always decreases when you move a pointer — when is it worth it?",
+    "Moving the taller line inward — can area ever increase? What about the shorter line?",
+    "Which pointer should you move to have any chance of increasing area?"
+  ],
+  "hints": {
+    "L1": "Width decreases with every pointer move — only move when there's a chance height increases enough. Think about which pointer to move.",
+    "L2": "Always move the pointer pointing to the shorter height. Moving the taller can only decrease or maintain area; moving the shorter gives a chance of finding a taller line.",
+    "L3": "# INSIGHT: area limited by shorter height — moving shorter gives chance to improve\nleft, right = 0, len(height) - 1\nbest = 0\nwhile left < right:\n    area = min(height[left], height[right]) * (right - left)\n    best = max(best, area)\n    if height[left] <= height[right]:\n        left += 1\n    else:\n        right -= 1\nreturn best\n# Time: O(n)  Space: O(1)\n# Proof: moving taller → area ≤ min(shorter,new) × (narrower width) ≤ current"
+  },
+  "test_cases": [
+    {
+      "input": "height=[1,8,6,2,5,4,8,3,7]",
+      "expected": "49"
+    },
+    {
+      "input": "height=[1,1]",
+      "expected": "1"
+    },
+    {
+      "input": "height=[4,3,2,1,4]",
+      "expected": "16"
+    },
+    {
+      "input": "height=[1,2,1]",
+      "expected": "2"
+    },
+    {
+      "input": "height=[1,8,100,2,100,4,8,3,7]",
+      "expected": "200"
+    }
+  ],
+  "follow_up_questions": [
+    "Prove why moving the shorter pointer is always correct.",
+    "What if you needed the minimum water container instead of maximum?",
+    "This is greedy — what's the greedy choice and why is it safe?"
+  ],
+  "solution_notes": "Greedy two-pointer: always move shorter side. O(n), O(1). Key proof: moving taller → bounded by shorter × narrower."
+}
