@@ -1,0 +1,72 @@
+{
+  "id": "nc_012",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "15",
+  "title": "3Sum",
+  "url": "https://leetcode.com/problems/3sum/",
+  "description": "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0. Notice that the solution set must not contain duplicate triplets.",
+  "constraints": [
+    "3 <= nums.length <= 3000",
+    "-10^5 <= nums[i] <= 10^5"
+  ],
+  "difficulty": "medium",
+  "category": "Two Pointers",
+  "pattern_tags": [
+    "two_pointers",
+    "arrays",
+    "sorting"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 1,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n²)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n³)",
+  "thinking_questions": [
+    "If you fix one number, the remaining problem is Two Sum on the rest — have you solved that on a sorted array?",
+    "How do you avoid counting duplicate triplets?",
+    "After fixing nums[i], you need two numbers from the rest summing to -nums[i]. What algorithm solves that in O(n) on sorted array?"
+  ],
+  "hints": {
+    "L1": "Fix one number in the outer loop, reduce to Two Sum II on the remaining sorted array.",
+    "L2": "Sort. For each i, two pointers at i+1 and end seeking -nums[i]. Skip duplicates: skip nums[i] at top of outer loop; skip left/right duplicates after finding a triplet.",
+    "L3": "# INSIGHT: sort → fix i → two-pointer two-sum → O(n²)\nnums.sort()\nresult = []\nfor i in range(len(nums) - 2):\n    if i > 0 and nums[i] == nums[i-1]: continue  # skip dup i\n    if nums[i] > 0: break  # sorted: can't sum to 0\n    left, right = i + 1, len(nums) - 1\n    while left < right:\n        s = nums[i] + nums[left] + nums[right]\n        if s == 0:\n            result.append([nums[i], nums[left], nums[right]])\n            while left < right and nums[left] == nums[left+1]: left += 1\n            while left < right and nums[right] == nums[right-1]: right -= 1\n            left += 1; right -= 1\n        elif s < 0: left += 1\n        else: right -= 1\nreturn result\n# Time: O(n²)  Space: O(1) excluding output"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[-1,0,1,2,-1,-4]",
+      "expected": "[[-1,-1,2],[-1,0,1]]"
+    },
+    {
+      "input": "nums=[0,1,1]",
+      "expected": "[]"
+    },
+    {
+      "input": "nums=[0,0,0]",
+      "expected": "[[0,0,0]]"
+    },
+    {
+      "input": "nums=[-2,0,0,2,2]",
+      "expected": "[[-2,0,2]]"
+    },
+    {
+      "input": "nums=[]",
+      "expected": "[]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why skip i-duplicates at the top of the loop but l/r-duplicates only AFTER finding a match?",
+    "Why is the early break `if nums[i] > 0` valid? What property makes it safe?",
+    "Can you generalize to 4Sum? What's the complexity of k-Sum generally?"
+  ],
+  "solution_notes": "Sort + fix i + two-pointer. O(n²). Three duplicate-skip points. Key: sorted array + i>0 early break."
+}
