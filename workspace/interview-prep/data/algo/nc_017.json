@@ -1,0 +1,70 @@
+{
+  "id": "nc_017",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "424",
+  "title": "Longest Repeating Character Replacement",
+  "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+  "description": "You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.",
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s consists of only uppercase English letters",
+    "0 <= k <= s.length"
+  ],
+  "difficulty": "medium",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "hash_map"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 1,
+  "companies": [
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "In a window with max_freq dominant chars, how many replacements are needed?",
+    "What condition makes a window valid (replaceable in ≤k steps)?",
+    "When the window becomes invalid do you need to update max_freq as you shrink?"
+  ],
+  "hints": {
+    "L1": "A window is valid if (size - most_frequent_char_count) ≤ k. Expand freely, shrink when invalid.",
+    "L2": "Track max_freq of any char in window. Invalid when (right-left+1)-max_freq > k. Shrink left by 1.",
+    "L3": "# INSIGHT: valid ⟺ (window_size - max_freq) ≤ k\n# Never need to shrink max_freq — window only grows or stays same size\ncount = {}\nleft = 0\nmax_freq = 0\nbest = 0\nfor right in range(len(s)):\n    count[s[right]] = count.get(s[right], 0) + 1\n    max_freq = max(max_freq, count[s[right]])\n    if (right - left + 1) - max_freq > k:\n        count[s[left]] -= 1\n        left += 1  # shrink by 1; don't update max_freq\n    best = max(best, right - left + 1)\nreturn best\n# Time: O(n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "s='ABAB',k=2",
+      "expected": "4"
+    },
+    {
+      "input": "s='AABABBA',k=1",
+      "expected": "4"
+    },
+    {
+      "input": "s='AAAA',k=2",
+      "expected": "4"
+    },
+    {
+      "input": "s='A',k=0",
+      "expected": "1"
+    },
+    {
+      "input": "s='ABCDE',k=1",
+      "expected": "2"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is it safe not to update max_freq when shrinking?",
+    "The max_freq can be 'stale' (too high) — why doesn't this break correctness?",
+    "How would this change if you could replace with any character to maximize uniqueness?"
+  ],
+  "solution_notes": "Sliding window. Valid if (size-max_freq)≤k. Never decrease max_freq. O(n), O(1)."
+}
