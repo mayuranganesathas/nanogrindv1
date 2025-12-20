@@ -1,0 +1,69 @@
+{
+  "id": "nc_018",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "567",
+  "title": "Permutation in String",
+  "url": "https://leetcode.com/problems/permutation-in-string/",
+  "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise. In other words, return true if one of s1's permutations is the substring of s2.",
+  "constraints": [
+    "1 <= s1.length, s2.length <= 10^4",
+    "s1 and s2 consist of lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "hash_map"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n·m)",
+  "thinking_questions": [
+    "A permutation of s1 has the same char frequencies as s1. What window size in s2 should you look at?",
+    "With a fixed-size window, how do you efficiently update frequencies as it slides?",
+    "Can you track a 'matches' counter instead of comparing full frequency arrays each step?"
+  ],
+  "hints": {
+    "L1": "Fixed-size sliding window of length len(s1) in s2 — check if any window has identical frequencies to s1.",
+    "L2": "Two frequency arrays, slide the window. Track 'matches' counter (chars where freq matches) to avoid O(26) comparison each step.",
+    "L3": "# INSIGHT: fixed window size=len(s1); track matches count → O(1) per step\nif len(s1) > len(s2): return False\nc1, c2 = [0]*26, [0]*26\nfor c in s1: c1[ord(c)-97] += 1\nmatches = sum(1 for i in range(26) if c1[i]==c2[i])\nfor i in range(len(s2)):\n    r = ord(s2[i])-97\n    if c1[r]==c2[r]: matches -= 1\n    c2[r] += 1\n    if c1[r]==c2[r]: matches += 1\n    if i >= len(s1):\n        l = ord(s2[i-len(s1)])-97\n        if c1[l]==c2[l]: matches -= 1\n        c2[l] -= 1\n        if c1[l]==c2[l]: matches += 1\n    if matches == 26: return True\nreturn False\n# Time: O(n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "s1='ab',s2='eidbaooo'",
+      "expected": "true"
+    },
+    {
+      "input": "s1='ab',s2='eidboaoo'",
+      "expected": "false"
+    },
+    {
+      "input": "s1='adc',s2='dcda'",
+      "expected": "true"
+    },
+    {
+      "input": "s1='a',s2='ab'",
+      "expected": "true"
+    },
+    {
+      "input": "s1='abc',s2='ab'",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "Advantage of matches counter vs comparing full 26-char arrays each step?",
+    "How does this differ from Minimum Window Substring structurally?",
+    "Could you solve this with sorting? What's the complexity?"
+  ],
+  "solution_notes": "Fixed window=len(s1). 'matches' counter for O(1) comparison per step. O(n), O(1)."
+}
