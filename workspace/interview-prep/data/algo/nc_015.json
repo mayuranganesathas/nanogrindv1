@@ -1,0 +1,71 @@
+{
+  "id": "nc_015",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "121",
+  "title": "Best Time to Buy and Sell Stock",
+  "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+  "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.",
+  "constraints": [
+    "1 <= prices.length <= 10^5",
+    "0 <= prices[i] <= 10^4"
+  ],
+  "difficulty": "easy",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "greedy"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "You must buy before sell. At day i, the best you could have bought is the minimum price seen so far — how do you track that?",
+    "At each day, best profit = today's price - minimum price seen so far. One pass?",
+    "What if prices only decrease? What should you return?"
+  ],
+  "hints": {
+    "L1": "Scan forward tracking the lowest price seen — best profit at any day is today's price minus that minimum.",
+    "L2": "One pass: maintain min_price. At each day compute profit=price-min_price, update best, then update min_price.",
+    "L3": "# INSIGHT: at each day, optimal buy = global min of all previous prices\nmin_price = prices[0]\nbest_profit = 0\nfor price in prices:\n    best_profit = max(best_profit, price - min_price)\n    min_price = min(min_price, price)\nreturn best_profit\n# Time: O(n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "prices=[7,1,5,3,6,4]",
+      "expected": "5 (buy@1 sell@6)"
+    },
+    {
+      "input": "prices=[7,6,4,3,1]",
+      "expected": "0 (no profitable trade)"
+    },
+    {
+      "input": "prices=[1,2]",
+      "expected": "1"
+    },
+    {
+      "input": "prices=[1]",
+      "expected": "0"
+    },
+    {
+      "input": "prices=[2,1,2,1,2]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "What if you could make unlimited transactions? (LC 122)",
+    "What if you could make at most 2 transactions? (LC 123) — how does state change?",
+    "Why is this considered a sliding window problem? What is the window?"
+  ],
+  "solution_notes": "Track running min_price, compute profit each step. O(n), O(1). Base case for stock problem series."
+}
