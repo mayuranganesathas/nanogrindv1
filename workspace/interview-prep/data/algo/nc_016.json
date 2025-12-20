@@ -1,0 +1,71 @@
+{
+  "id": "nc_016",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "3",
+  "title": "Longest Substring Without Repeating Characters",
+  "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+  "description": "Given a string s, find the length of the longest substring without repeating characters.",
+  "constraints": [
+    "0 <= s.length <= 5 * 10^4",
+    "s consists of English letters, digits, symbols and spaces"
+  ],
+  "difficulty": "medium",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "hash_map"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "What makes the window invalid here?",
+    "When you hit a duplicate, can you jump left directly instead of shrinking one step?",
+    "If you store the last-seen index of each char, how quickly can you move left?"
+  ],
+  "hints": {
+    "L1": "Sliding window — expand right until a repeat, then shrink from the left. The key is how efficiently you find where to shrink to.",
+    "L2": "Store each char's last-seen index in a HashMap. On repeat, jump left to max(left, last_seen[char]+1).",
+    "L3": "# INSIGHT: HashMap of last index → jump left pointer past previous occurrence\nchar_index = {}\nleft = 0\nbest = 0\nfor right, char in enumerate(s):\n    if char in char_index and char_index[char] >= left:\n        left = char_index[char] + 1  # jump past previous\n    char_index[char] = right\n    best = max(best, right - left + 1)\nreturn best\n# Time: O(n)  Space: O(1) — at most 128 ASCII chars\n# Why >= left: prevents moving left backward if char was seen before window start"
+  },
+  "test_cases": [
+    {
+      "input": "s='abcabcbb'",
+      "expected": "3"
+    },
+    {
+      "input": "s='bbbbb'",
+      "expected": "1"
+    },
+    {
+      "input": "s='pwwkew'",
+      "expected": "3"
+    },
+    {
+      "input": "s=''",
+      "expected": "0"
+    },
+    {
+      "input": "s='dvdf'",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is `char_index[char] >= left` necessary? What case does it handle?",
+    "Compare jumping left vs shrinking one step — both O(n), but why?",
+    "What if the problem asked for at most k distinct characters? (LC 340)"
+  ],
+  "solution_notes": "Sliding window + char→last_index map. Jump left past prev occurrence. O(n), O(1). Key: >= left check."
+}
