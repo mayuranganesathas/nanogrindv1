@@ -1,0 +1,71 @@
+{
+  "id": "nc_021",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "20",
+  "title": "Valid Parentheses",
+  "url": "https://leetcode.com/problems/valid-parentheses/",
+  "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if: open brackets must be closed by the same type of brackets, open brackets must be closed in the correct order, and every close bracket has a corresponding open bracket of the same type.",
+  "constraints": [
+    "1 <= s.length <= 10^4",
+    "s consists of parentheses only '()[]{}'"
+  ],
+  "difficulty": "easy",
+  "category": "Stack",
+  "pattern_tags": [
+    "stack",
+    "strings"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 2,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "When you see a closing bracket, what do you need to know to check if it's valid?",
+    "You need to match the most recently seen unmatched opening bracket — what data structure gives you the most recent?",
+    "What are the three failure conditions?"
+  ],
+  "hints": {
+    "L1": "When you encounter a closing bracket, you need to match it with the most recently unmatched opening bracket — think about which data structure gives you 'most recent'.",
+    "L2": "Stack. Push opening brackets. On closing bracket, pop from stack and check if it matches. Three failure cases: mismatch, stack empty on close, stack non-empty at end.",
+    "L3": "# INSIGHT: stack tracks unmatched opens; close must match top\nstack = []\npairs = {')':'(', ']':'[', '}':'{'}\nfor c in s:\n    if c in '([{':\n        stack.append(c)\n    else:  # closing bracket\n        if not stack or stack[-1] != pairs[c]:\n            return False\n        stack.pop()\nreturn len(stack) == 0  # all opens were matched\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "s='()'",
+      "expected": "true"
+    },
+    {
+      "input": "s='()[]{}'",
+      "expected": "true"
+    },
+    {
+      "input": "s='(]'",
+      "expected": "false"
+    },
+    {
+      "input": "s='([)]'",
+      "expected": "false"
+    },
+    {
+      "input": "s='{[]}'",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "What are the exactly three ways this can fail?",
+    "What if the string had only one type of bracket? How would your approach simplify?",
+    "How would you handle wildcards where '*' can be '(', ')' or empty? (LC 678)"
+  ],
+  "solution_notes": "Stack: push opens, pop on close and verify match. Three failure modes: mismatch, empty stack on close, non-empty at end."
+}
