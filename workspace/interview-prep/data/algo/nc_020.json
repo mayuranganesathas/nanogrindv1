@@ -1,0 +1,70 @@
+{
+  "id": "nc_020",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "239",
+  "title": "Sliding Window Maximum",
+  "url": "https://leetcode.com/problems/sliding-window-maximum/",
+  "description": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window — an array of the maximum values in each window position.",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-10^4 <= nums[i] <= 10^4",
+    "1 <= k <= nums.length"
+  ],
+  "difficulty": "hard",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "monotonic_deque"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 2,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(k)",
+  "brute_force_time": "O(n·k)",
+  "thinking_questions": [
+    "Brute force: scan every window of size k. O(n·k). Can you avoid re-scanning?",
+    "If nums[i] < nums[j] with i<j, can nums[i] ever be the max of any future window?",
+    "What structure lets you get the max in O(1) and remove out-of-window elements?"
+  ],
+  "hints": {
+    "L1": "When a new larger element enters, all previous smaller elements can never be max again — maintain a 'useful candidates' list.",
+    "L2": "Monotonic decreasing deque of indices. Add new element: pop back all smaller elements. Pop front if index out of window. Front = window max.",
+    "L3": "# INSIGHT: monotonic decreasing deque — front always = window max\nfrom collections import deque\ndq = deque()  # stores indices\nresult = []\nfor i, num in enumerate(nums):\n    while dq and dq[0] < i-k+1: dq.popleft()  # remove out-of-window\n    while dq and nums[dq[-1]] < num: dq.pop()  # remove smaller (useless)\n    dq.append(i)\n    if i >= k-1: result.append(nums[dq[0]])    # window full\nreturn result\n# Time: O(n) — each element added/removed at most once\n# Space: O(k)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,3,-1,-3,5,3,6,7],k=3",
+      "expected": "[3,3,5,5,6,7]"
+    },
+    {
+      "input": "nums=[1],k=1",
+      "expected": "[1]"
+    },
+    {
+      "input": "nums=[1,-1],k=1",
+      "expected": "[1,-1]"
+    },
+    {
+      "input": "nums=[9,11],k=2",
+      "expected": "[11]"
+    },
+    {
+      "input": "nums=[4,3,11,2],k=2",
+      "expected": "[4,11,11]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why monotonically decreasing? What breaks if you allow increasing?",
+    "Each element pushed/popped at most once — why does this make it O(n) not O(n·k)?",
+    "What other problems use monotonic deque/stack? (Daily Temperatures, Largest Rectangle)"
+  ],
+  "solution_notes": "Monotonic decreasing deque of indices. Front=max. O(n), O(k)."
+}
