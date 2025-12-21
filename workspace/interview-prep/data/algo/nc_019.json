@@ -1,0 +1,72 @@
+{
+  "id": "nc_019",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "76",
+  "title": "Minimum Window Substring",
+  "url": "https://leetcode.com/problems/minimum-window-substring/",
+  "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string \"\". The testcases will be generated such that the answer is unique.",
+  "constraints": [
+    "m == s.length",
+    "n == t.length",
+    "1 <= m, n <= 10^5",
+    "s and t consist of uppercase and lowercase English letters"
+  ],
+  "difficulty": "hard",
+  "category": "Sliding Window",
+  "pattern_tags": [
+    "sliding_window",
+    "hash_map"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 2,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "What makes a window valid? How do you track 'all chars of t are covered'?",
+    "Once valid, should you keep expanding or start shrinking?",
+    "How do you check 'window contains all of t' in O(1) without scanning the window?"
+  ],
+  "hints": {
+    "L1": "Variable-size window. Expand right until valid (contains all of t), then shrink left to find minimum. Repeat.",
+    "L2": "t_count map + window map + 'have'/'need' counters. 'have' increments when a char hits its required freq. When have==need, shrink.",
+    "L3": "# INSIGHT: expand until valid, shrink to minimize, track best\nt_count = {}\nfor c in t: t_count[c] = t_count.get(c,0)+1\nneed = len(t_count); have = 0\nwindow = {}; best = ''; best_len = float('inf'); left = 0\nfor right, c in enumerate(s):\n    window[c] = window.get(c,0)+1\n    if c in t_count and window[c] == t_count[c]:\n        have += 1\n    while have == need:\n        if right-left+1 < best_len:\n            best_len = right-left+1; best = s[left:right+1]\n        lc = s[left]; window[lc] -= 1\n        if lc in t_count and window[lc] < t_count[lc]:\n            have -= 1\n        left += 1\nreturn best\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "s='ADOBECODEBANC',t='ABC'",
+      "expected": "'BANC'"
+    },
+    {
+      "input": "s='a',t='a'",
+      "expected": "'a'"
+    },
+    {
+      "input": "s='a',t='aa'",
+      "expected": "''"
+    },
+    {
+      "input": "s='ab',t='b'",
+      "expected": "'b'"
+    },
+    {
+      "input": "s='bba',t='ab'",
+      "expected": "'ba'"
+    }
+  ],
+  "follow_up_questions": [
+    "Why count 'have' based on DISTINCT satisfied chars, not total matched chars?",
+    "Key structural difference vs Permutation in String (fixed vs variable window)?",
+    "If t has duplicates like 'AAB', how does your solution ensure enough of each?"
+  ],
+  "solution_notes": "Variable window. have/need counters. Expand right, shrink left when valid. O(n)."
+}
