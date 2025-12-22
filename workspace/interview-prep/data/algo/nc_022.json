@@ -1,0 +1,71 @@
+{
+  "id": "nc_022",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "155",
+  "title": "Min Stack",
+  "url": "https://leetcode.com/problems/min-stack/",
+  "description": "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time. Implement the MinStack class with: MinStack() initializes the stack object; void push(int val) pushes the element val onto the stack; void pop() removes the element on the top of the stack; int top() gets the top element of the stack; int getMin() retrieves the minimum element in the stack. You must implement a solution with O(1) time complexity for each function.",
+  "constraints": [
+    "-2^31 <= val <= 2^31 - 1",
+    "Methods pop, top and getMin operations will always be called on non-empty stacks",
+    "At most 3 * 10^4 calls will be made to push, pop, top, and getMin"
+  ],
+  "difficulty": "medium",
+  "category": "Stack",
+  "pattern_tags": [
+    "stack",
+    "design"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "bloomberg"
+  ],
+  "optimal_time": "O(1)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n) for getMin",
+  "thinking_questions": [
+    "getMin in O(1) seems to require knowing the minimum at every possible stack state — how do you store that?",
+    "The minimum only changes when you push something smaller or pop the current minimum — can you track min per stack level?",
+    "What if you stored (value, current_min) as a pair at each stack level?"
+  ],
+  "hints": {
+    "L1": "You need O(1) getMin — that means you can't scan the stack. Think about storing extra information at each stack level.",
+    "L2": "Store pairs: (value, min_at_this_level). On push, new_min = min(val, current_min). On getMin, return top pair's min.",
+    "L3": "# INSIGHT: store (value, min_so_far) at each level — O(1) getMin\nclass MinStack:\n    def __init__(self):\n        self.stack = []  # (value, min_at_this_level)\n    def push(self, val):\n        cur_min = min(val, self.stack[-1][1]) if self.stack else val\n        self.stack.append((val, cur_min))\n    def pop(self):\n        self.stack.pop()\n    def top(self):\n        return self.stack[-1][0]\n    def getMin(self):\n        return self.stack[-1][1]\n# All operations O(1)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "push(-2),push(0),push(-3),getMin()",
+      "expected": "-3"
+    },
+    {
+      "input": "push(-2),push(0),push(-3),pop(),getMin()",
+      "expected": "-2"
+    },
+    {
+      "input": "push(0),push(1),push(0),getMin(),pop(),getMin()",
+      "expected": "0,0"
+    },
+    {
+      "input": "push(1),push(2),getMin()",
+      "expected": "1"
+    },
+    {
+      "input": "push(5),push(3),push(7),getMin(),pop(),getMin()",
+      "expected": "3,3"
+    }
+  ],
+  "follow_up_questions": [
+    "What if instead of pairs, you used a separate auxiliary stack tracking only minimums?",
+    "Does your solution handle pushing the same minimum value twice correctly?",
+    "How would you extend this to also support getMax in O(1)?"
+  ],
+  "solution_notes": "Store (value, running_min) pairs. Every level knows the min at that point. All ops O(1)."
+}
