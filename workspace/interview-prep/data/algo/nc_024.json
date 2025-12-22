@@ -1,0 +1,70 @@
+{
+  "id": "nc_024",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "22",
+  "title": "Generate Parentheses",
+  "url": "https://leetcode.com/problems/generate-parentheses/",
+  "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
+  "constraints": [
+    "1 <= n <= 8"
+  ],
+  "difficulty": "medium",
+  "category": "Stack",
+  "pattern_tags": [
+    "stack",
+    "backtracking",
+    "recursion"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 2,
+  "companies": [
+    "google",
+    "microsoft",
+    "amazon"
+  ],
+  "optimal_time": "O(4^n/√n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(2^(2n)·n)",
+  "thinking_questions": [
+    "When can you add an open bracket? When can you add a closing bracket?",
+    "How do you know a partial string is heading toward a valid combination vs invalid?",
+    "What are the two constraints that determine when each bracket type is valid?"
+  ],
+  "hints": {
+    "L1": "Build the string character by character. At each step you can add '(' or ')' — but only under certain conditions. Think about when each is valid.",
+    "L2": "Backtrack: add '(' if open_count < n; add ')' if close_count < open_count. Recurse. Base case: string length == 2n.",
+    "L3": "# INSIGHT: add '(' if opens remaining; add ')' if close_count < open_count\nresult = []\ndef backtrack(cur, open_count, close_count):\n    if len(cur) == 2*n:\n        result.append(cur)\n        return\n    if open_count < n:\n        backtrack(cur+'(', open_count+1, close_count)\n    if close_count < open_count:\n        backtrack(cur+')', open_count, close_count+1)\nbacktrack('', 0, 0)\nreturn result\n# Time: O(4^n/√n) — Catalan number of valid combos\n# Space: O(n) recursion depth"
+  },
+  "test_cases": [
+    {
+      "input": "n=3",
+      "expected": "['((()))','(()())','(())()','()(())','()()()']"
+    },
+    {
+      "input": "n=1",
+      "expected": "['()']"
+    },
+    {
+      "input": "n=2",
+      "expected": "['(())','()()']"
+    },
+    {
+      "input": "n=0",
+      "expected": "['']"
+    },
+    {
+      "input": "n=4",
+      "expected": "14 combinations"
+    }
+  ],
+  "follow_up_questions": [
+    "How many valid combinations exist for n pairs? What's the Catalan number formula?",
+    "Why does `close_count < open_count` guarantee we never close more than we open?",
+    "How would you generate all valid combinations iteratively using a stack?"
+  ],
+  "solution_notes": "Backtracking. Add '(' if opens<n; add ')' if close<open. O(4^n/√n) = nth Catalan number combos."
+}
