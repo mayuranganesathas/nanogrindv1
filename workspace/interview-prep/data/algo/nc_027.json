@@ -1,0 +1,70 @@
+{
+  "id": "nc_027",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "84",
+  "title": "Largest Rectangle in Histogram",
+  "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+  "description": "Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.",
+  "constraints": [
+    "1 <= heights.length <= 10^5",
+    "0 <= heights[i] <= 10^4"
+  ],
+  "difficulty": "hard",
+  "category": "Stack",
+  "pattern_tags": [
+    "stack",
+    "monotonic_stack"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "For each bar, the rectangle it anchors extends as far left and right as bars are at least as tall. How do you find those boundaries efficiently?",
+    "If you maintain a stack of increasing heights, what can you determine when a shorter bar arrives?",
+    "When you pop a bar from a decreasing stack because a shorter bar arrived, what are the left and right boundaries of that bar's rectangle?"
+  ],
+  "hints": {
+    "L1": "For each bar, its max rectangle extends left and right until hitting a shorter bar. Think about processing bars and maintaining a structure that tracks the left boundary.",
+    "L2": "Monotonic increasing stack (store indices). When current bar is shorter than stack top, pop: the popped bar's rectangle has right=current index, left=new stack top. width = right-left-1.",
+    "L3": "# INSIGHT: monotonic increasing stack; pop when shorter bar arrives → compute width\nstack = []  # (index, height) — monotonically increasing heights\nbest = 0\nfor i, h in enumerate(heights):\n    start = i\n    while stack and stack[-1][1] > h:\n        idx, height = stack.pop()\n        # rectangle with this height extends from idx to current\n        best = max(best, height * (i - idx))\n        start = idx  # can extend further left\n    stack.append((start, h))\n# Process remaining bars in stack\nfor idx, height in stack:\n    best = max(best, height * (len(heights) - idx))\nreturn best\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "heights=[2,1,5,6,2,3]",
+      "expected": "10"
+    },
+    {
+      "input": "heights=[2,4]",
+      "expected": "4"
+    },
+    {
+      "input": "heights=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "heights=[6,7,5,2,4,5,9,3]",
+      "expected": "16"
+    },
+    {
+      "input": "heights=[1,1,1,1]",
+      "expected": "4"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain why 'start=idx' in the loop allows the popped bar's rectangle to extend leftward.",
+    "What happens to bars still in the stack when you finish iterating — why do they extend to the right edge?",
+    "How does this relate to Trapping Rain Water conceptually?"
+  ],
+  "solution_notes": "Monotonic increasing stack with (start_index, height). Pop on shorter bar → compute area. Remaining stack extends to right edge. O(n)."
+}
