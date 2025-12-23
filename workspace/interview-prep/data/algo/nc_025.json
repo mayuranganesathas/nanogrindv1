@@ -1,0 +1,70 @@
+{
+  "id": "nc_025",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "739",
+  "title": "Daily Temperatures",
+  "url": "https://leetcode.com/problems/daily-temperatures/",
+  "description": "Given an array of integers temperatures representing the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.",
+  "constraints": [
+    "1 <= temperatures.length <= 10^5",
+    "30 <= temperatures[i] <= 100"
+  ],
+  "difficulty": "medium",
+  "category": "Stack",
+  "pattern_tags": [
+    "stack",
+    "monotonic_stack"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "For each day you need the next day that's warmer — brute force scans right for each index. Can you avoid redundant scanning?",
+    "If you keep a list of 'waiting' days that haven't found a warmer day yet, when do you resolve them?",
+    "When you see a warmer day, which waiting days can you resolve?"
+  ],
+  "hints": {
+    "L1": "For each temperature, you need the next higher one. Instead of scanning right for each, think about processing left-to-right and resolving waiting days when you find something warmer.",
+    "L2": "Monotonic decreasing stack of indices. For each new temp, pop stack while top is cooler — answer for popped index = current_index - popped_index.",
+    "L3": "# INSIGHT: monotonic decreasing stack — pop when warmer found\nstack = []  # indices with no warmer day found yet\nresult = [0] * len(temperatures)\nfor i, temp in enumerate(temperatures):\n    while stack and temperatures[stack[-1]] < temp:\n        j = stack.pop()\n        result[j] = i - j  # days waited\n    stack.append(i)\nreturn result\n# Time: O(n) — each index pushed/popped once\n# Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "temperatures=[73,74,75,71,69,72,76,73]",
+      "expected": "[1,1,4,2,1,1,0,0]"
+    },
+    {
+      "input": "temperatures=[30,40,50,60]",
+      "expected": "[1,1,1,0]"
+    },
+    {
+      "input": "temperatures=[30,60,90]",
+      "expected": "[1,1,0]"
+    },
+    {
+      "input": "temperatures=[90,80,70,60]",
+      "expected": "[0,0,0,0]"
+    },
+    {
+      "input": "temperatures=[70,70,70]",
+      "expected": "[0,0,0]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is the stack monotonically decreasing? What does that mean for the values in it?",
+    "Each element pushed/popped once — why does this give O(n) total?",
+    "How does this relate to the 'next greater element' pattern?"
+  ],
+  "solution_notes": "Monotonic decreasing stack of indices. Pop on warmer temperature, compute gap. O(n)."
+}
