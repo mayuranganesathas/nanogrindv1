@@ -1,0 +1,73 @@
+{
+  "id": "nc_031",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "153",
+  "title": "Find Minimum in Rotated Sorted Array",
+  "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+  "description": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2] if it was rotated 4 times. Given the sorted rotated array nums of unique elements, return the minimum element of this array. You must write an algorithm that runs in O(log n) time.",
+  "constraints": [
+    "n == nums.length",
+    "1 <= n <= 5000",
+    "-5000 <= nums[i] <= 5000",
+    "All the integers of nums are unique",
+    "nums is sorted and rotated between 1 and n times"
+  ],
+  "difficulty": "medium",
+  "category": "Binary Search",
+  "pattern_tags": [
+    "binary_search",
+    "arrays"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "The array is two sorted subarrays joined. The minimum is at the join point. How do you find it?",
+    "If nums[mid] > nums[right], which half contains the minimum?",
+    "What's the invariant that tells you which half to search?"
+  ],
+  "hints": {
+    "L1": "The rotated array consists of two sorted halves. Compare mid to right to determine which half is 'out of order' — that's where the minimum is.",
+    "L2": "If nums[mid] > nums[right]: min is in right half (left=mid+1). Else: min is in left half including mid (right=mid).",
+    "L3": "# INSIGHT: compare mid to right to determine which side is rotated\nleft, right = 0, len(nums) - 1\nwhile left < right:\n    mid = left + (right - left) // 2\n    if nums[mid] > nums[right]:\n        left = mid + 1  # min is in right portion\n    else:\n        right = mid     # min is in left portion (including mid)\nreturn nums[left]\n# Time: O(log n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[3,4,5,1,2]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[4,5,6,7,0,1,2]",
+      "expected": "0"
+    },
+    {
+      "input": "nums=[11,13,15,17]",
+      "expected": "11 (not rotated)"
+    },
+    {
+      "input": "nums=[2,1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "Why compare mid to right rather than to left?",
+    "What if the array had duplicate values? How does that break the approach? (LC 154)",
+    "How would you find the number of rotations (the rotation index)?"
+  ],
+  "solution_notes": "Compare nums[mid] to nums[right]. mid>right → min in right half. O(log n), O(1)."
+}
