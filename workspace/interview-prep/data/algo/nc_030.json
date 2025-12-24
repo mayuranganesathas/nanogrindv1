@@ -1,0 +1,69 @@
+{
+  "id": "nc_030",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "875",
+  "title": "Koko Eating Bananas",
+  "url": "https://leetcode.com/problems/koko-eating-bananas/",
+  "description": "Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours. Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during this hour. Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return. Return the minimum integer k such that she can eat all the bananas within h hours.",
+  "constraints": [
+    "1 <= piles.length <= 10^4",
+    "piles.length <= h <= 10^9",
+    "1 <= piles[i] <= 10^9"
+  ],
+  "difficulty": "medium",
+  "category": "Binary Search",
+  "pattern_tags": [
+    "binary_search"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n log m)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n·m)",
+  "thinking_questions": [
+    "As eating speed increases, hours needed decreases — what does this monotone relationship suggest?",
+    "What's the search space? What are the minimum and maximum possible speeds?",
+    "Can you binary search on the speed rather than on the piles?"
+  ],
+  "hints": {
+    "L1": "The answer is a speed value. As speed increases, hours decrease monotonically — this suggests binary search on the answer.",
+    "L2": "Binary search on speed [1..max(piles)]. For each speed, compute total hours = sum(ceil(pile/speed)). Find minimum speed where total_hours ≤ h.",
+    "L3": "# INSIGHT: binary search on ANSWER (speed) — monotone feasibility function\nimport math\nleft, right = 1, max(piles)\nresult = right\nwhile left <= right:\n    mid = left + (right - left) // 2\n    hours = sum(math.ceil(pile / mid) for pile in piles)\n    if hours <= h:\n        result = mid  # feasible, try smaller speed\n        right = mid - 1\n    else:\n        left = mid + 1  # too slow, need higher speed\nreturn result\n# Time: O(n log m) where m=max(piles)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "piles=[3,6,7,11],h=8",
+      "expected": "4"
+    },
+    {
+      "input": "piles=[30,11,23,4,20],h=5",
+      "expected": "30"
+    },
+    {
+      "input": "piles=[30,11,23,4,20],h=6",
+      "expected": "23"
+    },
+    {
+      "input": "piles=[1,1,1,999999999],h=10",
+      "expected": "142857143 approx"
+    },
+    {
+      "input": "piles=[1],h=1",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "How do you recognize 'binary search on the answer' problems? What's the key property?",
+    "Why is max(piles) the upper bound? What's the lower bound and why 1?",
+    "What other problems fit the 'binary search on answer' template? (Capacity to Ship, Split Array)"
+  ],
+  "solution_notes": "Binary search on speed [1..max(piles)]. feasible(speed) = sum(ceil(p/s)) ≤ h. O(n log m)."
+}
