@@ -1,0 +1,72 @@
+{
+  "id": "nc_029",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "74",
+  "title": "Search a 2D Matrix",
+  "url": "https://leetcode.com/problems/search-a-2d-matrix/",
+  "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, and the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix or false otherwise. You must write a solution in O(log(m * n)) time complexity.",
+  "constraints": [
+    "m == matrix.length",
+    "n == matrix[i].length",
+    "1 <= m, n <= 100",
+    "-10^4 <= matrix[i][j], target <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Binary Search",
+  "pattern_tags": [
+    "binary_search",
+    "matrix"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(log(m·n))",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(m·n)",
+  "thinking_questions": [
+    "Each row is sorted and the first element of each row is greater than the last of the previous — what does this tell you about the entire matrix?",
+    "If you 'unrolled' the matrix into a single sorted array, how would you map a 1D index back to (row, col)?",
+    "Can you binary search the entire matrix as if it were one sorted array?"
+  ],
+  "hints": {
+    "L1": "The matrix is essentially one sorted array laid out in rows — you can binary search on the virtual 1D index.",
+    "L2": "Binary search on range [0, m*n-1]. Map mid to (mid//n, mid%n) to get the cell value.",
+    "L3": "# INSIGHT: treat m×n matrix as 1D sorted array; map index → (row, col)\nm, n = len(matrix), len(matrix[0])\nleft, right = 0, m*n - 1\nwhile left <= right:\n    mid = left + (right - left) // 2\n    val = matrix[mid // n][mid % n]\n    if val == target: return True\n    elif val < target: left = mid + 1\n    else: right = mid - 1\nreturn False\n# Time: O(log(m·n))  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "matrix=[[1,3,5,7],[10,11,16,20],[23,30,34,60]],target=3",
+      "expected": "true"
+    },
+    {
+      "input": "matrix=[[1,3,5,7],[10,11,16,20],[23,30,34,60]],target=13",
+      "expected": "false"
+    },
+    {
+      "input": "matrix=[[1]],target=1",
+      "expected": "true"
+    },
+    {
+      "input": "matrix=[[1]],target=2",
+      "expected": "false"
+    },
+    {
+      "input": "matrix=[[1,1]],target=2",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain the mapping mid//n and mid%n — why does this work?",
+    "What if the matrix were NOT fully sorted (each row sorted but first of row < last of previous row not guaranteed)? (LC 240)",
+    "Could you do two separate binary searches (first find row, then column) instead? Same complexity?"
+  ],
+  "solution_notes": "Map 1D binary search to 2D: row=mid//n, col=mid%n. O(log(m·n)), O(1)."
+}
