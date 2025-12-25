@@ -1,0 +1,73 @@
+{
+  "id": "nc_033",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "981",
+  "title": "Time Based Key-Value Store",
+  "url": "https://leetcode.com/problems/time-based-key-value-store/",
+  "description": "Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key's value at a certain timestamp. Implement the TimeMap class: TimeMap() initializes the object; void set(String key, String value, int timestamp) stores the key with the value at the given time; String get(String key, int timestamp) returns a value such that set was called previously with timestamp_prev <= timestamp. If there are multiple such values, it returns the value associated with the largest timestamp_prev. If there are no values, it returns \"\".",
+  "constraints": [
+    "1 <= key.length, value.length <= 100",
+    "key and value consist of lowercase English letters and digits",
+    "1 <= timestamp <= 10^7",
+    "All the timestamps of set are strictly increasing",
+    "At most 2 * 10^5 calls will be made to set and get"
+  ],
+  "difficulty": "medium",
+  "category": "Binary Search",
+  "pattern_tags": [
+    "binary_search",
+    "design",
+    "hash_map"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 5,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(1) set, O(log n) get",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n) get",
+  "thinking_questions": [
+    "Timestamps are strictly increasing — what does that tell you about the list of values for a key?",
+    "To find the largest timestamp ≤ t, what search strategy works on a sorted list?",
+    "What do you store per key and what do you binary search on?"
+  ],
+  "hints": {
+    "L1": "Timestamps are always increasing on set — so per key, timestamps are sorted. Binary search for the largest timestamp ≤ t.",
+    "L2": "HashMap: key → list of (timestamp, value). On get, binary search for largest timestamp ≤ t. Return '' if none found.",
+    "L3": "# INSIGHT: sorted timestamps per key → binary search for largest ≤ t\nfrom collections import defaultdict\nstore = defaultdict(list)  # key → [(timestamp, value)]\n\ndef set(key, value, timestamp):\n    store[key].append((timestamp, value))  # always increasing\n\ndef get(key, timestamp):\n    if key not in store: return ''\n    pairs = store[key]\n    left, right = 0, len(pairs)-1\n    result = ''\n    while left <= right:\n        mid = left + (right-left)//2\n        if pairs[mid][0] <= timestamp:\n            result = pairs[mid][1]  # valid candidate, try later\n            left = mid+1\n        else:\n            right = mid-1\n    return result\n# set: O(1)  get: O(log n)"
+  },
+  "test_cases": [
+    {
+      "input": "set('foo','bar',1), get('foo',1)",
+      "expected": "'bar'"
+    },
+    {
+      "input": "set('foo','bar',1), get('foo',3)",
+      "expected": "'bar'"
+    },
+    {
+      "input": "set('foo','bar',1), set('foo','bar2',4), get('foo',4)",
+      "expected": "'bar2'"
+    },
+    {
+      "input": "set('foo','bar',1), set('foo','bar2',4), get('foo',5)",
+      "expected": "'bar2'"
+    },
+    {
+      "input": "get('foo',1) (never set)",
+      "expected": "''"
+    }
+  ],
+  "follow_up_questions": [
+    "Why are timestamps guaranteed sorted per key? What property of set() ensures this?",
+    "What if the same key was set at timestamp 5, and you query at timestamp 3 — what should return?",
+    "How would you handle the case where timestamps could be non-monotonic (set could be called out of order)?"
+  ],
+  "solution_notes": "HashMap key→[(ts,val)]. Timestamps sorted (guaranteed by problem). Binary search for largest ts≤t. O(1) set, O(log n) get."
+}
