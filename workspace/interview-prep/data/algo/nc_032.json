@@ -1,0 +1,74 @@
+{
+  "id": "nc_032",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "33",
+  "title": "Search in Rotated Sorted Array",
+  "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+  "description": "There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]. Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums. You must write an algorithm with O(log n) runtime complexity.",
+  "constraints": [
+    "1 <= nums.length <= 5000",
+    "-10^4 <= nums[i] <= 10^4",
+    "All values of nums are unique",
+    "nums is an ascending array that is possibly rotated",
+    "-10^4 <= target <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Binary Search",
+  "pattern_tags": [
+    "binary_search",
+    "arrays"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "The array is two sorted halves — in any binary search step, at least one half is guaranteed to be fully sorted. Which one?",
+    "If the left half is sorted, how do you know if target is in it?",
+    "How do you decide which half to recurse into given one is sorted and one might not be?"
+  ],
+  "hints": {
+    "L1": "At any mid point, at least one side is fully sorted. Determine which side is sorted, check if target falls in it, and eliminate the other half.",
+    "L2": "If nums[left]≤nums[mid]: left half is sorted. Check if target in [nums[left],nums[mid]]. If yes, go left; else go right. Otherwise right half is sorted — do the same.",
+    "L3": "# INSIGHT: one side always sorted → determine which, check if target in range\nleft, right = 0, len(nums)-1\nwhile left <= right:\n    mid = left + (right-left)//2\n    if nums[mid] == target: return mid\n    if nums[left] <= nums[mid]:  # left half is sorted\n        if nums[left] <= target < nums[mid]:\n            right = mid-1\n        else:\n            left = mid+1\n    else:  # right half is sorted\n        if nums[mid] < target <= nums[right]:\n            left = mid+1\n        else:\n            right = mid-1\nreturn -1\n# Time: O(log n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[4,5,6,7,0,1,2],target=0",
+      "expected": "4"
+    },
+    {
+      "input": "nums=[4,5,6,7,0,1,2],target=3",
+      "expected": "-1"
+    },
+    {
+      "input": "nums=[1],target=0",
+      "expected": "-1"
+    },
+    {
+      "input": "nums=[3,1],target=1",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1,3],target=3",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does `nums[left] <= nums[mid]` indicate the left half is sorted?",
+    "What edge case does the `<=` (rather than `<`) in `nums[left] <= nums[mid]` handle?",
+    "What changes if duplicates are allowed? (LC 81 — can you always determine which side is sorted?)"
+  ],
+  "solution_notes": "One side always sorted. Check which, test if target in range. O(log n), O(1). Key: <= handles left=mid=single element."
+}
