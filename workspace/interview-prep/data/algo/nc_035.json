@@ -1,0 +1,70 @@
+{
+  "id": "nc_035",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "206",
+  "title": "Reverse Linked List",
+  "url": "https://leetcode.com/problems/reverse-linked-list/",
+  "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.",
+  "constraints": [
+    "The number of nodes in the list is the range [0, 5000]",
+    "-5000 <= Node.val <= 5000"
+  ],
+  "difficulty": "easy",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 3,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "To reverse a pointer, you need to know the previous node — but a singly linked list doesn't store that. How do you track it?",
+    "How many pointers do you need to manipulate at each step to reverse the link without losing the rest of the list?",
+    "Can you do it recursively? What does the recursive call return and what do you do with it?"
+  ],
+  "hints": {
+    "L1": "You need to flip each node's next pointer to point backwards. You'll need to track the previous node since singly linked lists only go forward.",
+    "L2": "Three pointers: prev=None, curr=head, next=None. At each step: save next, flip curr.next=prev, advance prev=curr, curr=next.",
+    "L3": "# INSIGHT: three pointers — save next before flipping\nprev, curr = None, head\nwhile curr:\n    next_node = curr.next  # save before overwriting\n    curr.next = prev        # flip the pointer\n    prev = curr             # advance prev\n    curr = next_node        # advance curr\nreturn prev  # prev is new head\n# Time: O(n)  Space: O(1)\n# Recursive: def rev(node): if not node.next: return node\n#             new_head=rev(node.next); node.next.next=node; node.next=None; return new_head"
+  },
+  "test_cases": [
+    {
+      "input": "1->2->3->4->5",
+      "expected": "5->4->3->2->1"
+    },
+    {
+      "input": "1->2",
+      "expected": "2->1"
+    },
+    {
+      "input": "1",
+      "expected": "1"
+    },
+    {
+      "input": "None",
+      "expected": "None"
+    },
+    {
+      "input": "1->2->3",
+      "expected": "3->2->1"
+    }
+  ],
+  "follow_up_questions": [
+    "Implement the recursive version. What's the space complexity difference?",
+    "How would you reverse only a portion of the list from position left to right? (LC 92)",
+    "What happens if you flip curr.next=prev BEFORE saving curr.next?"
+  ],
+  "solution_notes": "Three pointers iterative: prev/curr/next. O(n), O(1). Recursive: O(n) space for call stack."
+}
