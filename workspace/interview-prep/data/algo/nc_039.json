@@ -1,0 +1,70 @@
+{
+  "id": "nc_039",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "138",
+  "title": "Copy List with Random Pointer",
+  "url": "https://leetcode.com/problems/copy-list-with-random-pointer/",
+  "description": "A linked list of length n is given such that each node contains an additional random pointer, which could point to any node in the list, or null. Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list. None of the pointers in the new list should point to nodes in the original list. Return the head of the copied linked list.",
+  "constraints": [
+    "0 <= n <= 1000",
+    "-10^4 <= Node.val <= 10^4",
+    "Node.random is null or is pointing to some node in the linked list"
+  ],
+  "difficulty": "medium",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "hash_map"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 3,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "Random pointers can point anywhere, including forward — why can't you just copy one pass and set random pointers immediately?",
+    "If you first create all new nodes, then set pointers, how do you map old nodes to their new copies?",
+    "Can you solve this in O(1) extra space by interleaving old and new nodes?"
+  ],
+  "hints": {
+    "L1": "Random pointers may point to nodes you haven't created yet — so create all copies first, then set the pointers in a second pass.",
+    "L2": "Two passes: Pass 1: HashMap {old_node → new_node}, create all copies. Pass 2: set new_node.next and new_node.random using the HashMap.",
+    "L3": "# INSIGHT: HashMap old→new allows setting random pointers in second pass\nif not head: return None\nold_to_new = {}  # old_node → new_node\n# Pass 1: create all nodes\ncurr = head\nwhile curr:\n    old_to_new[curr] = Node(curr.val)\n    curr = curr.next\n# Pass 2: set next and random\ncurr = head\nwhile curr:\n    if curr.next: old_to_new[curr].next = old_to_new[curr.next]\n    if curr.random: old_to_new[curr].random = old_to_new[curr.random]\n    curr = curr.next\nreturn old_to_new[head]\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "[[7,null],[13,0],[11,4],[10,2],[1,0]]",
+      "expected": "deep copy of same structure"
+    },
+    {
+      "input": "[[1,1],[2,1]]",
+      "expected": "deep copy"
+    },
+    {
+      "input": "[[3,null],[3,0],[3,null]]",
+      "expected": "deep copy"
+    },
+    {
+      "input": "[]",
+      "expected": "null"
+    },
+    {
+      "input": "[[1,0]]",
+      "expected": "[[1,0]]"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you solve this in O(1) extra space by weaving new nodes into the original list?",
+    "Why does the two-pass approach work when single-pass with immediate pointer setting doesn't?",
+    "What if nodes could have multiple random pointers?"
+  ],
+  "solution_notes": "Two-pass: create all nodes with HashMap, then set pointers. O(n) time/space. O(1) space alt: interleave new nodes in original list."
+}
