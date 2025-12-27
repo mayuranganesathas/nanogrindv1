@@ -1,0 +1,71 @@
+{
+  "id": "nc_038",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "19",
+  "title": "Remove Nth Node From End of List",
+  "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+  "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.",
+  "constraints": [
+    "The number of nodes in the list is sz",
+    "1 <= sz <= 30",
+    "0 <= Node.val <= 100",
+    "1 <= n <= sz"
+  ],
+  "difficulty": "medium",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "two_pointers"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "Naive: find length, then traverse to (len-n)th node. Can you do it in one pass?",
+    "If two pointers start n+1 apart, what's the relationship between them when the fast pointer reaches the end?",
+    "How does a dummy head simplify removing the first node?"
+  ],
+  "hints": {
+    "L1": "Use two pointers n+1 nodes apart. When the fast pointer reaches the end, the slow pointer is right before the node to remove.",
+    "L2": "Dummy head simplifies edge case of removing head. Advance fast n+1 times. Then advance both until fast is None. slow.next = slow.next.next.",
+    "L3": "# INSIGHT: gap of n+1 between pointers → slow lands before target node\ndummy = ListNode(0, head)\nleft = dummy\nright = head\nfor _ in range(n):  # advance right n steps\n    right = right.next\nwhile right:  # advance both until right is None\n    left = left.next\n    right = right.next\nleft.next = left.next.next  # remove nth from end\nreturn dummy.next\n# Time: O(n)  Space: O(1)"
+  },
+  "test_cases": [
+    {
+      "input": "head=[1,2,3,4,5],n=2",
+      "expected": "[1,2,3,5]"
+    },
+    {
+      "input": "head=[1],n=1",
+      "expected": "[]"
+    },
+    {
+      "input": "head=[1,2],n=1",
+      "expected": "[1]"
+    },
+    {
+      "input": "head=[1,2],n=2",
+      "expected": "[2]"
+    },
+    {
+      "input": "head=[1,2,3],n=3",
+      "expected": "[2,3]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why advance fast n steps (not n-1)? Draw it out for a list of 5 nodes, n=2.",
+    "Why does the dummy head simplify the case of removing the first node?",
+    "What if n were larger than the list length? How would you handle that?"
+  ],
+  "solution_notes": "Dummy head + two pointers with gap n. Advance fast n times, then both until fast=None. Remove slow.next. O(n), O(1)."
+}
