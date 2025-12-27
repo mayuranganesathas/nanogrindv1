@@ -1,0 +1,71 @@
+{
+  "id": "nc_040",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "2",
+  "title": "Add Two Numbers",
+  "url": "https://leetcode.com/problems/add-two-numbers/",
+  "description": "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself.",
+  "constraints": [
+    "The number of nodes in each linked list is in the range [1, 100]",
+    "0 <= Node.val <= 9",
+    "It is guaranteed that the list represents a number that does not have leading zeros"
+  ],
+  "difficulty": "medium",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "math"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(max(m,n))",
+  "optimal_space": "O(max(m,n))",
+  "brute_force_time": "O(max(m,n))",
+  "thinking_questions": [
+    "Numbers are stored in reverse — does that simplify or complicate addition?",
+    "What are the three sources of a digit in the result: two input digits and what else?",
+    "What do you do if the lists are different lengths? What if there's a final carry?"
+  ],
+  "hints": {
+    "L1": "Simulate grade-school addition: add digits position by position, carry the overflow. The reverse storage actually helps — least significant digit is at the head.",
+    "L2": "Dummy head. Iterate while either list has nodes or carry > 0. Sum = l1.val + l2.val + carry. New digit = sum%10. Carry = sum//10.",
+    "L3": "# INSIGHT: simulate addition with carry; reverse order makes it natural\ndummy = ListNode(0)\ncurr = dummy\ncarry = 0\nwhile l1 or l2 or carry:\n    v1 = l1.val if l1 else 0\n    v2 = l2.val if l2 else 0\n    total = v1 + v2 + carry\n    carry = total // 10\n    curr.next = ListNode(total % 10)\n    curr = curr.next\n    if l1: l1 = l1.next\n    if l2: l2 = l2.next\nreturn dummy.next\n# Time: O(max(m,n))  Space: O(max(m,n))"
+  },
+  "test_cases": [
+    {
+      "input": "l1=[2,4,3],l2=[5,6,4]",
+      "expected": "[7,0,8] (342+465=807)"
+    },
+    {
+      "input": "l1=[0],l2=[0]",
+      "expected": "[0]"
+    },
+    {
+      "input": "l1=[9,9,9,9,9,9,9],l2=[9,9,9,9]",
+      "expected": "[8,9,9,9,0,0,0,1]"
+    },
+    {
+      "input": "l1=[1],l2=[9,9]",
+      "expected": "[0,0,1]"
+    },
+    {
+      "input": "l1=[5],l2=[5]",
+      "expected": "[0,1]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is the loop condition `while l1 or l2 or carry` — what case does `or carry` handle?",
+    "If numbers were stored forward (most significant first), how would the approach change?",
+    "What's the maximum number of nodes in the result? (max(m,n)+1 — when?)"
+  ],
+  "solution_notes": "Simulate addition with carry. Loop while l1 or l2 or carry. Digit=sum%10, carry=sum//10. O(max(m,n))."
+}
