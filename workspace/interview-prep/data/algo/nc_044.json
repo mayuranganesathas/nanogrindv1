@@ -1,0 +1,75 @@
+{
+  "id": "nc_044",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "23",
+  "title": "Merge K Sorted Lists",
+  "url": "https://leetcode.com/problems/merge-k-sorted-lists/",
+  "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
+  "constraints": [
+    "k == lists.length",
+    "0 <= k <= 10^4",
+    "0 <= lists[i].length <= 500",
+    "-10^4 <= lists[i][j] <= 10^4",
+    "lists[i] is sorted in ascending order",
+    "The sum of lists[i].length will not exceed 10^4"
+  ],
+  "difficulty": "hard",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "heap",
+    "divide_and_conquer"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 3,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n log k)",
+  "optimal_space": "O(k)",
+  "brute_force_time": "O(n·k)",
+  "thinking_questions": [
+    "You need the global minimum across k list heads at each step — how do you find that efficiently?",
+    "A min-heap of size k gives you the minimum in O(log k) — how do you use it here?",
+    "Can you solve this with divide-and-conquer by merging pairs of lists?"
+  ],
+  "hints": {
+    "L1": "At each step you need the minimum of the k current heads. A min-heap gives you that in O(log k) instead of O(k).",
+    "L2": "Push all k heads into a min-heap. Pop the minimum, append to result, push its next node. Repeat until heap empty.",
+    "L3": "# INSIGHT: min-heap tracks k current heads → O(log k) per extraction\nimport heapq\ndummy = ListNode(0); curr = dummy\nheap = []\nfor i, node in enumerate(lists):\n    if node: heapq.heappush(heap, (node.val, i, node))\nwhile heap:\n    val, i, node = heapq.heappop(heap)\n    curr.next = node; curr = curr.next\n    if node.next: heapq.heappush(heap, (node.next.val, i, node.next))\nreturn dummy.next\n# Time: O(n log k) where n=total nodes, k=number of lists\n# Space: O(k) for heap\n# Alt: divide-and-conquer merge pairs → same O(n log k)"
+  },
+  "test_cases": [
+    {
+      "input": "lists=[[1,4,5],[1,3,4],[2,6]]",
+      "expected": "[1,1,2,3,4,4,5,6]"
+    },
+    {
+      "input": "lists=[]",
+      "expected": "[]"
+    },
+    {
+      "input": "lists=[[]]",
+      "expected": "[]"
+    },
+    {
+      "input": "lists=[[1],[2],[3]]",
+      "expected": "[1,2,3]"
+    },
+    {
+      "input": "lists=[[1,1,1],[1,1,1]]",
+      "expected": "[1,1,1,1,1,1]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is the index i needed as tiebreaker in the heap tuple?",
+    "Compare heap approach vs divide-and-conquer — same complexity, when would you use each?",
+    "What's the complexity of the naive approach (merge one list at a time)?"
+  ],
+  "solution_notes": "Min-heap of size k. Pop min, push its next. O(n log k), O(k). Alt: pair-wise divide-and-conquer."
+}
