@@ -1,0 +1,72 @@
+{
+  "id": "nc_042",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "287",
+  "title": "Find the Duplicate Number",
+  "url": "https://leetcode.com/problems/find-the-duplicate-number/",
+  "description": "Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive, there is only one repeated number in nums. Return this repeated number. You must solve the problem without modifying the array nums and uses only constant extra space.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "nums.length == n + 1",
+    "1 <= nums[i] <= n",
+    "All the integers in nums appear only once except for precisely one integer which appears two or more times"
+  ],
+  "difficulty": "medium",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "floyd_cycle",
+    "binary_search"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 3,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "Values are in range [1,n] and indices are [0,n] — if you treat each value as a 'next pointer', what structure does that create?",
+    "If there's a duplicate, what does that mean in terms of the 'linked list' created by using values as indices?",
+    "Isn't this just cycle detection on a virtual linked list?"
+  ],
+  "hints": {
+    "L1": "Think of each nums[i] as a 'pointer' to index nums[i]. The duplicate value creates two pointers into the same node — meaning a cycle.",
+    "L2": "Floyd's cycle detection on the virtual linked list (i → nums[i]). Phase 1: find meeting point. Phase 2: find cycle start (the duplicate).",
+    "L3": "# INSIGHT: treat nums as linked list i→nums[i]; duplicate = cycle entry\n# Phase 1: find intersection\nslow, fast = nums[0], nums[nums[0]]\nwhile slow != fast:\n    slow = nums[slow]\n    fast = nums[nums[fast]]\n# Phase 2: find cycle entry (duplicate)\nslow2 = 0\nwhile slow != slow2:\n    slow = nums[slow]\n    slow2 = nums[slow2]\nreturn slow\n# Time: O(n)  Space: O(1)  — cannot modify array, without extra space"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,3,4,2,2]",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[3,1,3,4,2]",
+      "expected": "3"
+    },
+    {
+      "input": "nums=[1,1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[2,2,2,2,2]",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[1,4,4,2,4]",
+      "expected": "4"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain why the duplicate creates a cycle in the virtual linked list.",
+    "Why can't you just sort or use a HashSet here (given the constraints)?",
+    "Explain Floyd's phase 2 — why does starting a second slow pointer from 0 find the duplicate?"
+  ],
+  "solution_notes": "Floyd's cycle detection on virtual linked list (index→value). Phase 1: find meeting. Phase 2: from 0 find entry=duplicate. O(n), O(1)."
+}
