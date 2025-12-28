@@ -1,0 +1,73 @@
+{
+  "id": "nc_041",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "141",
+  "title": "Linked List Cycle",
+  "url": "https://leetcode.com/problems/linked-list-cycle/",
+  "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Return true if there is a cycle in the linked list. Otherwise, return false.",
+  "constraints": [
+    "The number of the nodes in the list is in the range [0, 10^4]",
+    "-10^5 <= Node.val <= 10^5",
+    "pos is -1 or a valid index in the linked-list"
+  ],
+  "difficulty": "easy",
+  "category": "Linked List",
+  "pattern_tags": [
+    "linked_list",
+    "two_pointers",
+    "floyd_cycle"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 3,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "If there's a cycle, what happens when you follow next pointers forever?",
+    "If two runners move at different speeds in a cycle, do they eventually meet?",
+    "Can you detect a cycle without storing visited nodes (O(1) space)?"
+  ],
+  "hints": {
+    "L1": "If there's a cycle, a fast pointer lapping a slow pointer will eventually catch up. If no cycle, the fast pointer will hit None.",
+    "L2": "Floyd's algorithm: slow moves 1 step, fast moves 2. If they meet, there's a cycle. If fast reaches None, no cycle.",
+    "L3": "# INSIGHT: Floyd's cycle detection — fast catches slow in a cycle\nslow, fast = head, head\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n    if slow == fast: return True\nreturn False\n# Time: O(n)  Space: O(1)\n# HashSet approach: O(n) time, O(n) space — simpler but less optimal"
+  },
+  "test_cases": [
+    {
+      "input": "3->2->0->-4 (cycle at node 2)",
+      "expected": "true"
+    },
+    {
+      "input": "1->2 (cycle at node 1)",
+      "expected": "true"
+    },
+    {
+      "input": "1 (no cycle)",
+      "expected": "false"
+    },
+    {
+      "input": "1->2->3 (no cycle)",
+      "expected": "false"
+    },
+    {
+      "input": "None",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "Prove why fast always catches slow — why can't fast 'skip over' slow?",
+    "How do you find the START of the cycle, not just detect it? (Floyd's part 2 — LC 142)",
+    "When would you prefer the HashSet approach over Floyd's?"
+  ],
+  "solution_notes": "Floyd's two-pointer: slow+1, fast+2. Meet → cycle. No meet → no cycle. O(n), O(1)."
+}
