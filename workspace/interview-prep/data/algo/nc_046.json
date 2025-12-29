@@ -1,0 +1,70 @@
+{
+  "id": "nc_046",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "226",
+  "title": "Invert Binary Tree",
+  "url": "https://leetcode.com/problems/invert-binary-tree/",
+  "description": "Given the root of a binary tree, invert the tree, and return its root.",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 100]",
+    "-100 <= Node.val <= 100"
+  ],
+  "difficulty": "easy",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs",
+    "recursion"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "To invert a tree, what do you need to do at each node?",
+    "After swapping the children, do you need to do anything else?",
+    "Can you think of the base case — what do you do with a null node?"
+  ],
+  "hints": {
+    "L1": "At each node, swap the left and right children, then recursively invert both subtrees.",
+    "L2": "Recursion: swap root.left and root.right, then recurse on both. Base case: None returns None.",
+    "L3": "# INSIGHT: swap children at each node, recurse both subtrees\ndef invertTree(root):\n    if not root: return None\n    root.left, root.right = root.right, root.left\n    invertTree(root.left)\n    invertTree(root.right)\n    return root\n# Time: O(n) — visit every node\n# Space: O(h) — recursion stack, h=height (O(log n) balanced, O(n) worst)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[4,2,7,1,3,6,9]",
+      "expected": "[4,7,2,9,6,3,1]"
+    },
+    {
+      "input": "root=[2,1,3]",
+      "expected": "[2,3,1]"
+    },
+    {
+      "input": "root=[]",
+      "expected": "[]"
+    },
+    {
+      "input": "root=[1]",
+      "expected": "[1]"
+    },
+    {
+      "input": "root=[1,2,null]",
+      "expected": "[1,null,2]"
+    }
+  ],
+  "follow_up_questions": [
+    "Can you implement this iteratively using a queue (BFS) or stack (DFS)?",
+    "Does it matter whether you swap before or after recursing?",
+    "What's the space complexity for a balanced tree vs a completely skewed (degenerate) tree?"
+  ],
+  "solution_notes": "Swap children, recurse both. O(n), O(h). Can also be done iteratively with a queue."
+}
