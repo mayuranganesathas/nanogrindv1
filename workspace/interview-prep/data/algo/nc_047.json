@@ -1,0 +1,71 @@
+{
+  "id": "nc_047",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "104",
+  "title": "Maximum Depth of Binary Tree",
+  "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+  "description": "Given the root of a binary tree, return its maximum depth. A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 10^4]",
+    "-100 <= Node.val <= 100"
+  ],
+  "difficulty": "easy",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs",
+    "bfs"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "The depth of a tree = 1 + max depth of its subtrees. Can you express that recursively?",
+    "What's the base case?",
+    "Can you solve this iteratively with BFS (level by level)?"
+  ],
+  "hints": {
+    "L1": "Depth = 1 + max(depth(left), depth(right)). Think recursively.",
+    "L2": "Base case: None → 0. Recursive: 1 + max(maxDepth(left), maxDepth(right)).",
+    "L3": "def maxDepth(root):\n    if not root: return 0\n    return 1 + max(maxDepth(root.left), maxDepth(root.right))\n# Time: O(n)  Space: O(h)\n# BFS alt: count levels using queue\n# from collections import deque\n# q=deque([root]); depth=0\n# while q: depth+=1; for _ in range(len(q)): node=q.popleft(); add children\n# return depth"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,9,20,null,null,15,7]",
+      "expected": "3"
+    },
+    {
+      "input": "root=[1,null,2]",
+      "expected": "2"
+    },
+    {
+      "input": "root=[]",
+      "expected": "0"
+    },
+    {
+      "input": "root=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "root=[1,2,3,4,5]",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Implement the BFS (level-by-level) iterative version.",
+    "What's the difference between height and depth of a node?",
+    "How would you find the MINIMUM depth? (LC 111 — what edge case matters?)"
+  ],
+  "solution_notes": "1+max(depth(left),depth(right)). O(n), O(h). BFS alt counts levels."
+}
