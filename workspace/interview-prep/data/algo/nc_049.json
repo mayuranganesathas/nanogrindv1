@@ -1,0 +1,70 @@
+{
+  "id": "nc_049",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "110",
+  "title": "Balanced Binary Tree",
+  "url": "https://leetcode.com/problems/balanced-binary-tree/",
+  "description": "Given a binary tree, determine if it is height-balanced. A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 5000]",
+    "-10^4 <= Node.val <= 10^4"
+  ],
+  "difficulty": "easy",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "Definition: height-balanced = every node has left and right subtree heights differing by ≤1. Does this need to hold for every node or just the root?",
+    "Naive: compute height of every node separately — that's O(n) per node = O(n²). Can you compute balance and height simultaneously?",
+    "What should your DFS return to communicate both height and imbalance detection?"
+  ],
+  "hints": {
+    "L1": "A tree is balanced only if EVERY node's subtrees differ by ≤1 in height. Check this in a single DFS by returning height or -1 for imbalanced.",
+    "L2": "DFS returns -1 if subtree is imbalanced, otherwise returns height. If either child returns -1, or |left-right|>1, return -1. Otherwise return 1+max(left,right).",
+    "L3": "# INSIGHT: return -1 as sentinel for imbalanced; otherwise return height\ndef dfs(node):\n    if not node: return 0\n    left = dfs(node.left)\n    right = dfs(node.right)\n    if left == -1 or right == -1: return -1  # subtree imbalanced\n    if abs(left - right) > 1: return -1      # this node imbalanced\n    return 1 + max(left, right)\nreturn dfs(root) != -1\n# Time: O(n)  Space: O(h)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,9,20,null,null,15,7]",
+      "expected": "true"
+    },
+    {
+      "input": "root=[1,2,2,3,3,null,null,4,4]",
+      "expected": "false"
+    },
+    {
+      "input": "root=[]",
+      "expected": "true"
+    },
+    {
+      "input": "root=[1,2,null,3,null]",
+      "expected": "false"
+    },
+    {
+      "input": "root=[1,2,3,4,5,6,null,8]",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "Why return -1 as a sentinel rather than a boolean?",
+    "What's the complexity of the naive approach (separate height call per node)?",
+    "Could you solve this top-down instead of bottom-up? What's the difference in complexity?"
+  ],
+  "solution_notes": "Bottom-up DFS: return -1 for imbalance, height otherwise. O(n). -1 sentinel avoids separate imbalanced flag."
+}
