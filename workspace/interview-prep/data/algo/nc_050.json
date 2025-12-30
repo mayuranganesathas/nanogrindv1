@@ -1,0 +1,69 @@
+{
+  "id": "nc_050",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "100",
+  "title": "Same Tree",
+  "url": "https://leetcode.com/problems/same-tree/",
+  "description": "Given the roots of two binary trees p and q, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.",
+  "constraints": [
+    "The number of nodes in both trees is in the range [0, 100]",
+    "-10^4 <= Node.val <= 10^4"
+  ],
+  "difficulty": "easy",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "Two trees are the same if their structures and values are identical. What are the base cases?",
+    "What are the four cases when comparing two nodes?",
+    "Can you solve this iteratively using a stack or queue?"
+  ],
+  "hints": {
+    "L1": "Recursively compare: both null = same; one null = different; values differ = different; else recurse on both children.",
+    "L2": "Four cases: (1) both None → True. (2) one None → False. (3) values differ → False. (4) recurse left and right.",
+    "L3": "def isSameTree(p, q):\n    if not p and not q: return True\n    if not p or not q: return False\n    if p.val != q.val: return False\n    return isSameTree(p.left,q.left) and isSameTree(p.right,q.right)\n# Time: O(n)  Space: O(h)"
+  },
+  "test_cases": [
+    {
+      "input": "p=[1,2,3],q=[1,2,3]",
+      "expected": "true"
+    },
+    {
+      "input": "p=[1,2],q=[1,null,2]",
+      "expected": "false"
+    },
+    {
+      "input": "p=[1,2,1],q=[1,1,2]",
+      "expected": "false"
+    },
+    {
+      "input": "p=[],q=[]",
+      "expected": "true"
+    },
+    {
+      "input": "p=[1],q=[1]",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "How does this differ from checking if two trees are structurally the same but values don't matter?",
+    "How would you check if a tree is symmetric? (LC 101)",
+    "Implement this iteratively using a stack."
+  ],
+  "solution_notes": "Four base cases, recurse both subtrees. O(n), O(h)."
+}
