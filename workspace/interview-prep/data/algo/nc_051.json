@@ -1,0 +1,71 @@
+{
+  "id": "nc_051",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "572",
+  "title": "Subtree of Another Tree",
+  "url": "https://leetcode.com/problems/subtree-of-another-tree/",
+  "description": "Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values as subRoot, and false otherwise. A subtree of a binary tree is a node of that tree plus all of its descendants. The tree root itself is also a subtree.",
+  "constraints": [
+    "The number of nodes in the root tree is in the range [1, 2000]",
+    "The number of nodes in the subRoot tree is in the range [1, 1000]",
+    "-10^4 <= root.val <= 10^4",
+    "-10^4 <= subRoot.val <= 10^4"
+  ],
+  "difficulty": "easy",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(m·n)",
+  "optimal_space": "O(m+n)",
+  "brute_force_time": "O(m·n)",
+  "thinking_questions": [
+    "How does this relate to the Same Tree problem?",
+    "At each node of the main tree, you could check if the subtree rooted there is the same as subRoot. What's the complexity?",
+    "Can you serialize both trees and use string matching for O(m+n)?"
+  ],
+  "hints": {
+    "L1": "For each node in the main tree, check if the tree rooted there is identical to subRoot. Use your isSameTree function.",
+    "L2": "DFS: if root is None return False. If isSameTree(root, subRoot) return True. Else recurse on left and right.",
+    "L3": "def isSubtree(root, subRoot):\n    if not root: return False\n    if isSameTree(root, subRoot): return True\n    return isSubtree(root.left, subRoot) or isSubtree(root.right, subRoot)\n\ndef isSameTree(p, q):\n    if not p and not q: return True\n    if not p or not q or p.val != q.val: return False\n    return isSameTree(p.left,q.left) and isSameTree(p.right,q.right)\n# Time: O(m·n)  Space: O(m+n) stack\n# O(m+n) alt: serialize both trees, check if subRoot string is substring"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,4,5,1,2],subRoot=[4,1,2]",
+      "expected": "true"
+    },
+    {
+      "input": "root=[3,4,5,1,2,null,null,null,null,0],subRoot=[4,1,2]",
+      "expected": "false"
+    },
+    {
+      "input": "root=[1,1],subRoot=[1]",
+      "expected": "true"
+    },
+    {
+      "input": "root=[1],subRoot=[1]",
+      "expected": "true"
+    },
+    {
+      "input": "root=[1,2,3],subRoot=[2]",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the string serialization approach and its complexity?",
+    "How does the order of DFS matter — should you check isSameTree before or after recursing?",
+    "What if both trees are huge — is O(m·n) acceptable?"
+  ],
+  "solution_notes": "DFS on root; at each node call isSameTree(node, subRoot). O(m·n). String serialization gives O(m+n)."
+}
