@@ -1,0 +1,74 @@
+{
+  "id": "nc_052",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "235",
+  "title": "Lowest Common Ancestor of a Binary Search Tree",
+  "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+  "description": "Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes p and q. The LCA is defined as the lowest node in the tree that has both p and q as descendants (where a node can be a descendant of itself).",
+  "constraints": [
+    "The number of nodes in the tree is in the range [2, 10^5]",
+    "-10^9 <= Node.val <= 10^9",
+    "All Node.val are unique",
+    "p != q",
+    "p and q will exist in the BST"
+  ],
+  "difficulty": "medium",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "bst",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "The BST property tells you which direction to go. If both p and q are smaller than root, where is the LCA?",
+    "If p and q are on opposite sides of root (or one equals root), what is the LCA?",
+    "Can you solve this iteratively without recursion?"
+  ],
+  "hints": {
+    "L1": "Use BST property: if both nodes are smaller than root, LCA is in left subtree. If both larger, right subtree. If they split (or one equals root), root is the LCA.",
+    "L2": "Traverse: if p.val < root.val and q.val < root.val → go left. If both > root.val → go right. Else → root is LCA.",
+    "L3": "# INSIGHT: BST property tells you direction; split point = LCA\nnode = root\nwhile node:\n    if p.val < node.val and q.val < node.val:\n        node = node.left\n    elif p.val > node.val and q.val > node.val:\n        node = node.right\n    else:\n        return node  # split point or one equals node\n# Time: O(log n) balanced, O(n) worst  Space: O(1) iterative"
+  },
+  "test_cases": [
+    {
+      "input": "root=[6,2,8,0,4,7,9],p=2,q=8",
+      "expected": "6"
+    },
+    {
+      "input": "root=[6,2,8,0,4,7,9],p=2,q=4",
+      "expected": "2"
+    },
+    {
+      "input": "root=[2,1,3],p=1,q=3",
+      "expected": "2"
+    },
+    {
+      "input": "root=[2,1],p=2,q=1",
+      "expected": "2"
+    },
+    {
+      "input": "root=[6,2,8],p=0,q=5",
+      "expected": "2 (trace)"
+    }
+  ],
+  "follow_up_questions": [
+    "How does this change for a general binary tree (not BST)? (LC 236)",
+    "What if the tree were a BST but not balanced — what's the worst case?",
+    "Is the iterative or recursive version preferred? Why?"
+  ],
+  "solution_notes": "BST: go left if both smaller, right if both larger, else current = LCA. O(log n) balanced, O(1) space iterative."
+}
