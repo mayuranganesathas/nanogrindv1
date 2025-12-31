@@ -1,0 +1,71 @@
+{
+  "id": "nc_053",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "102",
+  "title": "Binary Tree Level Order Traversal",
+  "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+  "description": "Given the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level).",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 2000]",
+    "-1000 <= Node.val <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "bfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 3,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "You need to process nodes level by level — what traversal strategy naturally works level by level?",
+    "How do you know which nodes belong to the current level vs the next?",
+    "How do you process exactly one level at a time from a queue?"
+  ],
+  "hints": {
+    "L1": "BFS naturally processes level by level. Use a queue and process all nodes at the current level before moving to the next.",
+    "L2": "Queue initialized with root. For each level, process len(queue) nodes (that's the current level size), collect values, add children.",
+    "L3": "# INSIGHT: BFS level-by-level; snapshot queue size at start of each level\nfrom collections import deque\nresult = []\nif not root: return result\nq = deque([root])\nwhile q:\n    level = []\n    for _ in range(len(q)):  # process exactly this level\n        node = q.popleft()\n        level.append(node.val)\n        if node.left: q.append(node.left)\n        if node.right: q.append(node.right)\n    result.append(level)\nreturn result\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,9,20,null,null,15,7]",
+      "expected": "[[3],[9,20],[15,7]]"
+    },
+    {
+      "input": "root=[1]",
+      "expected": "[[1]]"
+    },
+    {
+      "input": "root=[]",
+      "expected": "[]"
+    },
+    {
+      "input": "root=[1,2,3,4,5]",
+      "expected": "[[1],[2,3],[4,5]]"
+    },
+    {
+      "input": "root=[1,null,2,null,3]",
+      "expected": "[[1],[2],[3]]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does `for _ in range(len(q))` correctly isolate one level?",
+    "How would you do reverse level order traversal? (LC 107)",
+    "How would you do zigzag level order traversal? (LC 103)"
+  ],
+  "solution_notes": "BFS with queue. Snapshot len(q) at start of each level to process one level at a time. O(n)."
+}
