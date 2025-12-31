@@ -1,0 +1,71 @@
+{
+  "id": "nc_054",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "199",
+  "title": "Binary Tree Right Side View",
+  "url": "https://leetcode.com/problems/binary-tree-right-side-view/",
+  "description": "Given the root of a binary tree, imagine yourself standing on the right side of it. Return the values of the nodes you can see ordered from top to bottom.",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 100]",
+    "-100 <= Node.val <= 100"
+  ],
+  "difficulty": "medium",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "bfs",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "meta",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "You want the last node at each level — how do you get that?",
+    "BFS gives you level by level — at each level, which node is the rightmost?",
+    "Can you solve this with DFS by visiting right before left and tracking depth?"
+  ],
+  "hints": {
+    "L1": "BFS: at each level, the last node processed is the rightmost. Collect the last value of each level.",
+    "L2": "Level order BFS. For each level, after processing all nodes, record the last node's value.",
+    "L3": "from collections import deque\nresult = []\nif not root: return result\nq = deque([root])\nwhile q:\n    for i in range(len(q)):\n        node = q.popleft()\n        if i == len... # \n# Simpler:\nwhile q:\n    right_val = None\n    for _ in range(len(q)):\n        node = q.popleft()\n        right_val = node.val  # last in level = rightmost\n        if node.left: q.append(node.left)\n        if node.right: q.append(node.right)\n    result.append(right_val)\nreturn result\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[1,2,3,null,5,null,4]",
+      "expected": "[1,3,4]"
+    },
+    {
+      "input": "root=[1,null,3]",
+      "expected": "[1,3]"
+    },
+    {
+      "input": "root=[]",
+      "expected": "[]"
+    },
+    {
+      "input": "root=[1,2]",
+      "expected": "[1,2]"
+    },
+    {
+      "input": "root=[1,2,3,4]",
+      "expected": "[1,3,4]"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you get the LEFT side view instead?",
+    "DFS approach: visit right child before left, track depth — explain how that captures the rightmost node.",
+    "What if you needed both left and right side views simultaneously?"
+  ],
+  "solution_notes": "BFS level order; last value per level is the right-side view. O(n). DFS alt: right-first DFS, first node seen per depth."
+}
