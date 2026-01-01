@@ -1,0 +1,68 @@
+{
+  "id": "nc_055",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "1448",
+  "title": "Count Good Nodes in Binary Tree",
+  "url": "https://leetcode.com/problems/count-good-nodes-in-binary-tree/",
+  "description": "Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X. Return the number of good nodes in the binary tree.",
+  "constraints": [
+    "The number of nodes in the binary tree is in the range [1, 10^5]",
+    "-10^4 <= Node.val <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "A good node has no value greater than itself on the path from root. What do you need to track as you recurse down?",
+    "If you pass the current max value down the recursion, how do you determine if the current node is good?",
+    "What's the initial max value to pass to the root?"
+  ],
+  "hints": {
+    "L1": "A node is 'good' if its value >= the max value seen on the path from root to it. Track the max as you recurse.",
+    "L2": "DFS with max_so_far parameter. Node is good if node.val >= max_so_far. Update max_so_far = max(max_so_far, node.val) before recursing.",
+    "L3": "def countGoodNodes(root):\n    def dfs(node, max_val):\n        if not node: return 0\n        good = 1 if node.val >= max_val else 0\n        max_val = max(max_val, node.val)\n        return good + dfs(node.left, max_val) + dfs(node.right, max_val)\n    return dfs(root, float('-inf'))\n# Time: O(n)  Space: O(h)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,1,4,3,null,1,5]",
+      "expected": "4"
+    },
+    {
+      "input": "root=[3,3,null,4,2]",
+      "expected": "3"
+    },
+    {
+      "input": "root=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "root=[2,null,4,10,8,null,null,4]",
+      "expected": "4"
+    },
+    {
+      "input": "root=[9,3,6,1,5,null,7,null,null,4,null,null,null,null,null]",
+      "expected": "6"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the initial max_val passed to the root, and why?",
+    "How would you count 'bad' nodes (value less than max on path)?",
+    "Can you solve this iteratively with a stack storing (node, max_val) tuples?"
+  ],
+  "solution_notes": "DFS passing max_so_far. Node good if val >= max. Update max before recursing. O(n), O(h)."
+}
