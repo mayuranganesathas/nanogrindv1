@@ -1,0 +1,71 @@
+{
+  "id": "nc_057",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "230",
+  "title": "Kth Smallest Element in a BST",
+  "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+  "description": "Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.",
+  "constraints": [
+    "The number of nodes in the tree is n",
+    "1 <= k <= n <= 10^4",
+    "0 <= Node.val <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "bst",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(h+k)",
+  "optimal_space": "O(h)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "Inorder traversal of a BST visits nodes in sorted order. How does that help?",
+    "Can you stop early once you've found the kth element?",
+    "Is recursive or iterative inorder more natural for early stopping?"
+  ],
+  "hints": {
+    "L1": "Inorder traversal of a BST gives nodes in sorted order. The kth element visited is the kth smallest.",
+    "L2": "Iterative inorder with a stack. Push left, pop (visit), then go right. Stop after kth visit.",
+    "L3": "# INSIGHT: BST inorder = sorted order; kth visited = kth smallest\nstack, curr, count = [], root, 0\nwhile stack or curr:\n    while curr:  # go as left as possible\n        stack.append(curr)\n        curr = curr.left\n    curr = stack.pop()  # visit\n    count += 1\n    if count == k: return curr.val\n    curr = curr.right\n# Time: O(h+k)  Space: O(h)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[3,1,4,null,2],k=1",
+      "expected": "1"
+    },
+    {
+      "input": "root=[5,3,6,2,4,null,null,1],k=3",
+      "expected": "3"
+    },
+    {
+      "input": "root=[1],k=1",
+      "expected": "1"
+    },
+    {
+      "input": "root=[2,1,3],k=2",
+      "expected": "2"
+    },
+    {
+      "input": "root=[5,3,6,2,4],k=4",
+      "expected": "4"
+    }
+  ],
+  "follow_up_questions": [
+    "If the BST is frequently modified and you need kth smallest repeatedly, how would you optimize? (augment nodes with subtree size)",
+    "What's the difference in complexity between O(n) and O(h+k)? When does it matter?",
+    "How would you find the kth LARGEST element?"
+  ],
+  "solution_notes": "Iterative inorder traversal, stop at kth. O(h+k). BST inorder = sorted; kth visited = kth smallest."
+}
