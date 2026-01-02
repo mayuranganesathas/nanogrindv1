@@ -1,0 +1,72 @@
+{
+  "id": "nc_060",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "297",
+  "title": "Serialize and Deserialize Binary Tree",
+  "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+  "description": "Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment. Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.",
+  "constraints": [
+    "The number of nodes in the tree is in the range [0, 10^4]",
+    "-1000 <= Node.val <= 1000"
+  ],
+  "difficulty": "hard",
+  "category": "Trees",
+  "pattern_tags": [
+    "trees",
+    "dfs",
+    "bfs",
+    "design"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 4,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "You need a format that captures both structure and values — including null positions. Which traversal works?",
+    "What do you need to include in the serialized string to reconstruct nulls (missing children)?",
+    "Preorder serialization with explicit null markers — how do you deserialize it?"
+  ],
+  "hints": {
+    "L1": "Use preorder DFS with explicit null markers. The preorder format uniquely encodes structure when nulls are included.",
+    "L2": "Serialize: preorder DFS, join values with commas, use 'N' for null. Deserialize: split by comma, use an index pointer (or queue) to reconstruct.",
+    "L3": "# INSIGHT: preorder with explicit 'N' markers uniquely encodes tree structure\nclass Codec:\n    def serialize(self, root):\n        res = []\n        def dfs(node):\n            if not node: res.append('N'); return\n            res.append(str(node.val))\n            dfs(node.left); dfs(node.right)\n        dfs(root)\n        return ','.join(res)\n    def deserialize(self, data):\n        vals = iter(data.split(','))\n        def dfs():\n            val = next(vals)\n            if val == 'N': return None\n            node = TreeNode(int(val))\n            node.left = dfs(); node.right = dfs()\n            return node\n        return dfs()\n# Time: O(n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "root=[1,2,3,null,null,4,5]",
+      "expected": "serialize→deserialize gives same tree"
+    },
+    {
+      "input": "root=[]",
+      "expected": "serialize→deserialize gives null"
+    },
+    {
+      "input": "root=[1]",
+      "expected": "roundtrip correct"
+    },
+    {
+      "input": "root=[1,2,null,3]",
+      "expected": "roundtrip correct"
+    },
+    {
+      "input": "root=[1,null,2,null,3]",
+      "expected": "roundtrip correct (right-skewed)"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do you need explicit null markers? What goes wrong without them?",
+    "How does the iterative deserialization using iter(vals) work — why does it naturally match the recursive structure?",
+    "How would you serialize using BFS (level order) instead?"
+  ],
+  "solution_notes": "Preorder DFS + 'N' null markers. Deserialize with iterator. O(n). BFS alternative uses level-order with explicit nulls."
+}
