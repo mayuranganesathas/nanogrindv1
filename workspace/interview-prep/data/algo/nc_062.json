@@ -1,0 +1,73 @@
+{
+  "id": "nc_062",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "211",
+  "title": "Design Add and Search Words Data Structure",
+  "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/",
+  "description": "Design a data structure that supports adding new words and finding if a string matches any previously added string. Implement the WordDictionary class: WordDictionary() initializes the object; void addWord(word) adds word to the data structure; bool search(word) returns true if there is any string in the data structure that matches word, where '.' can match any letter.",
+  "constraints": [
+    "1 <= word.length <= 25",
+    "word in addWord consists of lowercase English letters",
+    "word in search consists of '.' or lowercase English letters",
+    "There will be at most 2 dots in word for search queries",
+    "At most 10^4 calls will be made to addWord and search"
+  ],
+  "difficulty": "medium",
+  "category": "Tries",
+  "pattern_tags": [
+    "trie",
+    "dfs",
+    "design"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n) add, O(26^n) worst search",
+  "optimal_space": "O(n·26)",
+  "brute_force_time": "O(words·n)",
+  "thinking_questions": [
+    "This is a Trie with wildcards. What does '.' match?",
+    "When you hit a '.' in the pattern, what do you have to do?",
+    "How do you handle '.' efficiently in the Trie traversal?"
+  ],
+  "hints": {
+    "L1": "Build on Implement Trie. The '.' wildcard requires trying all possible children — use DFS/recursion at wildcard positions.",
+    "L2": "addWord: same as Trie insert. search: DFS on trie. At '.' try all non-null children recursively. At regular char, proceed normally.",
+    "L3": "# INSIGHT: Trie + DFS for '.' wildcard\ndef search(self, word):\n    def dfs(j, node):\n        for i in range(j, len(word)):\n            c = word[i]\n            if c == '.':\n                # try all children\n                return any(dfs(i+1, child) for child in node.children.values())\n            if c not in node.children: return False\n            node = node.children[c]\n        return node.is_end\n    return dfs(0, self.root)\n# addWord: O(n)  search: O(n) avg, O(26^n) worst case with all dots"
+  },
+  "test_cases": [
+    {
+      "input": "addWord('bad'),addWord('dad'),search('bad')",
+      "expected": "true"
+    },
+    {
+      "input": "addWord('bad'),search('.ad')",
+      "expected": "true"
+    },
+    {
+      "input": "addWord('bad'),search('b..')",
+      "expected": "true"
+    },
+    {
+      "input": "addWord('bad'),search('b.d')",
+      "expected": "true"
+    },
+    {
+      "input": "addWord('bad'),search('...d')",
+      "expected": "false (length 4)"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the worst-case complexity for search with all '.' characters? Why?",
+    "How would you handle multi-character wildcards like '*'?",
+    "When would you prefer a simple list + regex over a Trie for this problem?"
+  ],
+  "solution_notes": "Trie + DFS for '.' wildcard. At '.', recurse into all children. Worst case O(26^n) for all-dot pattern."
+}
