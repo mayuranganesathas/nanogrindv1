@@ -1,0 +1,72 @@
+{
+  "id": "nc_061",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "208",
+  "title": "Implement Trie (Prefix Tree)",
+  "url": "https://leetcode.com/problems/implement-trie-prefix-tree/",
+  "description": "A trie (pronounced as 'try') or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Implement the Trie class with: Trie() initializes the trie object; void insert(String word) inserts word into the trie; boolean search(String word) returns true if word is in the trie (full word match); boolean startsWith(String prefix) returns true if there is any word in the trie that starts with the given prefix.",
+  "constraints": [
+    "1 <= word.length, prefix.length <= 2000",
+    "word and prefix consist only of lowercase English letters",
+    "At most 3 * 10^4 calls in total will be made to insert, search, and startsWith"
+  ],
+  "difficulty": "medium",
+  "category": "Tries",
+  "pattern_tags": [
+    "trie",
+    "design"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(n) per op",
+  "optimal_space": "O(n·26)",
+  "brute_force_time": "O(n) per op",
+  "thinking_questions": [
+    "A Trie stores words character by character. What does each node represent?",
+    "How do you mark the end of a word vs a prefix?",
+    "At each node you need up to 26 children — how do you store them?"
+  ],
+  "hints": {
+    "L1": "Each node represents a character position. Store children (up to 26) and a flag marking if this node is a word end.",
+    "L2": "TrieNode with children dict (or array[26]) and is_end flag. Insert: walk/create nodes per char, set is_end at last. Search: walk nodes, check is_end. StartsWith: walk nodes, return True if all chars found.",
+    "L3": "# INSIGHT: each node has children map + is_end marker\nclass TrieNode:\n    def __init__(self): self.children = {}; self.is_end = False\n\nclass Trie:\n    def __init__(self): self.root = TrieNode()\n    def insert(self, word):\n        node = self.root\n        for c in word:\n            if c not in node.children: node.children[c] = TrieNode()\n            node = node.children[c]\n        node.is_end = True\n    def search(self, word):\n        node = self.root\n        for c in word:\n            if c not in node.children: return False\n            node = node.children[c]\n        return node.is_end\n    def startsWith(self, prefix):\n        node = self.root\n        for c in prefix:\n            if c not in node.children: return False\n            node = node.children[c]\n        return True\n# insert/search/startsWith: O(n) where n=word length"
+  },
+  "test_cases": [
+    {
+      "input": "insert('apple'),search('apple')",
+      "expected": "true"
+    },
+    {
+      "input": "insert('apple'),search('app')",
+      "expected": "false"
+    },
+    {
+      "input": "insert('apple'),startsWith('app')",
+      "expected": "true"
+    },
+    {
+      "input": "insert('apple'),insert('app'),search('app')",
+      "expected": "true"
+    },
+    {
+      "input": "search('a') on empty trie",
+      "expected": "false"
+    }
+  ],
+  "follow_up_questions": [
+    "When would you use an array[26] for children vs a HashMap? What are the tradeoffs?",
+    "How would you add a delete operation to the Trie?",
+    "How does a Trie compare to a HashSet for prefix queries?"
+  ],
+  "solution_notes": "TrieNode: children dict + is_end. Insert/search/startsWith all O(n). Key: is_end distinguishes 'app' from 'apple'."
+}
