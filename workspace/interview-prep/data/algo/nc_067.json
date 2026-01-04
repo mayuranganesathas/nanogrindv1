@@ -1,0 +1,70 @@
+{
+  "id": "nc_067",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "90",
+  "title": "Subsets II",
+  "url": "https://leetcode.com/problems/subsets-ii/",
+  "description": "Given an integer array nums that may contain duplicates, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.",
+  "constraints": [
+    "1 <= nums.length <= 10",
+    "-10 <= nums[i] <= 10"
+  ],
+  "difficulty": "medium",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "arrays",
+    "sorting"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 4,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n·2^n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n·2^n)",
+  "thinking_questions": [
+    "With duplicates, what makes two subsets the same?",
+    "After sorting, duplicate values are adjacent. How does that help you skip duplicates?",
+    "When should you skip a duplicate — only at the top level of a recursion depth, not deeper?"
+  ],
+  "hints": {
+    "L1": "Sort to bring duplicates together. Skip duplicate elements at the same recursion level to avoid duplicate subsets.",
+    "L2": "Same as Subsets I but: sort first, and in the loop skip if i>start and nums[i]==nums[i-1].",
+    "L3": "# INSIGHT: sort + skip duplicates at same recursion level (i>start and nums[i]==nums[i-1])\nnums.sort()\nresult = []\ndef backtrack(start, current):\n    result.append(current[:])\n    for i in range(start, len(nums)):\n        if i > start and nums[i] == nums[i-1]: continue  # skip dup\n        current.append(nums[i])\n        backtrack(i+1, current)\n        current.pop()\nbacktrack(0, [])\nreturn result\n# Why i>start: if i==start, this is first use at this level — always try it\n# If i>start and same as prev, we'd create a duplicate subset → skip"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,2,2]",
+      "expected": "[[],[1],[1,2],[1,2,2],[2],[2,2]]"
+    },
+    {
+      "input": "nums=[0]",
+      "expected": "[[],[0]]"
+    },
+    {
+      "input": "nums=[1,1]",
+      "expected": "[[],[1],[1,1]]"
+    },
+    {
+      "input": "nums=[1,1,2]",
+      "expected": "[[],[1],[1,1],[1,1,2],[1,2],[2]]"
+    },
+    {
+      "input": "nums=[4,4,4,1,4]",
+      "expected": "(sorted: [1,4,4,4,4]) 10 unique subsets"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain why the condition is `i > start` rather than `i > 0` — give a concrete example showing the difference.",
+    "How does this duplicate-skipping pattern apply to Combination Sum II and Permutations II?",
+    "Why must the array be sorted for this approach to work?"
+  ],
+  "solution_notes": "Sort + skip if i>start and nums[i]==nums[i-1]. Key: i>start (not i>0) — same element can still be first pick at this level."
+}
