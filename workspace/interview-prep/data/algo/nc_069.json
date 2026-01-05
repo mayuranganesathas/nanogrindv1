@@ -1,0 +1,75 @@
+{
+  "id": "nc_069",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "79",
+  "title": "Word Search",
+  "url": "https://leetcode.com/problems/word-search/",
+  "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.",
+  "constraints": [
+    "m == board.length",
+    "n = board[i].length",
+    "1 <= m, n <= 6",
+    "1 <= word.length <= 15",
+    "board and word consists of only lowercase and uppercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "dfs",
+    "matrix"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(m·n·4·3^(L-1))",
+  "optimal_space": "O(L)",
+  "brute_force_time": "O(m·n·4^L)",
+  "thinking_questions": [
+    "You need to find a path in the grid that spells the word. What's the search strategy?",
+    "How do you prevent using the same cell twice in a path?",
+    "Once the first character matches, what do you do?"
+  ],
+  "hints": {
+    "L1": "DFS from every cell that matches word[0]. At each step, try all 4 neighbors. Mark visited, recurse, unmark (backtrack).",
+    "L2": "For each cell (r,c): DFS. Mark board[r][c]='#'. Recurse on 4 neighbors for word[idx+1]. Restore board[r][c] on return.",
+    "L3": "# INSIGHT: DFS with backtracking; mark/restore cells as visited\ndef dfs(r, c, idx):\n    if idx == len(word): return True\n    if not (0<=r<rows and 0<=c<cols) or board[r][c] != word[idx]: return False\n    char = board[r][c]\n    board[r][c] = '#'  # mark visited\n    found = any(dfs(r+dr, c+dc, idx+1) for dr,dc in [(0,1),(0,-1),(1,0),(-1,0)])\n    board[r][c] = char  # restore\n    return found\nreturn any(dfs(r,c,0) for r in range(rows) for c in range(cols))\n# Time: O(m·n·4·3^(L-1)) — first step 4 dirs, rest 3 (can't go back)"
+  },
+  "test_cases": [
+    {
+      "input": "board=[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']],word='ABCCED'",
+      "expected": "true"
+    },
+    {
+      "input": "same board, word='SEE'",
+      "expected": "true"
+    },
+    {
+      "input": "same board, word='ABCB'",
+      "expected": "false (can't reuse B)"
+    },
+    {
+      "input": "board=[['a']],word='a'",
+      "expected": "true"
+    },
+    {
+      "input": "board=[['a','b'],['c','d']],word='abdc'",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is the complexity 4·3^(L-1) and not 4^L?",
+    "What would happen if you forgot to restore board[r][c] after recursion?",
+    "How does Word Search II improve on calling this function for each word?"
+  ],
+  "solution_notes": "DFS + mark '#' + restore. Try all cells as start. O(m·n·4·3^(L-1))."
+}
