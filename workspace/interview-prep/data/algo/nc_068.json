@@ -1,0 +1,71 @@
+{
+  "id": "nc_068",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "40",
+  "title": "Combination Sum II",
+  "url": "https://leetcode.com/problems/combination-sum-ii/",
+  "description": "Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination. Note: The solution set must not contain duplicate combinations.",
+  "constraints": [
+    "1 <= candidates.length <= 100",
+    "1 <= candidates[i] <= 50",
+    "1 <= target <= 30"
+  ],
+  "difficulty": "medium",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "arrays",
+    "sorting"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(2^n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "Each element can only be used once. How does the start index change vs Combination Sum I?",
+    "With duplicates, how do you avoid generating duplicate combinations?",
+    "How do you combine the no-reuse and skip-duplicates logic?"
+  ],
+  "hints": {
+    "L1": "Like Combination Sum I but no reuse (pass i+1). Like Subsets II — sort and skip duplicate elements at same recursion level.",
+    "L2": "Sort. For each i from start: skip if i>start and nums[i]==nums[i-1]. Recurse with i+1 (no reuse). Prune if candidate > remaining.",
+    "L3": "# INSIGHT: no reuse (i+1) + skip duplicates (i>start check)\ncandidates.sort()\nresult = []\ndef backtrack(start, current, remaining):\n    if remaining == 0: result.append(current[:]); return\n    for i in range(start, len(candidates)):\n        if i > start and candidates[i] == candidates[i-1]: continue\n        if candidates[i] > remaining: break\n        current.append(candidates[i])\n        backtrack(i+1, current, remaining - candidates[i])\n        current.pop()\nbacktrack(0, [], target)\nreturn result"
+  },
+  "test_cases": [
+    {
+      "input": "candidates=[10,1,2,7,6,1,5],target=8",
+      "expected": "[[1,1,6],[1,2,5],[1,7],[2,6]]"
+    },
+    {
+      "input": "candidates=[2,5,2,1,2],target=5",
+      "expected": "[[1,2,2],[5]]"
+    },
+    {
+      "input": "candidates=[1,1,1,1],target=2",
+      "expected": "[[1,1]]"
+    },
+    {
+      "input": "candidates=[1],target=2",
+      "expected": "[]"
+    },
+    {
+      "input": "candidates=[2,2,2],target=2",
+      "expected": "[[2]]"
+    }
+  ],
+  "follow_up_questions": [
+    "What are the two differences from Combination Sum I?",
+    "Why can you still use the early break here?",
+    "How does this compare to Subsets II — what's the additional constraint?"
+  ],
+  "solution_notes": "Sort + i+1 (no reuse) + i>start dup-skip + early break. O(2^n)."
+}
