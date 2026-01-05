@@ -1,0 +1,70 @@
+{
+  "id": "nc_070",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "131",
+  "title": "Palindrome Partitioning",
+  "url": "https://leetcode.com/problems/palindrome-partitioning/",
+  "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.",
+  "constraints": [
+    "1 <= s.length <= 16",
+    "s consists of only lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "dp",
+    "strings"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n·2^n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n·2^n)",
+  "thinking_questions": [
+    "You need all ways to partition a string such that every part is a palindrome. What's the decision at each step?",
+    "At position i, you try every possible ending j to form a substring s[i..j]. If it's a palindrome, recurse on the rest.",
+    "How do you check if a substring is a palindrome efficiently?"
+  ],
+  "hints": {
+    "L1": "Backtrack: at each position, try every possible next partition point. If the substring is a palindrome, include it and recurse.",
+    "L2": "For each start position, try end positions j from start to n. If s[start:j+1] is palindrome, add to current path, recurse from j+1.",
+    "L3": "# INSIGHT: at each position, try all palindrome prefixes\nresult = []\ndef backtrack(start, current):\n    if start == len(s): result.append(current[:]); return\n    for end in range(start, len(s)):\n        if is_palindrome(s, start, end):\n            current.append(s[start:end+1])\n            backtrack(end+1, current)\n            current.pop()\ndef is_palindrome(s, l, r):\n    while l < r:\n        if s[l] != s[r]: return False\n        l += 1; r -= 1\n    return True\nbacktrack(0, [])\nreturn result\n# Optimize: precompute dp[i][j] = is_palindrome(s[i..j])"
+  },
+  "test_cases": [
+    {
+      "input": "s='aab'",
+      "expected": "[['a','a','b'],['aa','b']]"
+    },
+    {
+      "input": "s='a'",
+      "expected": "[['a']]"
+    },
+    {
+      "input": "s='aa'",
+      "expected": "[['a','a'],['aa']]"
+    },
+    {
+      "input": "s='aba'",
+      "expected": "[['a','b','a'],['aba']]"
+    },
+    {
+      "input": "s='abc'",
+      "expected": "[['a','b','c']]"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you precompute all palindrome substrings to avoid redundant checks?",
+    "What's the time complexity improvement with precomputed palindrome DP table?",
+    "How does this differ from finding the minimum cuts palindrome problem? (LC 132)"
+  ],
+  "solution_notes": "Backtrack: at each pos try all palindrome prefixes. is_palindrome check each time. Optimize with dp[i][j] precomputation."
+}
