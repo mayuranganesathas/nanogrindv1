@@ -1,0 +1,68 @@
+{
+  "id": "nc_072",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "51",
+  "title": "N-Queens",
+  "url": "https://leetcode.com/problems/n-queens/",
+  "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other. Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order. Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.",
+  "constraints": [
+    "1 <= n <= 9"
+  ],
+  "difficulty": "hard",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "matrix"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n!)",
+  "optimal_space": "O(n²)",
+  "brute_force_time": "O(n!))",
+  "thinking_questions": [
+    "Queens attack in rows, columns, and diagonals. What three sets do you need to track?",
+    "For a queen at (r, c), which diagonal and anti-diagonal does it belong to?",
+    "Since you place one queen per row, how does that simplify the approach?"
+  ],
+  "hints": {
+    "L1": "Place one queen per row. Track which columns, diagonals (r-c), and anti-diagonals (r+c) are occupied.",
+    "L2": "For each row, try each column. Skip if column, (row-col), or (row+col) is taken. Place queen, mark sets, recurse to next row, unmark.",
+    "L3": "# INSIGHT: one queen per row; track cols, diag(r-c), anti_diag(r+c)\ncols = set(); diag = set(); anti_diag = set()\nboard = [['.']*n for _ in range(n)]\nresult = []\ndef backtrack(row):\n    if row == n: result.append([''.join(r) for r in board]); return\n    for col in range(n):\n        if col in cols or (row-col) in diag or (row+col) in anti_diag: continue\n        cols.add(col); diag.add(row-col); anti_diag.add(row+col)\n        board[row][col] = 'Q'\n        backtrack(row+1)\n        cols.remove(col); diag.remove(row-col); anti_diag.remove(row+col)\n        board[row][col] = '.'\nbacktrack(0)\nreturn result"
+  },
+  "test_cases": [
+    {
+      "input": "n=4",
+      "expected": "[['.Q..','...Q','Q...','..Q.'],['..Q.','Q...','...Q','.Q..']]"
+    },
+    {
+      "input": "n=1",
+      "expected": "[['Q']]"
+    },
+    {
+      "input": "n=2",
+      "expected": "[]"
+    },
+    {
+      "input": "n=3",
+      "expected": "[]"
+    },
+    {
+      "input": "n=8",
+      "expected": "92 solutions"
+    }
+  ],
+  "follow_up_questions": [
+    "Why are (r-c) and (r+c) good keys for diagonals?",
+    "If you only needed the COUNT of solutions (not the boards), how would you optimize? (N-Queens II)",
+    "What's the relationship between N-Queens and constraint satisfaction problems?"
+  ],
+  "solution_notes": "One queen per row. Sets for cols, diag (r-c), anti_diag (r+c). Backtrack row by row. O(n!)."
+}
