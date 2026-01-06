@@ -1,0 +1,70 @@
+{
+  "id": "nc_071",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "17",
+  "title": "Letter Combinations of a Phone Number",
+  "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
+  "description": "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order. A mapping of digits to letters (just like on the telephone buttons) is given: 2=abc, 3=def, 4=ghi, 5=jkl, 6=mno, 7=pqrs, 8=tuv, 9=wxyz.",
+  "constraints": [
+    "0 <= digits.length <= 4",
+    "digits[i] is a digit in the range ['2', '9']"
+  ],
+  "difficulty": "medium",
+  "category": "Backtracking",
+  "pattern_tags": [
+    "backtracking",
+    "strings"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(4^n·n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(4^n·n)",
+  "thinking_questions": [
+    "At each digit position, you have 3 or 4 letter choices. How does this create a decision tree?",
+    "What's the depth of the recursion tree?",
+    "What's your base case?"
+  ],
+  "hints": {
+    "L1": "At each digit, try every letter it maps to. Recurse to the next digit. Base case: all digits processed.",
+    "L2": "Mapping: '2'→'abc', etc. Backtrack: for each letter of digits[idx], add to current, recurse(idx+1), pop.",
+    "L3": "# INSIGHT: digit→letters map; try each letter per digit\nif not digits: return []\nphone = {'2':'abc','3':'def','4':'ghi','5':'jkl','6':'mno','7':'pqrs','8':'tuv','9':'wxyz'}\nresult = []\ndef backtrack(idx, current):\n    if idx == len(digits):\n        result.append(''.join(current)); return\n    for c in phone[digits[idx]]:\n        current.append(c)\n        backtrack(idx+1, current)\n        current.pop()\nbacktrack(0, [])\nreturn result\n# Time: O(4^n·n) where n=digits length  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "digits='23'",
+      "expected": "['ad','ae','af','bd','be','bf','cd','ce','cf']"
+    },
+    {
+      "input": "digits=''",
+      "expected": "[]"
+    },
+    {
+      "input": "digits='2'",
+      "expected": "['a','b','c']"
+    },
+    {
+      "input": "digits='9'",
+      "expected": "['w','x','y','z']"
+    },
+    {
+      "input": "digits='234'",
+      "expected": "27 combinations"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the maximum branching factor in this tree? Which digit causes it?",
+    "How would you solve this iteratively using a queue (BFS)?",
+    "What if some digits mapped to no letters (like '1' or '0')?"
+  ],
+  "solution_notes": "Phone map + backtrack on digit positions. O(4^n·n). Base case: all digits processed."
+}
