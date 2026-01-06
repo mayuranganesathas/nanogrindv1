@@ -1,0 +1,72 @@
+{
+  "id": "nc_073",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "215",
+  "title": "Kth Largest Element in an Array",
+  "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+  "description": "Given an integer array nums and an integer k, return the kth largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element. Can you solve it without sorting?",
+  "constraints": [
+    "1 <= k <= nums.length <= 10^5",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Heap / Priority Queue",
+  "pattern_tags": [
+    "heap",
+    "sorting",
+    "quickselect"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "facebook"
+  ],
+  "optimal_time": "O(n) avg",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "Sorting and returning nums[-k] works in O(n log n). Can you do better?",
+    "A min-heap of size k always holds the k largest elements — the top is the kth largest. What's the complexity?",
+    "QuickSelect (like QuickSort but only recurse on one side) finds kth in O(n) average. How?"
+  ],
+  "hints": {
+    "L1": "Min-heap of size k: push each element, pop if heap exceeds k. The heap top is always the kth largest. O(n log k).",
+    "L2": "QuickSelect: partition around a pivot. If pivot_index==k-1, that's your answer. Else recurse on the relevant half.",
+    "L3": "# INSIGHT: min-heap of size k → top = kth largest\nimport heapq\nheap = []\nfor num in nums:\n    heapq.heappush(heap, num)\n    if len(heap) > k: heapq.heappop(heap)\nreturn heap[0]  # top of min-heap = kth largest\n# Time: O(n log k)  Space: O(k)\n# QuickSelect O(n) avg:\n# def quickselect(left, right):\n#   pivot_pos = partition(left, right)\n#   if pivot_pos == len-k: return nums[pivot_pos]\n#   elif pivot_pos < len-k: return quickselect(pivot_pos+1, right)\n#   else: return quickselect(left, pivot_pos-1)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[3,2,1,5,6,4],k=2",
+      "expected": "5"
+    },
+    {
+      "input": "nums=[3,2,3,1,2,4,5,5,6],k=4",
+      "expected": "4"
+    },
+    {
+      "input": "nums=[1],k=1",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1,2],k=1",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[-1,-2,-3,-4,-5],k=2",
+      "expected": "-2"
+    }
+  ],
+  "follow_up_questions": [
+    "Compare min-heap O(n log k) vs sort O(n log n) vs QuickSelect O(n) — when would you use each?",
+    "Why min-heap of size k gives the kth LARGEST (not kth smallest)?",
+    "What's QuickSelect's worst case and how can you mitigate it?"
+  ],
+  "solution_notes": "Min-heap size k: top=kth largest. O(n log k). QuickSelect: O(n) avg O(n²) worst."
+}
