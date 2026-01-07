@@ -1,0 +1,74 @@
+{
+  "id": "nc_074",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "502",
+  "title": "IPO",
+  "url": "https://leetcode.com/problems/ipo/",
+  "description": "Suppose LeetCode will start its IPO soon. In order to sell a good price of its shares to Venture Capital, LeetCode would like to work on some projects to increase its capital before the IPO. Given n projects where the ith project has a pure profit profits[i] and a minimum capital of capital[i] is needed to start it. Initially, you have w capital. When you finish a project, you will obtain its pure profit and the profit will be added to your total capital. You can at most select k distinct projects and each project can be done at most once. Your goal is to maximize your final capital. Return the maximized capital.",
+  "constraints": [
+    "1 <= k <= 10^5",
+    "0 <= w <= 10^9",
+    "n == profits.length",
+    "n == capital.length",
+    "1 <= n <= 10^5",
+    "0 <= profits[i] <= 10^4",
+    "0 <= capital[i] <= 10^9"
+  ],
+  "difficulty": "hard",
+  "category": "Heap / Priority Queue",
+  "pattern_tags": [
+    "heap",
+    "greedy",
+    "sorting"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 5,
+  "day": 2,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(k·n)",
+  "thinking_questions": [
+    "You can do at most k projects. Greedy: at each step, which project should you pick?",
+    "Among all projects you can currently afford (capital ≤ w), which one maximizes w?",
+    "How do you efficiently find the most profitable project among those you can afford?"
+  ],
+  "hints": {
+    "L1": "Greedy: always pick the most profitable project you can currently afford. Use a max-heap of available profits.",
+    "L2": "Sort projects by capital. Use a pointer and min-heap of capitals to 'unlock' projects as w grows. Use max-heap of profits for picking.",
+    "L3": "# INSIGHT: greedy + two heaps\nimport heapq\nprojects = sorted(zip(capital, profits))  # sort by capital\nmax_heap = []  # available profits (negated for max-heap)\ni = 0\nfor _ in range(k):\n    # unlock all projects with capital <= w\n    while i < len(projects) and projects[i][0] <= w:\n        heapq.heappush(max_heap, -projects[i][1])\n        i += 1\n    if not max_heap: break  # no affordable projects\n    w -= heapq.heappop(max_heap)  # take most profitable\nreturn w\n# Time: O(n log n)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "k=2,w=0,profits=[1,2,3],capital=[0,1,1]",
+      "expected": "4"
+    },
+    {
+      "input": "k=3,w=0,profits=[1,2,3],capital=[0,1,2]",
+      "expected": "6"
+    },
+    {
+      "input": "k=1,w=0,profits=[1],capital=[1]",
+      "expected": "0 (can't afford)"
+    },
+    {
+      "input": "k=2,w=0,profits=[1,2,3],capital=[0,0,0]",
+      "expected": "5"
+    },
+    {
+      "input": "k=1,w=1,profits=[3,2,1],capital=[2,1,0]",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is greedy correct here — why doesn't taking a less profitable project first ever help?",
+    "What data structure replaces the O(k·n) naive approach and why?",
+    "How does the capital-sorted array + growing pointer work to unlock projects?"
+  ],
+  "solution_notes": "Sort by capital. Pointer unlocks affordable projects into max-heap. Pick most profitable each round. O(n log n)."
+}
