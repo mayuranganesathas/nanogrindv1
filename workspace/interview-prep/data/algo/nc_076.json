@@ -1,0 +1,71 @@
+{
+  "id": "nc_076",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "295",
+  "title": "Find Median from Data Stream",
+  "url": "https://leetcode.com/problems/find-median-from-data-stream/",
+  "description": "The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values. Implement the MedianFinder class: MedianFinder() initializes the object; void addNum(int num) adds the integer num from the data stream to the data structure; double findMedian() returns the median of all elements so far.",
+  "constraints": [
+    "-10^5 <= num <= 10^5",
+    "There will be at least one element in the data structure before calling findMedian",
+    "At most 5 * 10^4 calls will be made to addNum and findMedian"
+  ],
+  "difficulty": "hard",
+  "category": "Heap / Priority Queue",
+  "pattern_tags": [
+    "heap",
+    "design"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 5,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(log n) add, O(1) median",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n log n) per median",
+  "thinking_questions": [
+    "The median is the middle value. If you split the stream into two halves, what's the relationship between the max of the lower half and min of the upper half?",
+    "What data structure gives you the max of the lower half in O(1)?",
+    "How do you keep the two halves balanced in size?"
+  ],
+  "hints": {
+    "L1": "Two heaps: max-heap for lower half, min-heap for upper half. Median = top of one or average of both tops.",
+    "L2": "Max-heap (lower half) and min-heap (upper half). Keep sizes equal or lower has one more. On addNum: rebalance. getMedian: peek tops.",
+    "L3": "# INSIGHT: two heaps split at median — O(log n) add, O(1) get\nimport heapq\nself.small = []  # max-heap (store negated)\nself.large = []  # min-heap\n\ndef addNum(num):\n    heapq.heappush(small, -num)  # push to lower half\n    # ensure max(small) <= min(large)\n    if small and large and -small[0] > large[0]:\n        heapq.heappush(large, -heapq.heappop(small))\n    # balance sizes: small can have at most 1 extra\n    if len(small) > len(large)+1:\n        heapq.heappush(large, -heapq.heappop(small))\n    if len(large) > len(small):\n        heapq.heappush(small, -heapq.heappop(large))\n\ndef findMedian():\n    if len(small) > len(large): return -small[0]\n    return (-small[0] + large[0]) / 2"
+  },
+  "test_cases": [
+    {
+      "input": "add(1),add(2),median()",
+      "expected": "1.5"
+    },
+    {
+      "input": "add(1),add(2),add(3),median()",
+      "expected": "2.0"
+    },
+    {
+      "input": "add(3),add(1),add(2),median()",
+      "expected": "2.0"
+    },
+    {
+      "input": "add(1),median(),add(2),median()",
+      "expected": "1.0,1.5"
+    },
+    {
+      "input": "add(6),add(10),add(2),add(6),add(5),add(0),add(6),add(3),add(1),add(0),add(0),median()",
+      "expected": "3.5"
+    }
+  ],
+  "follow_up_questions": [
+    "Why use a max-heap for the lower half and min-heap for the upper half?",
+    "What's the rebalancing logic — what conditions trigger a move between heaps?",
+    "If the stream consisted of only integers from [0..100], how would you optimize with a frequency array?"
+  ],
+  "solution_notes": "Two heaps: max-heap lower, min-heap upper. Rebalance on each add. O(log n) add, O(1) median."
+}
