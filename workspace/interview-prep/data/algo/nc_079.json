@@ -1,0 +1,75 @@
+{
+  "id": "nc_079",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "200",
+  "title": "Number of Islands",
+  "url": "https://leetcode.com/problems/number-of-islands/",
+  "description": "Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.",
+  "constraints": [
+    "m == grid.length",
+    "n == grid[i].length",
+    "1 <= m, n <= 300",
+    "grid[i][j] is '0' or '1'"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "dfs",
+    "bfs",
+    "matrix"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta",
+    "microsoft"
+  ],
+  "optimal_time": "O(m·n)",
+  "optimal_space": "O(m·n)",
+  "brute_force_time": "O(m·n)",
+  "thinking_questions": [
+    "An island is a connected component of '1' cells. How do you count connected components?",
+    "When you find a '1', how do you mark all cells of its island so you don't count them again?",
+    "BFS or DFS — which would you use and why?"
+  ],
+  "hints": {
+    "L1": "Count connected components of '1' cells. For each unvisited '1', run DFS/BFS to mark all connected '1' cells as visited.",
+    "L2": "Scan grid. On finding '1': increment count, DFS to mark all connected '1's as '0' (sink) or visited. O(m·n) total.",
+    "L3": "# INSIGHT: count connected components — DFS/BFS to mark each island\ndef dfs(r, c):\n    if not (0<=r<rows and 0<=c<cols) or grid[r][c] != '1': return\n    grid[r][c] = '0'  # mark visited by sinking\n    dfs(r+1,c); dfs(r-1,c); dfs(r,c+1); dfs(r,c-1)\n\ncount = 0\nfor r in range(rows):\n    for c in range(cols):\n        if grid[r][c] == '1':\n            dfs(r, c)\n            count += 1\nreturn count\n# Time: O(m·n)  Space: O(m·n) recursion stack worst case\n# BFS alternative: use queue, same complexity"
+  },
+  "test_cases": [
+    {
+      "input": "grid of 1s and 0s (standard 4×5 example)",
+      "expected": "1"
+    },
+    {
+      "input": "grid with 3 separate islands",
+      "expected": "3"
+    },
+    {
+      "input": "all '0'",
+      "expected": "0"
+    },
+    {
+      "input": "all '1'",
+      "expected": "1"
+    },
+    {
+      "input": "diagonal 1s (not connected)",
+      "expected": "n (each separate)"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the difference between 4-connectivity (up/down/left/right) and 8-connectivity (also diagonals)?",
+    "How would you solve this with Union-Find instead of DFS?",
+    "What if the grid were very large — how would you avoid stack overflow with recursive DFS?"
+  ],
+  "solution_notes": "DFS from each unvisited '1', sink to '0'. Count DFS calls. O(m·n). Can also use BFS or Union-Find."
+}
