@@ -1,0 +1,72 @@
+{
+  "id": "nc_077",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "621",
+  "title": "Task Scheduler",
+  "url": "https://leetcode.com/problems/task-scheduler/",
+  "description": "Given a characters array tasks, representing the tasks a CPU needs to do, where each letter represents a different task. Tasks could be done in any order. Each task is done in one unit of time. For each unit of time, the CPU could complete either one task or just be idle. However, there is a non-negative integer n that represents the cooldown interval between two same tasks (the same letter in the array): there must be at least n units of time between any two same tasks. Return the least number of units of times that the CPU will take to finish all the given tasks.",
+  "constraints": [
+    "1 <= task.length <= 10^4",
+    "tasks[i] is upper-case English letter",
+    "The integer n is in the range [0, 100]"
+  ],
+  "difficulty": "medium",
+  "category": "Heap / Priority Queue",
+  "pattern_tags": [
+    "heap",
+    "greedy",
+    "math"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 5,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n log 26) = O(n)",
+  "optimal_space": "O(26) = O(1)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "Idle time is wasted when you can't schedule any task due to cooldown. When does idle time occur?",
+    "To minimize idle time, which task should you always schedule next?",
+    "Can you use a formula: result = max(total_tasks, (max_freq-1)*(n+1) + count_of_max_freq)?"
+  ],
+  "hints": {
+    "L1": "Greedy: always schedule the most frequent available task. Use a max-heap and a cooldown queue.",
+    "L2": "Max-heap of frequencies. Process in rounds of n+1: pick up to n+1 tasks, decrement frequency, push back if >0. Count idle slots.",
+    "L3": "# INSIGHT: greedy with max-heap + cooldown queue\nimport heapq\nfrom collections import deque\ncount = [0]*26\nfor t in tasks: count[ord(t)-65] += 1\nheap = [-c for c in count if c > 0]\nheapq.heapify(heap)\nqueue = deque()  # (count, available_at_time)\ntime = 0\nwhile heap or queue:\n    time += 1\n    if heap:\n        cnt = 1 + heapq.heappop(heap)  # decrement\n        if cnt: queue.append((cnt, time+n))\n    if queue and queue[0][1] == time:\n        heapq.heappush(heap, queue.popleft()[0])\nreturn time\n# Math formula: max(len(tasks), (max_freq-1)*(n+1) + count_of_max_freq)"
+  },
+  "test_cases": [
+    {
+      "input": "tasks=['A','A','A','B','B','B'],n=2",
+      "expected": "8"
+    },
+    {
+      "input": "tasks=['A','A','A','B','B','B'],n=0",
+      "expected": "6"
+    },
+    {
+      "input": "tasks=['A','A','A','A','A','A','B','C','D','E','F','G'],n=2",
+      "expected": "16"
+    },
+    {
+      "input": "tasks=['A'],n=0",
+      "expected": "1"
+    },
+    {
+      "input": "tasks=['A','A','B','B'],n=2",
+      "expected": "5"
+    }
+  ],
+  "follow_up_questions": [
+    "Explain the mathematical formula approach — when does it give the same answer as the simulation?",
+    "When is the answer just len(tasks) and when is it longer?",
+    "How would this change if tasks had priorities in addition to cooldowns?"
+  ],
+  "solution_notes": "Greedy max-heap + cooldown queue. Or: max(len(tasks), (max_freq-1)*(n+1)+count_max). O(n)."
+}
