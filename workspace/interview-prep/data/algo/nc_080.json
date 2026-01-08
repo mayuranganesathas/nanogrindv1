@@ -1,0 +1,75 @@
+{
+  "id": "nc_080",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "133",
+  "title": "Clone Graph",
+  "url": "https://leetcode.com/problems/clone-graph/",
+  "description": "Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors. The graph is represented as an adjacency list where nodes are labeled 1 to n.",
+  "constraints": [
+    "The number of nodes in the graph is in the range [0, 100]",
+    "1 <= Node.val <= 100",
+    "Node.val is unique for each node",
+    "There are no repeated edges and no self-loops in the graph",
+    "The Graph is connected and all nodes can be visited starting from the given node"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "dfs",
+    "bfs",
+    "hash_map"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 5,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n+e)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n+e)",
+  "thinking_questions": [
+    "You need to copy both nodes and their edge structure. What makes this hard (vs a tree)?",
+    "Graphs can have cycles — how do you avoid infinite loops when cloning?",
+    "If you maintain a mapping from original node to its clone, how does that help?"
+  ],
+  "hints": {
+    "L1": "Use a HashMap {original → clone} to track already-cloned nodes. This also breaks cycles.",
+    "L2": "DFS: if node already in visited map, return its clone. Otherwise create clone, add to map, then clone all neighbors.",
+    "L3": "# INSIGHT: HashMap old→clone breaks cycles and gives O(1) lookup\nvisited = {}  # original_node → cloned_node\ndef dfs(node):\n    if not node: return None\n    if node in visited: return visited[node]  # already cloned\n    clone = Node(node.val)\n    visited[node] = clone  # register BEFORE recursing (prevents cycles)\n    for neighbor in node.neighbors:\n        clone.neighbors.append(dfs(neighbor))\n    return clone\nreturn dfs(node)\n# Time: O(n+e)  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "graph with 4 nodes in a cycle",
+      "expected": "deep copy with same adjacency"
+    },
+    {
+      "input": "single node no neighbors",
+      "expected": "copy of single node"
+    },
+    {
+      "input": "two nodes connected",
+      "expected": "copy of both with edge"
+    },
+    {
+      "input": "node=null",
+      "expected": "null"
+    },
+    {
+      "input": "fully connected 4-node graph",
+      "expected": "correct deep copy"
+    }
+  ],
+  "follow_up_questions": [
+    "Why must you register the clone in the HashMap BEFORE recursing into neighbors?",
+    "How would you solve this iteratively using BFS?",
+    "What's the space complexity if the graph has n nodes and e edges?"
+  ],
+  "solution_notes": "HashMap old→clone. Register clone BEFORE recursing (prevents infinite loop on cycles). DFS/BFS both work. O(n+e)."
+}
