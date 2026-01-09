@@ -1,0 +1,73 @@
+{
+  "id": "nc_083",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "130",
+  "title": "Surrounded Regions",
+  "url": "https://leetcode.com/problems/surrounded-regions/",
+  "description": "Given an m x n matrix board containing 'X' and 'O', capture all regions that are 4-directionally surrounded by 'X'. A region is captured by flipping all 'O's into 'X's in that surrounded region. An 'O' is not flipped if it is on the border or connected to an 'O' on the border (directly or indirectly).",
+  "constraints": [
+    "m == board.length",
+    "n == board[i].length",
+    "1 <= m, n <= 200",
+    "board[i][j] is 'X' or 'O'"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "dfs",
+    "bfs",
+    "matrix"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 5,
+  "day": 4,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(m·n)",
+  "optimal_space": "O(m·n)",
+  "brute_force_time": "O(m·n)",
+  "thinking_questions": [
+    "Which 'O' cells should NOT be flipped? The ones connected to the border. How do you find them?",
+    "What if you mark all border-connected 'O' cells first, then flip everything else?",
+    "How does reverse thinking (what NOT to flip) simplify this?"
+  ],
+  "hints": {
+    "L1": "Flip all 'O' cells EXCEPT those connected to the border. Mark border-connected 'O' cells first, then flip remaining 'O' → 'X', restore marked.",
+    "L2": "DFS from every border 'O', mark as 'T'. Then scan: 'O'→'X', 'T'→'O'.",
+    "L3": "def dfs(r, c):\n    if not (0<=r<rows and 0<=c<cols) or board[r][c] != 'O': return\n    board[r][c] = 'T'  # temporary mark\n    dfs(r+1,c); dfs(r-1,c); dfs(r,c+1); dfs(r,c-1)\n# Mark border-connected Os\nfor r in range(rows):\n    for c in [0, cols-1]:\n        if board[r][c] == 'O': dfs(r,c)\nfor c in range(cols):\n    for r in [0, rows-1]:\n        if board[r][c] == 'O': dfs(r,c)\n# Flip\nfor r in range(rows):\n    for c in range(cols):\n        if board[r][c] == 'O': board[r][c] = 'X'\n        elif board[r][c] == 'T': board[r][c] = 'O'\n# Time: O(m·n)  Space: O(m·n)"
+  },
+  "test_cases": [
+    {
+      "input": "board with 'O' not on border",
+      "expected": "all 'O' flipped to 'X'"
+    },
+    {
+      "input": "board with 'O' connected to border",
+      "expected": "border-connected 'O' preserved"
+    },
+    {
+      "input": "all 'O'",
+      "expected": "only border cells remain 'O'"
+    },
+    {
+      "input": "all 'X'",
+      "expected": "no change"
+    },
+    {
+      "input": "single 'O' in middle",
+      "expected": "flipped to 'X'"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is it easier to find what NOT to flip rather than what to flip?",
+    "How would you solve this with Union-Find by connecting border 'O' cells to a virtual node?",
+    "What if 8-connectivity were used — how does that change which cells are 'surrounded'?"
+  ],
+  "solution_notes": "DFS from border 'O' cells, mark 'T'. Then O→X, T→O. O(m·n)."
+}
