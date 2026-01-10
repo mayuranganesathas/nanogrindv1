@@ -1,0 +1,72 @@
+{
+  "id": "nc_085",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "286",
+  "title": "Walls and Gates",
+  "url": "https://neetcode.io/problems/islands-and-treasure",
+  "description": "You are given an m x n grid rooms initialized with these three possible values: -1 representing a wall or an obstacle, 0 representing a gate, and INF (2147483647) representing an empty room. Fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should remain INF.",
+  "constraints": [
+    "m == rooms.length",
+    "n == rooms[i].length",
+    "1 <= m, n <= 250",
+    "rooms[i][j] is -1, 0, or 2^31 - 1"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "bfs",
+    "matrix"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 5,
+  "companies": [
+    "meta",
+    "amazon"
+  ],
+  "optimal_time": "O(m·n)",
+  "optimal_space": "O(m·n)",
+  "brute_force_time": "O((m·n)²)",
+  "thinking_questions": [
+    "You could run BFS from each empty cell to find its nearest gate — O((m·n)²). What if you reversed it?",
+    "What if you start BFS FROM all gates simultaneously?",
+    "How does multi-source BFS give each cell its distance from the nearest gate in one pass?"
+  ],
+  "hints": {
+    "L1": "Multi-source BFS from all gates (0 cells) simultaneously. Each cell gets the minimum distance automatically.",
+    "L2": "Add all gates to queue. BFS: for each cell at distance d, set unvisited (INF) neighbors to d+1 and add to queue.",
+    "L3": "# INSIGHT: multi-source BFS from gates — each cell gets nearest gate distance\nfrom collections import deque\nINF = 2147483647\nq = deque([(r,c) for r in range(rows) for c in range(cols) if rooms[r][c] == 0])\nwhile q:\n    r, c = q.popleft()\n    for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n        nr, nc = r+dr, c+dc\n        if 0<=nr<rows and 0<=nc<cols and rooms[nr][nc] == INF:\n            rooms[nr][nc] = rooms[r][c] + 1\n            q.append((nr,nc))\n# Time: O(m·n)  Space: O(m·n)"
+  },
+  "test_cases": [
+    {
+      "input": "grid with gates (0), walls (-1), empty (INF)",
+      "expected": "each INF cell filled with nearest gate distance"
+    },
+    {
+      "input": "no gates",
+      "expected": "all INF unchanged"
+    },
+    {
+      "input": "no empty cells",
+      "expected": "unchanged"
+    },
+    {
+      "input": "gate surrounded by walls",
+      "expected": "adjacent cells only"
+    },
+    {
+      "input": "single gate, all empty",
+      "expected": "distances from 0 outward"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is multi-source BFS O(m·n) while running BFS from each empty cell is O((m·n)²)?",
+    "What if there were multiple types of gates with different weights?",
+    "How does this relate to the Rotting Oranges problem structurally?"
+  ],
+  "solution_notes": "Multi-source BFS from all gates. Each INF cell gets distance on first visit. O(m·n)."
+}
