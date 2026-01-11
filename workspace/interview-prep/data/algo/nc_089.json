@@ -1,0 +1,74 @@
+{
+  "id": "nc_089",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "323",
+  "title": "Number of Connected Components in an Undirected Graph",
+  "url": "https://neetcode.io/problems/count-connected-components",
+  "description": "You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph. Return the number of connected components in the graph.",
+  "constraints": [
+    "1 <= n <= 2000",
+    "1 <= edges.length <= 5000",
+    "edges[i].length == 2",
+    "0 <= ai <= bi < n",
+    "ai != bi",
+    "There are no repeated edges"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "union_find",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 5,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(n·α(n))",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n+e)",
+  "thinking_questions": [
+    "How many connected components are there? What data structure naturally counts components?",
+    "Union-Find starts with n components, merges on each edge. When do you decrement the component count?",
+    "Could you also solve this with DFS/BFS marking visited nodes?"
+  ],
+  "hints": {
+    "L1": "Union-Find: start with n components. For each edge, if nodes in different components, union them and decrement count.",
+    "L2": "Initialize count=n, parent=range(n). For each edge (u,v): if find(u)!=find(v), union and count--. Return count.",
+    "L3": "# INSIGHT: Union-Find counts components\nparent = list(range(n)); rank = [0]*n; count = n\ndef find(x):\n    if parent[x] != x: parent[x] = find(parent[x])\n    return parent[x]\ndef union(x, y):\n    nonlocal count\n    px, py = find(x), find(y)\n    if px == py: return\n    if rank[px] < rank[py]: px, py = py, px\n    parent[py] = px\n    if rank[px] == rank[py]: rank[px] += 1\n    count -= 1\nfor u, v in edges: union(u, v)\nreturn count\n# Time: O(n·α(n))  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "n=5,edges=[[0,1],[1,2],[3,4]]",
+      "expected": "2"
+    },
+    {
+      "input": "n=5,edges=[[0,1],[1,2],[2,3],[3,4]]",
+      "expected": "1"
+    },
+    {
+      "input": "n=3,edges=[]",
+      "expected": "3"
+    },
+    {
+      "input": "n=1,edges=[]",
+      "expected": "1"
+    },
+    {
+      "input": "n=4,edges=[[0,1],[2,3],[1,2]]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "Compare Union-Find vs DFS for this problem — when would you prefer each?",
+    "What if the graph were directed — how does component counting change?",
+    "How would you also return which nodes belong to each component?"
+  ],
+  "solution_notes": "Union-Find: count=n, decrement on each successful union. O(n·α(n))."
+}
