@@ -1,0 +1,75 @@
+{
+  "id": "nc_087",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "210",
+  "title": "Course Schedule II",
+  "url": "https://leetcode.com/problems/course-schedule-ii/",
+  "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.",
+  "constraints": [
+    "1 <= numCourses <= 2000",
+    "0 <= prerequisites.length <= numCourses * (numCourses - 1)",
+    "prerequisites[i].length == 2",
+    "0 <= ai, bi < numCourses",
+    "ai != bi",
+    "All the pairs [ai, bi] are distinct"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "topological_sort",
+    "dfs"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 5,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(V+E)",
+  "optimal_space": "O(V+E)",
+  "brute_force_time": "O(V²+E)",
+  "thinking_questions": [
+    "Same as Course Schedule I, but now return the actual ordering. What ordering do prerequisites define?",
+    "Topological sort gives a valid ordering. How do you build one from DFS?",
+    "When does a node get added to the order?"
+  ],
+  "hints": {
+    "L1": "Topological sort: same DFS as Course Schedule I, but append each node to result AFTER processing all its prerequisites.",
+    "L2": "Post-order DFS: recurse on all prerequisites, then add current node to result. Reverse at the end (or use prepend).",
+    "L3": "# INSIGHT: topological sort = postorder DFS on DAG\nadj = defaultdict(list)\nfor a, b in prerequisites: adj[b].append(a)\nstate = [0] * numCourses; result = []\ndef dfs(node):\n    if state[node] == 1: return False  # cycle\n    if state[node] == 2: return True\n    state[node] = 1\n    for neighbor in adj[node]:\n        if not dfs(neighbor): return False\n    state[node] = 2\n    result.append(node)  # add after all deps processed\n    return True\nfor i in range(numCourses):\n    if not dfs(i): return []\nreturn result[::-1]\n# Time: O(V+E)  Space: O(V+E)"
+  },
+  "test_cases": [
+    {
+      "input": "numCourses=2,prerequisites=[[1,0]]",
+      "expected": "[0,1] or valid topo order"
+    },
+    {
+      "input": "numCourses=4,prerequisites=[[1,0],[2,0],[3,1],[3,2]]",
+      "expected": "[0,2,1,3] or valid order"
+    },
+    {
+      "input": "numCourses=1,prerequisites=[]",
+      "expected": "[0]"
+    },
+    {
+      "input": "cycle present",
+      "expected": "[]"
+    },
+    {
+      "input": "numCourses=3,prerequisites=[[0,1],[0,2],[1,2]]",
+      "expected": "[2,1,0] or valid"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does postorder (add after recursing) give a valid topological order?",
+    "Why do you need to reverse the result at the end?",
+    "How does Kahn's BFS algorithm find topological order? Compare to DFS."
+  ],
+  "solution_notes": "Postorder DFS: add node after processing all deps. Reverse result. Return [] on cycle. O(V+E)."
+}
