@@ -1,0 +1,73 @@
+{
+  "id": "nc_092",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "332",
+  "title": "Reconstruct Itinerary",
+  "url": "https://leetcode.com/problems/reconstruct-itinerary/",
+  "description": "You are given a list of airline tickets represented by pairs of departure and arrival airports [from, to]. Reconstruct the itinerary in order and return it. All of the tickets must be used once and only once. The itinerary must begin with JFK. If there are multiple valid itineraries, return the itinerary that has the smallest lexical order when read as a single string.",
+  "constraints": [
+    "1 <= tickets.length <= 300",
+    "tickets[i].length == 2",
+    "fromi.length == 3",
+    "toi.length == 3",
+    "fromi and toi consist of uppercase English letters",
+    "fromi != toi"
+  ],
+  "difficulty": "hard",
+  "category": "Advanced Graphs",
+  "pattern_tags": [
+    "graphs",
+    "dfs",
+    "eulerian_path"
+  ],
+  "estimated_minutes": 40,
+  "phase": 2,
+  "week": 6,
+  "day": 1,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(E log E)",
+  "optimal_space": "O(E)",
+  "brute_force_time": "O(E!))",
+  "thinking_questions": [
+    "This is an Eulerian path problem — you must use every edge exactly once. What algorithm finds an Eulerian path?",
+    "Hierholzer's algorithm builds the path in reverse — when do you add a node to the result?",
+    "How do you handle choosing the lexicographically smallest path?"
+  ],
+  "hints": {
+    "L1": "This is Hierholzer's algorithm for Eulerian path. Sort adjacency lists to get lexicographic order. Add to result when a node has no more outgoing edges.",
+    "L2": "Sort each adjacency list. DFS: while node has neighbors, recursively visit them (removing the edge). Add node to result after exhausting neighbors. Reverse result.",
+    "L3": "# INSIGHT: Hierholzer's — add to result when stuck (no more edges)\nfrom collections import defaultdict\nadj = defaultdict(list)\nfor src, dst in tickets: adj[src].append(dst)\nfor src in adj: adj[src].sort()  # lexicographic order\nresult = []\ndef dfs(airport):\n    while adj[airport]:\n        next_dest = adj[airport].pop(0)  # take smallest\n        dfs(next_dest)\n    result.append(airport)  # add when no more outgoing edges\ndfs('JFK')\nreturn result[::-1]\n# Time: O(E log E) for sorting  Space: O(E)"
+  },
+  "test_cases": [
+    {
+      "input": "tickets=[['MUC','LHR'],['JFK','MUC'],['SFO','SJC'],['LHR','SFO']]",
+      "expected": "['JFK','MUC','LHR','SFO','SJC']"
+    },
+    {
+      "input": "tickets=[['JFK','SFO'],['JFK','ATL'],['SFO','ATL'],['ATL','JFK'],['ATL','SFO']]",
+      "expected": "['JFK','ATL','JFK','SFO','ATL','SFO']"
+    },
+    {
+      "input": "tickets=[['JFK','KUL'],['JFK','NRT'],['NRT','JFK']]",
+      "expected": "['JFK','NRT','JFK','KUL']"
+    },
+    {
+      "input": "tickets=[['JFK','A'],['A','JFK'],['JFK','B']]",
+      "expected": "['JFK','A','JFK','B']"
+    },
+    {
+      "input": "single ticket",
+      "expected": "[src, dst]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do you add a node to the result AFTER exhausting its neighbors (not before)?",
+    "Why is this an Eulerian path problem? What guarantees a solution exists?",
+    "How does using a deque/heap instead of list.pop(0) improve efficiency?"
+  ],
+  "solution_notes": "Hierholzer's DFS. Sort adj lists for lex order. Add to result when stuck. Reverse. O(E log E)."
+}
