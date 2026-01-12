@@ -1,0 +1,72 @@
+{
+  "id": "nc_093",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "1584",
+  "title": "Min Cost to Connect All Points",
+  "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
+  "description": "You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi]. The cost of connecting two points [xi, yi] and [xj, yj] is the Manhattan distance between them: |xi - xj| + |yi - yj|. Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.",
+  "constraints": [
+    "1 <= points.length <= 1000",
+    "-10^6 <= xi, yi <= 10^6",
+    "All pairs (xi, yi) are distinct"
+  ],
+  "difficulty": "medium",
+  "category": "Advanced Graphs",
+  "pattern_tags": [
+    "graphs",
+    "minimum_spanning_tree",
+    "prim",
+    "kruskal"
+  ],
+  "estimated_minutes": 30,
+  "phase": 2,
+  "week": 6,
+  "day": 1,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(n² log n)",
+  "optimal_space": "O(n²)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "This is a minimum spanning tree problem. What are the two classic MST algorithms?",
+    "Prim's algorithm grows a tree from one node. What data structure helps pick the cheapest next edge?",
+    "With n points forming a complete graph, what's the complexity of Prim's vs Kruskal's?"
+  ],
+  "hints": {
+    "L1": "Find the MST connecting all points where edge weight = Manhattan distance. Use Prim's or Kruskal's.",
+    "L2": "Prim's: start from point 0. Min-heap of (cost, point). Always expand cheapest unvisited neighbor. O(n² log n).",
+    "L3": "# INSIGHT: MST with Prim's — always extend to cheapest unvisited node\nimport heapq\nn = len(points)\nvisited = set(); heap = [(0, 0)]  # (cost, point_index)\ntotal = 0\nwhile len(visited) < n:\n    cost, i = heapq.heappop(heap)\n    if i in visited: continue\n    visited.add(i); total += cost\n    for j in range(n):\n        if j not in visited:\n            dist = abs(points[i][0]-points[j][0]) + abs(points[i][1]-points[j][1])\n            heapq.heappush(heap, (dist, j))\nreturn total\n# Time: O(n² log n)  Space: O(n²) for heap"
+  },
+  "test_cases": [
+    {
+      "input": "points=[[0,0],[2,2],[3,10],[5,2],[7,0]]",
+      "expected": "20"
+    },
+    {
+      "input": "points=[[3,12],[-2,5],[-4,1]]",
+      "expected": "18"
+    },
+    {
+      "input": "points=[[0,0]]",
+      "expected": "0"
+    },
+    {
+      "input": "points=[[0,0],[1,1]]",
+      "expected": "2"
+    },
+    {
+      "input": "points=[[0,0],[1,1],[1,0],[-1,1]]",
+      "expected": "4"
+    }
+  ],
+  "follow_up_questions": [
+    "Compare Prim's vs Kruskal's for this problem — which is more efficient given a complete graph?",
+    "Why is Manhattan distance (|x1-x2|+|y1-y2|) used instead of Euclidean?",
+    "How would you implement Kruskal's here? What's its complexity?"
+  ],
+  "solution_notes": "Prim's MST: min-heap, always expand cheapest unvisited. O(n² log n). Kruskal's: O(n² log n) for sorting complete graph."
+}
