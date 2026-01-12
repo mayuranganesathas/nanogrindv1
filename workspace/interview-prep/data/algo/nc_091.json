@@ -1,0 +1,75 @@
+{
+  "id": "nc_091",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "127",
+  "title": "Word Ladder",
+  "url": "https://leetcode.com/problems/word-ladder/",
+  "description": "A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence beginWord -> s1 -> s2 -> ... -> sk such that: every adjacent pair of words differs by a single letter, every si for 1 <= i <= k is in wordList, and sk == endWord. Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.",
+  "constraints": [
+    "1 <= beginWord.length <= 10",
+    "endWord.length == beginWord.length",
+    "1 <= wordList.length <= 5000",
+    "wordList[i].length == beginWord.length",
+    "beginWord, endWord, and wordList[i] consist of lowercase English letters",
+    "beginWord != endWord",
+    "All the words in wordList are unique"
+  ],
+  "difficulty": "hard",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "bfs"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 5,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(n·m²)",
+  "optimal_space": "O(n·m²)",
+  "brute_force_time": "O(n²·m)",
+  "thinking_questions": [
+    "Each word is a node, edges connect words that differ by one letter. What's the shortest path from beginWord to endWord?",
+    "How do you find all words in the wordList that are one letter away from the current word?",
+    "BFS gives shortest path — but how do you efficiently find neighbors without checking every word?"
+  ],
+  "hints": {
+    "L1": "Model as a graph: words are nodes, edges between words differing by 1 letter. BFS gives shortest path (fewest transformations).",
+    "L2": "For each word at current BFS level, try changing each character to 'a'-'z'. If the result is in wordSet, it's a neighbor. Mark visited by removing from set.",
+    "L3": "# INSIGHT: BFS shortest path; generate neighbors by trying each char position\nfrom collections import deque\nwordSet = set(wordList)\nif endWord not in wordSet: return 0\nq = deque([(beginWord, 1)])\nvisited = {beginWord}\nwhile q:\n    word, length = q.popleft()\n    if word == endWord: return length\n    for i in range(len(word)):\n        for c in 'abcdefghijklmnopqrstuvwxyz':\n            next_word = word[:i] + c + word[i+1:]\n            if next_word in wordSet and next_word not in visited:\n                visited.add(next_word)\n                q.append((next_word, length+1))\nreturn 0\n# Time: O(n·m·26) = O(n·m)  Space: O(n·m)"
+  },
+  "test_cases": [
+    {
+      "input": "beginWord='hit',endWord='cog',wordList=['hot','dot','dog','lot','log','cog']",
+      "expected": "5"
+    },
+    {
+      "input": "beginWord='hit',endWord='cog',wordList=['hot','dot','dog','lot','log']",
+      "expected": "0 (no path)"
+    },
+    {
+      "input": "beginWord='a',endWord='c',wordList=['a','b','c']",
+      "expected": "2"
+    },
+    {
+      "input": "beginWord='hot',endWord='dog',wordList=['hot','dog']",
+      "expected": "0"
+    },
+    {
+      "input": "beginWord='hot',endWord='dog',wordList=['hot','cog','dog','tot','hog','hop','pot','dot']",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does BFS guarantee the shortest path here?",
+    "Why is generating neighbors by changing each char position faster than checking all pairs for 1-letter difference?",
+    "What is bidirectional BFS and how does it improve the complexity?"
+  ],
+  "solution_notes": "BFS with wordSet. Generate neighbors by swapping each char. Remove from set to mark visited. O(n·m·26)."
+}
