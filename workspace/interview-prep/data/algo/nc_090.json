@@ -1,0 +1,73 @@
+{
+  "id": "nc_090",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "261",
+  "title": "Graph Valid Tree",
+  "url": "https://neetcode.io/problems/valid-tree",
+  "description": "You have a graph of n nodes labeled from 0 to n - 1. You are given an integer n and a list of edges where edges[i] = [ai, bi] indicates that there is an undirected edge between nodes ai and bi in the graph. Return true if the edges of the given graph make up a valid tree, and false otherwise. A valid tree is a connected acyclic undirected graph.",
+  "constraints": [
+    "1 <= n <= 2000",
+    "0 <= edges.length <= 5000",
+    "edges[i].length == 2",
+    "0 <= ai, bi < n",
+    "ai != bi",
+    "There are no self-loops or repeated edges"
+  ],
+  "difficulty": "medium",
+  "category": "Graphs",
+  "pattern_tags": [
+    "graphs",
+    "union_find",
+    "dfs"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 5,
+  "day": 5,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(n·α(n))",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n+e)",
+  "thinking_questions": [
+    "What two conditions make a graph a valid tree?",
+    "If you have exactly n-1 edges and no cycle, is that always a tree?",
+    "How do you check both conditions efficiently?"
+  ],
+  "hints": {
+    "L1": "A valid tree has exactly n-1 edges AND no cycles. Check both with Union-Find or DFS.",
+    "L2": "First check: if len(edges) != n-1, return False. Then Union-Find: if any edge creates a cycle (same component), return False.",
+    "L3": "# INSIGHT: valid tree ⟺ n-1 edges AND no cycle\nif len(edges) != n-1: return False  # quick check\nparent = list(range(n))\ndef find(x):\n    if parent[x] != x: parent[x] = find(parent[x])\n    return parent[x]\nfor u, v in edges:\n    pu, pv = find(u), find(v)\n    if pu == pv: return False  # cycle\n    parent[pu] = pv\nreturn True\n# Time: O(n·α(n))  Space: O(n)"
+  },
+  "test_cases": [
+    {
+      "input": "n=5,edges=[[0,1],[0,2],[0,3],[1,4]]",
+      "expected": "true"
+    },
+    {
+      "input": "n=5,edges=[[0,1],[1,2],[2,3],[1,3],[1,4]]",
+      "expected": "false (cycle)"
+    },
+    {
+      "input": "n=3,edges=[[0,1]]",
+      "expected": "false (disconnected)"
+    },
+    {
+      "input": "n=1,edges=[]",
+      "expected": "true"
+    },
+    {
+      "input": "n=2,edges=[[0,1]]",
+      "expected": "true"
+    }
+  ],
+  "follow_up_questions": [
+    "Why is checking exactly n-1 edges a necessary but not sufficient condition?",
+    "Can you solve this with BFS/DFS? What would you check?",
+    "What's the difference between a tree and a forest in graph theory?"
+  ],
+  "solution_notes": "Quick check: n-1 edges. Then Union-Find for no-cycle. Both needed."
+}
