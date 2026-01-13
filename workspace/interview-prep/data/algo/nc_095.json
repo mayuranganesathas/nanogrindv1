@@ -1,0 +1,72 @@
+{
+  "id": "nc_095",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "778",
+  "title": "Swim in Rising Water",
+  "url": "https://leetcode.com/problems/swim-in-rising-water/",
+  "description": "You are given an n x n integer matrix grid where each value grid[i][j] represents the elevation at that point (i, j). The rain starts to fall. At time t, the depth of the water everywhere is t. You can swim from a square to another 4-directionally adjacent square if and only if the elevation of both squares is at most t. You start at the top left square (0, 0) and want to reach the bottom right square (n - 1, n - 1). Return the least time until you can reach the bottom right square. You may stop swimming at any time.",
+  "constraints": [
+    "n == grid.length",
+    "n == grid[i].length",
+    "1 <= n <= 50",
+    "0 <= grid[i][j] < n^2",
+    "Each value grid[i][j] is unique"
+  ],
+  "difficulty": "hard",
+  "category": "Advanced Graphs",
+  "pattern_tags": [
+    "graphs",
+    "dijkstra",
+    "binary_search"
+  ],
+  "estimated_minutes": 35,
+  "phase": 2,
+  "week": 6,
+  "day": 2,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(n² log n)",
+  "optimal_space": "O(n²)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "You want the minimum time t such that there exists a path from (0,0) to (n-1,n-1) where all cells have elevation ≤ t. What's the key insight?",
+    "This is a minimax path problem — minimize the maximum elevation on any path. Which algorithm finds this?",
+    "Dijkstra's adapted: instead of minimizing sum of edge weights, minimize the maximum cell value on the path."
+  ],
+  "hints": {
+    "L1": "Find the path from (0,0) to (n-1,n-1) that minimizes the maximum cell elevation. Dijkstra's with minimax instead of sum.",
+    "L2": "Min-heap storing (max_so_far, r, c). At each step, pick cell with minimum max-elevation path. Update: push (max(cur_max, next_cell_val), nr, nc).",
+    "L3": "# INSIGHT: Dijkstra's minimax — minimize max elevation on path\nimport heapq\nn = len(grid)\nheap = [(grid[0][0], 0, 0)]\nvisited = set()\nwhile heap:\n    t, r, c = heapq.heappop(heap)\n    if (r,c) in visited: continue\n    visited.add((r,c))\n    if r == n-1 and c == n-1: return t\n    for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n        nr, nc = r+dr, c+dc\n        if 0<=nr<n and 0<=nc<n and (nr,nc) not in visited:\n            heapq.heappush(heap, (max(t, grid[nr][nc]), nr, nc))\n# Time: O(n² log n)  Space: O(n²)"
+  },
+  "test_cases": [
+    {
+      "input": "grid=[[0,2],[1,3]]",
+      "expected": "3"
+    },
+    {
+      "input": "grid=[[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]",
+      "expected": "16"
+    },
+    {
+      "input": "grid=[[0]]",
+      "expected": "0"
+    },
+    {
+      "input": "grid=[[0,1],[2,3]]",
+      "expected": "3"
+    },
+    {
+      "input": "grid=[[3,2],[0,1]]",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why `max(t, grid[nr][nc])` instead of `t + grid[nr][nc]`?",
+    "How would binary search on the answer work for this problem?",
+    "What's the difference between this and Network Delay Time in terms of the optimization objective?"
+  ],
+  "solution_notes": "Dijkstra's minimax: heap stores (max_elevation_so_far, r, c). Update with max not sum. O(n² log n)."
+}
