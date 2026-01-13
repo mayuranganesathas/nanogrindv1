@@ -1,0 +1,70 @@
+{
+  "id": "nc_096",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "269",
+  "title": "Alien Dictionary",
+  "url": "https://neetcode.io/problems/foreign-dictionary",
+  "description": "There is a new alien language that uses the English alphabet. However, the order among the letters is unknown to you. You are given a list of strings words from the alien language's dictionary, where the strings in words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language and return it. If the order is invalid (cycle) or cannot be determined, return ''. If there are multiple valid orderings, return any one of them.",
+  "constraints": [
+    "1 <= words.length <= 100",
+    "1 <= words[i].length <= 100",
+    "words[i] consists of only lowercase English letters"
+  ],
+  "difficulty": "hard",
+  "category": "Advanced Graphs",
+  "pattern_tags": [
+    "graphs",
+    "topological_sort"
+  ],
+  "estimated_minutes": 40,
+  "phase": 2,
+  "week": 6,
+  "day": 2,
+  "companies": [
+    "google",
+    "meta"
+  ],
+  "optimal_time": "O(C) where C=total chars",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n²)",
+  "thinking_questions": [
+    "Comparing adjacent words gives you ordering constraints on letters. How do you extract those constraints?",
+    "The constraints form a directed graph. What kind of ordering on that graph gives you the alphabet?",
+    "What if there's a cycle or if a word appears after a word that is its prefix but shorter?"
+  ],
+  "hints": {
+    "L1": "Compare adjacent word pairs to extract ordering constraints (edges). Then topological sort the letter graph.",
+    "L2": "For each pair of adjacent words, find the first differing character → edge from that char to the other. Invalid if first word is prefix of second but longer.",
+    "L3": "# INSIGHT: adjacent word comparison → directed edges → topological sort\nfrom collections import defaultdict, deque\nadj = {c: set() for word in words for c in word}\nin_degree = {c: 0 for c in adj}\nfor i in range(len(words)-1):\n    w1, w2 = words[i], words[i+1]\n    min_len = min(len(w1), len(w2))\n    if len(w1) > len(w2) and w1[:min_len] == w2[:min_len]: return ''  # invalid\n    for j in range(min_len):\n        if w1[j] != w2[j]:\n            if w2[j] not in adj[w1[j]]:\n                adj[w1[j]].add(w2[j]); in_degree[w2[j]] += 1\n            break\n# Kahn's BFS topological sort\nq = deque([c for c in in_degree if in_degree[c] == 0])\nresult = ''\nwhile q:\n    c = q.popleft(); result += c\n    for neighbor in adj[c]:\n        in_degree[neighbor] -= 1\n        if in_degree[neighbor] == 0: q.append(neighbor)\nreturn result if len(result) == len(adj) else ''"
+  },
+  "test_cases": [
+    {
+      "input": "words=['wrt','wrf','er','ett','rftt']",
+      "expected": "'wertf' or valid order"
+    },
+    {
+      "input": "words=['z','x']",
+      "expected": "'zx'"
+    },
+    {
+      "input": "words=['z','x','z']",
+      "expected": "'' (cycle)"
+    },
+    {
+      "input": "words=['abc','ab']",
+      "expected": "'' (invalid prefix)"
+    },
+    {
+      "input": "words=['z','z']",
+      "expected": "'z'"
+    }
+  ],
+  "follow_up_questions": [
+    "How do you detect the 'prefix longer than successor' invalid case?",
+    "Compare Kahn's (BFS) vs DFS topological sort — what's different about cycle detection?",
+    "What if you only needed to find if a valid ordering existed, not the actual order?"
+  ],
+  "solution_notes": "Extract edges from adjacent pairs. Kahn's BFS topo sort. Return '' on cycle or invalid prefix. O(C total characters)."
+}
