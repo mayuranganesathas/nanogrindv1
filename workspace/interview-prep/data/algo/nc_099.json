@@ -1,0 +1,64 @@
+{
+  "id": "nc_099",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "746",
+  "title": "Min Cost Climbing Stairs",
+  "url": "https://leetcode.com/problems/min-cost-climbing-stairs/",
+  "description": "You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.",
+  "constraints": [
+    "2 <= cost.length <= 1000",
+    "0 <= cost[i] <= 999"
+  ],
+  "difficulty": "easy",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "bottom-up"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "What is the minimum cost to reach step i, given you can come from step i-1 or i-2?",
+    "Can you modify the cost array in-place to store minimum costs?",
+    "What does 'reaching the top' mean — one step past the last index?"
+  ],
+  "hints": {
+    "L1": "The minimum cost to reach each step is the step's cost plus the minimum of the two ways to arrive.",
+    "L2": "Bottom-up DP: cost[i] = cost[i] + min(cost[i-1], cost[i-2]). The answer is min(cost[-1], cost[-2]) since you can start from index 0 or 1.",
+    "L3": "# Min Cost Climbing Stairs — O(n) time, O(1) space\n# KEY INSIGHT: cost to reach step i = cost[i] + min(cost[i-1], cost[i-2])\n# Answer = min of last two steps (can start from 0 or 1)\n\ndef minCostClimbingStairs(cost):\n    n = len(cost)\n\n    # Extend cost by 1 to represent the 'top' (index n)\n    cost.append(0)\n\n    for i in range(2, n + 1):\n        cost[i] += min(cost[i-1], cost[i-2])\n\n    return cost[n]\n# OR in-place without appending: return min(cost[-1], cost[-2])"
+  },
+  "test_cases": [
+    {
+      "input": "cost=[10,15,20]",
+      "expected": "15"
+    },
+    {
+      "input": "cost=[1,100,1,1,1,100,1,1,100,1]",
+      "expected": "6"
+    },
+    {
+      "input": "cost=[0,0]",
+      "expected": "0"
+    },
+    {
+      "input": "cost=[1,2]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "How does this differ from Climbing Stairs?",
+    "What if you could take up to k steps at once?"
+  ],
+  "solution_notes": "Bottom-up DP. cost[i] += min(cost[i-1], cost[i-2]). Answer = min(cost[n-1], cost[n-2])."
+}
