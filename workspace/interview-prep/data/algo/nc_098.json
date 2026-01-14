@@ -1,0 +1,71 @@
+{
+  "id": "nc_098",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "70",
+  "title": "Climbing Stairs",
+  "url": "https://leetcode.com/problems/climbing-stairs/",
+  "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+  "constraints": [
+    "1 <= n <= 45"
+  ],
+  "difficulty": "easy",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "fibonacci",
+    "memoization"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "apple",
+    "adobe"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "How many ways can you reach step n if you know the ways to reach step n-1 and n-2?",
+    "What are the base cases? How many ways to reach step 0 and step 1?",
+    "Can you solve this with O(1) space instead of O(n)?"
+  ],
+  "hints": {
+    "L1": "The number of ways to reach step n depends only on the two steps before it.",
+    "L2": "This is the Fibonacci sequence: ways(n) = ways(n-1) + ways(n-2). Use bottom-up DP with two variables instead of an array.",
+    "L3": "# Climbing Stairs — O(n) time, O(1) space\n# KEY INSIGHT: ways to reach n = ways to reach n-1 + ways to reach n-2\n# because you can come from either the step below (1-step) or two below (2-step)\n\ndef climbStairs(n):\n    if n <= 2:\n        return n\n\n    prev2 = 1  # ways to reach step 1\n    prev1 = 2  # ways to reach step 2\n\n    for i in range(3, n + 1):\n        curr = prev1 + prev2  # Fibonacci recurrence\n        prev2 = prev1\n        prev1 = curr\n\n    return prev1\n# WHY O(1) space: only need last two values, not full array"
+  },
+  "test_cases": [
+    {
+      "input": "n=2",
+      "expected": "2 (1+1 or 2)"
+    },
+    {
+      "input": "n=3",
+      "expected": "3 (1+1+1, 1+2, 2+1)"
+    },
+    {
+      "input": "n=1",
+      "expected": "1"
+    },
+    {
+      "input": "n=5",
+      "expected": "8"
+    },
+    {
+      "input": "n=45",
+      "expected": "1836311903"
+    }
+  ],
+  "follow_up_questions": [
+    "What if you could take 1, 2, or 3 steps? How does the recurrence change?",
+    "How would you solve this with memoization (top-down)?",
+    "What's the connection to the Fibonacci sequence?"
+  ],
+  "solution_notes": "Fibonacci variant. dp[i] = dp[i-1] + dp[i-2]. Optimize to O(1) space with two variables."
+}
