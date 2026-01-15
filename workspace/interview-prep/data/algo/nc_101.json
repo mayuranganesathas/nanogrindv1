@@ -1,0 +1,70 @@
+{
+  "id": "nc_101",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "213",
+  "title": "House Robber II",
+  "url": "https://leetcode.com/problems/house-robber-ii/",
+  "description": "You are a professional robber planning to rob houses along a street arranged in a circle. All houses are connected end-to-end. You cannot rob two adjacent houses (including the first and last, since they are adjacent in the circle). Given an integer array nums representing the amount of money in each house, return the maximum amount you can rob without alerting the police.",
+  "constraints": [
+    "1 <= nums.length <= 100",
+    "0 <= nums[i] <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "decision-dp",
+    "circular-array"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "What makes this harder than House Robber I? What constraint does the circle add?",
+    "If house 0 and house n-1 can't both be robbed, how can you split this into two subproblems?",
+    "Can you reuse your House Robber I solution as a helper?"
+  ],
+  "hints": {
+    "L1": "Since first and last houses are adjacent, you can never rob both. Split into two linear subproblems.",
+    "L2": "Run House Robber I twice: once on nums[0..n-2] (exclude last) and once on nums[1..n-1] (exclude first). Return the max.",
+    "L3": "# House Robber II — O(n) time, O(1) space\n# KEY INSIGHT: circular means nums[0] and nums[n-1] are adjacent\n# Split: run linear robber on [0..n-2] and [1..n-1], take max\n\ndef rob(nums):\n    if len(nums) == 1:\n        return nums[0]\n\n    def robLinear(arr):\n        prev2, prev1 = 0, 0\n        for num in arr:\n            curr = max(prev1, num + prev2)\n            prev2, prev1 = prev1, curr\n        return prev1\n\n    # Either rob first house (exclude last) or last house (exclude first)\n    return max(robLinear(nums[:-1]), robLinear(nums[1:]))"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[2,3,2]",
+      "expected": "3"
+    },
+    {
+      "input": "nums=[1,2,3,1]",
+      "expected": "4"
+    },
+    {
+      "input": "nums=[1,2,3]",
+      "expected": "3"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[0]",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does splitting into two linear problems correctly handle the circular constraint?",
+    "What if you had a k-length adjacency constraint?"
+  ],
+  "solution_notes": "Reduce to two linear House Robber I problems: exclude first or exclude last. Return max."
+}
