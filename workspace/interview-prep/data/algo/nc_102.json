@@ -1,0 +1,72 @@
+{
+  "id": "nc_102",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "5",
+  "title": "Longest Palindromic Substring",
+  "url": "https://leetcode.com/problems/longest-palindromic-substring/",
+  "description": "Given a string s, return the longest palindromic substring in s. A palindrome reads the same forwards and backwards.",
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s consist of only digits and English letters"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "expand-around-center",
+    "palindrome"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 4,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "google",
+    "facebook"
+  ],
+  "optimal_time": "O(n^2)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^3)",
+  "thinking_questions": [
+    "What's the center of a palindrome? Can it be a character or between characters?",
+    "How do you expand outward from a center to find the longest palindrome?",
+    "Why is expand-around-center O(n^2) but O(1) space, while DP is O(n^2) time and space?"
+  ],
+  "hints": {
+    "L1": "Every palindrome has a center — either a single character (odd length) or between two characters (even length).",
+    "L2": "Expand-around-center: for each of 2n-1 possible centers, expand left/right while characters match. Track the longest found. O(n^2) time, O(1) space.",
+    "L3": "# Longest Palindromic Substring — O(n^2) time, O(1) space\n# KEY INSIGHT: try every possible center (2n-1 centers for n chars)\n\ndef longestPalindrome(s):\n    res = \"\"\n\n    def expand(l, r):\n        # Expand while in bounds and chars match\n        while l >= 0 and r < len(s) and s[l] == s[r]:\n            l -= 1\n            r += 1\n        return s[l+1:r]  # slice after last valid expansion\n\n    for i in range(len(s)):\n        odd = expand(i, i)      # odd-length: center at char i\n        even = expand(i, i+1)   # even-length: center between i and i+1\n\n        if len(odd) > len(res): res = odd\n        if len(even) > len(res): res = even\n\n    return res\n# WHY 2n-1 centers: n odd centers + n-1 even centers"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"babad\"",
+      "expected": "\"bab\" or \"aba\""
+    },
+    {
+      "input": "s=\"cbbd\"",
+      "expected": "\"bb\""
+    },
+    {
+      "input": "s=\"a\"",
+      "expected": "\"a\""
+    },
+    {
+      "input": "s=\"ac\"",
+      "expected": "\"a\" or \"c\""
+    },
+    {
+      "input": "s=\"racecar\"",
+      "expected": "\"racecar\""
+    }
+  ],
+  "follow_up_questions": [
+    "How does Manacher's algorithm solve this in O(n)?",
+    "What's the DP approach and why is it O(n^2) space?",
+    "How does this differ from Longest Palindromic Subsequence?"
+  ],
+  "solution_notes": "Expand-around-center. 2n-1 centers, expand while matching. O(n^2) time, O(1) space. Better than DP which needs O(n^2) space."
+}
