@@ -1,0 +1,66 @@
+{
+  "id": "nc_103",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "647",
+  "title": "Palindromic Substrings",
+  "url": "https://leetcode.com/problems/palindromic-substrings/",
+  "description": "Given a string s, return the number of palindromic substrings in it. A substring is a contiguous sequence of characters within the string. A string is a palindrome when it reads the same backward as forward.",
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s consists of lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "expand-around-center",
+    "palindrome"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 4,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "facebook",
+    "linkedin"
+  ],
+  "optimal_time": "O(n^2)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^3)",
+  "thinking_questions": [
+    "How is this related to Longest Palindromic Substring? Can you reuse the same expand technique?",
+    "Instead of tracking the longest, what do you count?",
+    "Each expansion step that succeeds — does it count as one palindrome?"
+  ],
+  "hints": {
+    "L1": "Reuse expand-around-center but count every valid palindrome found during expansion.",
+    "L2": "For each center (2n-1 total), expand while s[l]==s[r] and increment count for each valid expansion (including single chars).",
+    "L3": "# Palindromic Substrings — O(n^2) time, O(1) space\n# KEY INSIGHT: same as Longest Palindromic Substring but count instead of track max\n\ndef countSubstrings(s):\n    count = 0\n\n    def expand(l, r):\n        nonlocal count\n        while l >= 0 and r < len(s) and s[l] == s[r]:\n            count += 1  # each valid expansion is one palindrome\n            l -= 1\n            r += 1\n\n    for i in range(len(s)):\n        expand(i, i)    # odd-length palindromes\n        expand(i, i+1)  # even-length palindromes\n\n    return count\n# WHY: every step where s[l]==s[r] is a valid palindrome"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"abc\"",
+      "expected": "3 (a, b, c)"
+    },
+    {
+      "input": "s=\"aaa\"",
+      "expected": "6 (a,a,a,aa,aa,aaa)"
+    },
+    {
+      "input": "s=\"abba\"",
+      "expected": "6 (a,b,b,a,bb,abba)"
+    },
+    {
+      "input": "s=\"a\"",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "What is the difference in output between this and Longest Palindromic Substring?",
+    "Can you solve this with DP? What would the dp table represent?"
+  ],
+  "solution_notes": "Expand-around-center, count each valid expansion. Every single character is a palindrome. O(n^2) time, O(1) space."
+}
