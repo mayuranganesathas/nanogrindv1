@@ -1,0 +1,74 @@
+{
+  "id": "nc_105",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "322",
+  "title": "Coin Change",
+  "url": "https://leetcode.com/problems/coin-change/",
+  "description": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the fewest number of coins needed to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1. You may use each coin an unlimited number of times.",
+  "constraints": [
+    "1 <= coins.length <= 12",
+    "1 <= coins[i] <= 2^31 - 1",
+    "0 <= amount <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "unbounded-knapsack",
+    "bfs"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 4,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft",
+    "facebook",
+    "bloomberg"
+  ],
+  "optimal_time": "O(amount * len(coins))",
+  "optimal_space": "O(amount)",
+  "brute_force_time": "O(S^n) where S=amount, n=coins",
+  "thinking_questions": [
+    "If you know the minimum coins to make amount-c for each coin c, how do you get minimum for amount?",
+    "Why is this 'unbounded' — what makes it different from 0/1 knapsack?",
+    "What should dp[0] be initialized to? What about dp[1..amount]?"
+  ],
+  "hints": {
+    "L1": "Build up the minimum coins needed for every amount from 0 to target, reusing coins as needed.",
+    "L2": "Unbounded knapsack: dp[i] = min(dp[i - coin] + 1) for each coin <= i. Initialize dp[0]=0, dp[1..amount]=infinity.",
+    "L3": "# Coin Change — O(amount * coins) time, O(amount) space\n# KEY INSIGHT: dp[i] = min coins to make amount i\n# For each amount, try subtracting each coin and take minimum\n\ndef coinChange(coins, amount):\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0  # 0 coins needed to make amount 0\n\n    for i in range(1, amount + 1):\n        for coin in coins:\n            if coin <= i:\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n\n    return dp[amount] if dp[amount] != float('inf') else -1\n# WHY unbounded: same coin can be used multiple times (no 'used' tracking)\n# PITFALL: check for inf at end — some amounts may be unreachable"
+  },
+  "test_cases": [
+    {
+      "input": "coins=[1,5,10,25], amount=36",
+      "expected": "3 (25+10+1)"
+    },
+    {
+      "input": "coins=[1,2,5], amount=11",
+      "expected": "3 (5+5+1)"
+    },
+    {
+      "input": "coins=[2], amount=3",
+      "expected": "-1"
+    },
+    {
+      "input": "coins=[1], amount=0",
+      "expected": "0"
+    },
+    {
+      "input": "coins=[186,419,83,408], amount=6249",
+      "expected": "20"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you count the number of ways instead of minimum coins? (Coin Change II)",
+    "How does this differ from 0/1 knapsack?",
+    "Could you solve this with BFS? What would each level represent?"
+  ],
+  "solution_notes": "Unbounded knapsack DP. dp[i] = min(dp[i-coin]+1) for each coin. Init dp[0]=0, rest=inf. Return -1 if still inf."
+}
