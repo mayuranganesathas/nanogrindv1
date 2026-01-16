@@ -1,0 +1,71 @@
+{
+  "id": "nc_104",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "91",
+  "title": "Decode Ways",
+  "url": "https://leetcode.com/problems/decode-ways/",
+  "description": "A message containing letters from A-Z can be encoded using '1' to '26'. Given a string s containing only digits, return the number of ways to decode it. Note that '0' cannot map to any letter, and leading zeros are invalid (e.g., '06' cannot decode to 'F').",
+  "constraints": [
+    "1 <= s.length <= 100",
+    "s contains only digits and may contain leading zeros"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "string-dp"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 4,
+  "day": 2,
+  "companies": [
+    "facebook",
+    "amazon",
+    "microsoft",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "At each position, how many characters can form a valid encoding: 1 char or 2 chars?",
+    "What makes a 1-char decode invalid? What makes a 2-char decode invalid?",
+    "How is this similar to Climbing Stairs but with validity conditions?"
+  ],
+  "hints": {
+    "L1": "At each position, you can decode 1 character (if not '0') or 2 characters (if between 10-26). It's like Climbing Stairs with validity checks.",
+    "L2": "dp[i] = ways to decode s[0..i-1]. If s[i-1] != '0': dp[i] += dp[i-1]. If s[i-2..i-1] is 10-26: dp[i] += dp[i-2]. Use two variables.",
+    "L3": "# Decode Ways — O(n) time, O(1) space\n# KEY INSIGHT: like Climbing Stairs but each step has validity constraints\n\ndef numDecodings(s):\n    if not s or s[0] == '0':\n        return 0\n\n    prev2 = 1  # dp[i-2]: empty string = 1 way\n    prev1 = 1  # dp[i-1]: first char (valid since s[0] != '0')\n\n    for i in range(1, len(s)):\n        curr = 0\n\n        # 1-char decode: valid if current char is not '0'\n        if s[i] != '0':\n            curr += prev1\n\n        # 2-char decode: valid if two-char number is 10-26\n        two_char = int(s[i-1:i+1])\n        if 10 <= two_char <= 26:\n            curr += prev2\n\n        prev2, prev1 = prev1, curr\n\n    return prev1\n# EDGE CASES: leading zeros, \"30\" is invalid (>26), \"00\" invalid"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"12\"",
+      "expected": "2 (1,2 or 12)"
+    },
+    {
+      "input": "s=\"226\"",
+      "expected": "3 (2,2,6 or 22,6 or 2,26)"
+    },
+    {
+      "input": "s=\"06\"",
+      "expected": "0"
+    },
+    {
+      "input": "s=\"10\"",
+      "expected": "1 (10)"
+    },
+    {
+      "input": "s=\"27\"",
+      "expected": "1 (2,7 — 27 > 26)"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you handle '*' wildcard characters (Decode Ways II)?",
+    "What are all the edge cases involving '0'?",
+    "Why does '0' always rely on a valid 2-char decode?"
+  ],
+  "solution_notes": "DP with Climbing Stairs structure. 1-char: s[i] != '0'. 2-char: 10 <= int(s[i-1:i+1]) <= 26. Two-variable optimization."
+}
