@@ -1,0 +1,72 @@
+{
+  "id": "nc_108",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "300",
+  "title": "Longest Increasing Subsequence",
+  "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+  "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence. A subsequence is derived from the array by deleting some or no elements without changing the order of the remaining elements.",
+  "constraints": [
+    "1 <= nums.length <= 2500",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "binary-search",
+    "patience-sorting"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 4,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "google",
+    "facebook"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "For the O(n^2) DP: if dp[i] is the LIS ending at index i, how do you compute dp[i] from previous values?",
+    "For the O(n log n) approach: can you maintain a 'patience pile' array and use binary search?",
+    "What does the patience sorting tails array represent?"
+  ],
+  "hints": {
+    "L1": "For each element, find the longest increasing subsequence that ends at that element by looking at all previous smaller elements.",
+    "L2": "O(n^2) DP: dp[i] = 1 + max(dp[j] for j < i if nums[j] < nums[i]). O(n log n): maintain tails array, use bisect_left to replace or extend.",
+    "L3": "# LIS — O(n log n) time, O(n) space using patience sorting\n# KEY INSIGHT: maintain 'tails' array where tails[i] = smallest tail of\n# all increasing subsequences of length i+1\n\nimport bisect\n\ndef lengthOfLIS(nums):\n    tails = []  # tails[i] = smallest ending element of LIS of length i+1\n\n    for num in nums:\n        pos = bisect.bisect_left(tails, num)  # find leftmost pos where tails[pos] >= num\n\n        if pos == len(tails):\n            tails.append(num)  # extend LIS\n        else:\n            tails[pos] = num   # replace to maintain smallest possible tail\n\n    return len(tails)\n\n# O(n^2) DP version (easier to understand):\ndef lengthOfLIS_dp(nums):\n    dp = [1] * len(nums)\n    for i in range(1, len(nums)):\n        for j in range(i):\n            if nums[j] < nums[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[10,9,2,5,3,7,101,18]",
+      "expected": "4 ([2,3,7,101] or [2,5,7,101])"
+    },
+    {
+      "input": "nums=[0,1,0,3,2,3]",
+      "expected": "4"
+    },
+    {
+      "input": "nums=[7,7,7,7,7]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1,2,3,4,5]",
+      "expected": "5"
+    },
+    {
+      "input": "nums=[5,4,3,2,1]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "Can you reconstruct the actual subsequence (not just the length)?",
+    "Why does bisect_left work to give O(n log n)?",
+    "What's the relationship between LIS and patience sorting?"
+  ],
+  "solution_notes": "O(n^2) DP: dp[i]=1+max(dp[j] for j<i if nums[j]<nums[i]). O(n log n): patience sort with tails array + bisect_left."
+}
