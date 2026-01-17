@@ -1,0 +1,71 @@
+{
+  "id": "nc_109",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "416",
+  "title": "Partition Equal Subset Sum",
+  "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+  "description": "Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal, and false otherwise.",
+  "constraints": [
+    "1 <= nums.length <= 200",
+    "1 <= nums[i] <= 100"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "0-1-knapsack",
+    "subset-sum"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 4,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "facebook"
+  ],
+  "optimal_time": "O(n * sum/2)",
+  "optimal_space": "O(sum/2)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "If the total sum is odd, can you partition into two equal subsets?",
+    "This is a subset sum problem: can any subset sum to total/2?",
+    "How does 0/1 knapsack apply — why must you iterate the dp array backwards?"
+  ],
+  "hints": {
+    "L1": "If total is odd, return False. Otherwise, find if any subset sums to total/2 — classic 0/1 knapsack.",
+    "L2": "Boolean dp where dp[s] = can we form sum s. For each num, update dp backwards: dp[s] |= dp[s-num]. If dp[target] is True, answer is True.",
+    "L3": "# Partition Equal Subset Sum — O(n * target) time, O(target) space\n# KEY INSIGHT: reduce to subset sum = total/2 (0/1 knapsack)\n\ndef canPartition(nums):\n    total = sum(nums)\n    if total % 2 != 0:\n        return False\n\n    target = total // 2\n    dp = set([0])  # achievable sums\n\n    for num in nums:\n        # Process in copy to avoid using same num twice (0/1 knapsack)\n        new_dp = set()\n        for s in dp:\n            new_dp.add(s + num)\n        dp = dp | new_dp\n\n        if target in dp:\n            return True\n\n    return False\n\n# ALTERNATIVE: boolean array, iterate backwards\n# dp = [False] * (target + 1); dp[0] = True\n# for num in nums:\n#     for s in range(target, num-1, -1):  # BACKWARDS to avoid reuse\n#         dp[s] |= dp[s - num]"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,5,11,5]",
+      "expected": "True ([1,5,5] and [11])"
+    },
+    {
+      "input": "nums=[1,2,3,5]",
+      "expected": "False"
+    },
+    {
+      "input": "nums=[1,1]",
+      "expected": "True"
+    },
+    {
+      "input": "nums=[2,2,1,1]",
+      "expected": "True"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "False"
+    }
+  ],
+  "follow_up_questions": [
+    "Why must you iterate the dp array backwards in the boolean array version?",
+    "How does this compare to the unbounded knapsack (Coin Change)?",
+    "What if you want to partition into k equal subsets?"
+  ],
+  "solution_notes": "0/1 knapsack subset sum. target=total//2. dp set of achievable sums. Or boolean array iterated backwards to prevent item reuse."
+}
