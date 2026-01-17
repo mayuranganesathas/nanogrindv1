@@ -1,0 +1,76 @@
+{
+  "id": "nc_107",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "139",
+  "title": "Word Break",
+  "url": "https://leetcode.com/problems/word-break/",
+  "description": "Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words. Note that the same word in the dictionary may be reused multiple times in the segmentation.",
+  "constraints": [
+    "1 <= s.length <= 300",
+    "1 <= wordDict.length <= 1000",
+    "1 <= wordDict[i].length <= 20",
+    "s and wordDict[i] consist of only lowercase English letters",
+    "All the strings of wordDict are unique"
+  ],
+  "difficulty": "medium",
+  "category": "1-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "string-dp",
+    "set-lookup"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 4,
+  "day": 3,
+  "companies": [
+    "google",
+    "amazon",
+    "facebook",
+    "bloomberg",
+    "apple"
+  ],
+  "optimal_time": "O(n^2 * m) where m=avg word length",
+  "optimal_space": "O(n + W) where W=word dict size",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "If the substring s[0..j-1] can be segmented, and s[j..i-1] is in the dictionary, what does that tell you about s[0..i-1]?",
+    "What should dp[0] be? (empty string)",
+    "How do you efficiently check if a substring is in the dictionary?"
+  ],
+  "hints": {
+    "L1": "dp[i] = True if s[0..i-1] can be segmented. For each position i, look back at all j where dp[j]=True and s[j..i] is in wordDict.",
+    "L2": "Convert wordDict to a set for O(1) lookups. dp[0]=True (empty). For i in 1..n: for j in 0..i: if dp[j] and s[j:i] in word_set: dp[i]=True.",
+    "L3": "# Word Break — O(n^2) time (ignoring string hashing), O(n) space\n# KEY INSIGHT: dp[i] = can we break s[0:i]?\n# dp[i] = True if any dp[j]=True and s[j:i] in wordDict\n\ndef wordBreak(s, wordDict):\n    word_set = set(wordDict)\n    n = len(s)\n    dp = [False] * (n + 1)\n    dp[0] = True  # empty string always segmentable\n\n    for i in range(1, n + 1):\n        for j in range(i):\n            if dp[j] and s[j:i] in word_set:\n                dp[i] = True\n                break  # found one valid split, no need to continue\n\n    return dp[n]\n# OPTIMIZATION: limit j range based on max word length in dict"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"leetcode\", wordDict=[\"leet\",\"code\"]",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"applepenapple\", wordDict=[\"apple\",\"pen\"]",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"catsandog\", wordDict=[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]",
+      "expected": "False"
+    },
+    {
+      "input": "s=\"a\", wordDict=[\"b\"]",
+      "expected": "False"
+    },
+    {
+      "input": "s=\"\", wordDict=[\"a\"]",
+      "expected": "True"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you return all valid segmentations? (Word Break II)",
+    "How can you optimize using max word length?",
+    "Could you solve this with BFS or DFS + memoization?"
+  ],
+  "solution_notes": "dp[i] = can break s[0:i]. Set for O(1) lookup. For each i, check all j < i where dp[j]=True and s[j:i] in set."
+}
