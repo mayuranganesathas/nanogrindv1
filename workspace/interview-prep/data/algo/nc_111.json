@@ -1,0 +1,72 @@
+{
+  "id": "nc_111",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "1143",
+  "title": "Longest Common Subsequence",
+  "url": "https://leetcode.com/problems/longest-common-subsequence/",
+  "description": "Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. A subsequence of a string is a new string generated from the original by deleting some (or no) characters without changing the relative order of the remaining characters.",
+  "constraints": [
+    "1 <= text1.length, text2.length <= 1000",
+    "text1 and text2 consist of only lowercase English characters"
+  ],
+  "difficulty": "medium",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "sequence-dp",
+    "lcs"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft",
+    "facebook"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(min(m,n))",
+  "brute_force_time": "O(2^(m+n))",
+  "thinking_questions": [
+    "If text1[i] == text2[j], what does that tell you about LCS(text1[:i+1], text2[:j+1])?",
+    "If they don't match, what's LCS of the two strings?",
+    "How do you build the dp table bottom-up?"
+  ],
+  "hints": {
+    "L1": "If characters match, LCS grows by 1. If not, take the max LCS from skipping one character in either string.",
+    "L2": "dp[i][j] = LCS of text1[:i] and text2[:j]. If match: dp[i][j] = dp[i-1][j-1]+1. Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1]).",
+    "L3": "# LCS — O(m*n) time, O(min(m,n)) space\n# KEY INSIGHT: if chars match, LCS = 1 + LCS of both shortened by 1\n# if no match, LCS = max of skipping from either string\n\ndef longestCommonSubsequence(text1, text2):\n    m, n = len(text1), len(text2)\n\n    # Use two rows for space optimization\n    prev = [0] * (n + 1)\n\n    for i in range(1, m + 1):\n        curr = [0] * (n + 1)\n        for j in range(1, n + 1):\n            if text1[i-1] == text2[j-1]:\n                curr[j] = prev[j-1] + 1          # chars match: extend\n            else:\n                curr[j] = max(prev[j], curr[j-1]) # skip from either\n        prev = curr\n\n    return prev[n]\n# WHY two-row: current row only needs previous row's values"
+  },
+  "test_cases": [
+    {
+      "input": "text1=\"abcde\", text2=\"ace\"",
+      "expected": "3 (ace)"
+    },
+    {
+      "input": "text1=\"abc\", text2=\"abc\"",
+      "expected": "3"
+    },
+    {
+      "input": "text1=\"abc\", text2=\"def\"",
+      "expected": "0"
+    },
+    {
+      "input": "text1=\"bl\", text2=\"yby\"",
+      "expected": "1 (b)"
+    },
+    {
+      "input": "text1=\"oxcpqrsvwf\", text2=\"shmtulqrypy\"",
+      "expected": "2"
+    }
+  ],
+  "follow_up_questions": [
+    "How do you reconstruct the actual LCS string (not just its length)?",
+    "What's the relationship between LCS and Edit Distance?",
+    "How does LCS differ from Longest Common Substring?"
+  ],
+  "solution_notes": "dp[i][j]: match → dp[i-1][j-1]+1, no match → max(dp[i-1][j], dp[i][j-1]). Two-row space optimization."
+}
