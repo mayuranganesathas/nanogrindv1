@@ -1,0 +1,71 @@
+{
+  "id": "nc_110",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "62",
+  "title": "Unique Paths",
+  "url": "https://leetcode.com/problems/unique-paths/",
+  "description": "There is a robot on an m x n grid. The robot is initially located at the top-left corner (grid[0][0]) and tries to move to the bottom-right corner (grid[m-1][n-1]). The robot can only move either down or right at any point in time. Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.",
+  "constraints": [
+    "1 <= m, n <= 100"
+  ],
+  "difficulty": "medium",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "grid-dp",
+    "combinatorics"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft",
+    "bloomberg"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(2^(m+n))",
+  "thinking_questions": [
+    "From any cell, you can only go right or down. How many paths reach cell (i,j)?",
+    "What are the base cases for the first row and first column?",
+    "Can you reduce 2D dp to 1D by processing row by row?"
+  ],
+  "hints": {
+    "L1": "Paths to cell (i,j) = paths from above + paths from left. Build up from top-left corner.",
+    "L2": "dp[i][j] = dp[i-1][j] + dp[i][j-1]. First row and column all = 1. Reduce to 1D: dp[j] += dp[j-1].",
+    "L3": "# Unique Paths — O(m*n) time, O(n) space\n# KEY INSIGHT: paths(i,j) = paths(i-1,j) + paths(i,j-1)\n# Base: first row/col all 1 (only one way to reach each)\n\ndef uniquePaths(m, n):\n    dp = [1] * n  # represents current row, init as first row\n\n    for i in range(1, m):          # rows 1..m-1\n        for j in range(1, n):      # cols 1..n-1\n            dp[j] += dp[j-1]       # dp[j] = above (old dp[j]) + left (dp[j-1])\n\n    return dp[n-1]\n# WHY O(n) space: each row only needs previous row\n# MATH SHORTCUT: C(m+n-2, m-1) — choose m-1 downs from m+n-2 moves"
+  },
+  "test_cases": [
+    {
+      "input": "m=3, n=7",
+      "expected": "28"
+    },
+    {
+      "input": "m=3, n=2",
+      "expected": "3"
+    },
+    {
+      "input": "m=1, n=1",
+      "expected": "1"
+    },
+    {
+      "input": "m=7, n=3",
+      "expected": "28"
+    },
+    {
+      "input": "m=2, n=2",
+      "expected": "2"
+    }
+  ],
+  "follow_up_questions": [
+    "What's the combinatorics formula shortcut?",
+    "How does adding obstacles change the problem? (Unique Paths II)",
+    "Can you solve this recursively with memoization?"
+  ],
+  "solution_notes": "Grid DP. dp[i][j] = dp[i-1][j] + dp[i][j-1]. O(n) space by rolling array. Math: C(m+n-2, m-1)."
+}
