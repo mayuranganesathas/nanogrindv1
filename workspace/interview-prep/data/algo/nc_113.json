@@ -1,0 +1,73 @@
+{
+  "id": "nc_113",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "518",
+  "title": "Coin Change II",
+  "url": "https://leetcode.com/problems/coin-change-ii/",
+  "description": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0. You may use each coin an unlimited number of times. The answer is guaranteed to fit into a signed 32-bit integer.",
+  "constraints": [
+    "1 <= coins.length <= 300",
+    "1 <= coins[i] <= 5000",
+    "All values of coins are unique",
+    "0 <= amount <= 5000"
+  ],
+  "difficulty": "medium",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "unbounded-knapsack",
+    "counting-dp"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(amount * len(coins))",
+  "optimal_space": "O(amount)",
+  "brute_force_time": "O(amount^coins)",
+  "thinking_questions": [
+    "Unlike Coin Change I (min coins), this asks for number of ways. How does the recurrence change?",
+    "Why is iteration order important? What order prevents double-counting?",
+    "How is this different from Climbing Stairs (where 1+2 and 2+1 are different)?"
+  ],
+  "hints": {
+    "L1": "Count the number of combinations (order doesn't matter) that sum to amount. Use unbounded knapsack counting.",
+    "L2": "dp[s] = number of ways to make sum s. For each coin, iterate sums forward: dp[s] += dp[s-coin]. Process one coin at a time to avoid counting permutations.",
+    "L3": "# Coin Change II — O(amount * coins) time, O(amount) space\n# KEY INSIGHT: count combinations (not permutations)\n# Process one coin at a time to avoid counting [1,2] and [2,1] separately\n\ndef change(amount, coins):\n    dp = [0] * (amount + 1)\n    dp[0] = 1  # one way to make 0: use no coins\n\n    for coin in coins:          # outer loop = coin (ensures combos not perms)\n        for s in range(coin, amount + 1):  # forward (unbounded = can reuse)\n            dp[s] += dp[s - coin]\n\n    return dp[amount]\n# WHY coin as outer loop: fixes order, so coin 1 then 2 is same as 2 then 1\n# Compare: Climbing Stairs outer=amount (counts permutations)"
+  },
+  "test_cases": [
+    {
+      "input": "amount=5, coins=[1,2,5]",
+      "expected": "4 ({5},{1,2,2},{1,1,1,2},{1,1,1,1,1})"
+    },
+    {
+      "input": "amount=3, coins=[2]",
+      "expected": "0"
+    },
+    {
+      "input": "amount=10, coins=[10]",
+      "expected": "1"
+    },
+    {
+      "input": "amount=0, coins=[1,2,3]",
+      "expected": "1"
+    },
+    {
+      "input": "amount=500, coins=[1,2,5]",
+      "expected": "12701"
+    }
+  ],
+  "follow_up_questions": [
+    "If order matters (permutations), how would you change the loop order?",
+    "Why is the outer loop over coins and inner loop over amounts (and not the reverse)?",
+    "How does dp[0]=1 act as the base case?"
+  ],
+  "solution_notes": "Coin as outer loop = combinations. Amount as outer loop = permutations. dp[s] += dp[s-coin]. O(amount*coins) time."
+}
