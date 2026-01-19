@@ -1,0 +1,70 @@
+{
+  "id": "nc_116",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "329",
+  "title": "Longest Increasing Path in a Matrix",
+  "url": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/",
+  "description": "Given an m x n integers matrix, return the length of the longest increasing path in matrix. From each cell, you can either move in four directions: left, right, up, or down. You may not move diagonally or move outside the boundary (i.e., wrap-around is not allowed). The path must be strictly increasing.",
+  "constraints": [
+    "m == matrix.length",
+    "n == matrix[i].length",
+    "1 <= m, n <= 200",
+    "0 <= matrix[i][j] <= 2^31 - 1"
+  ],
+  "difficulty": "hard",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "dfs",
+    "memoization",
+    "topological-sort"
+  ],
+  "estimated_minutes": 45,
+  "phase": 2,
+  "week": 6,
+  "day": 1,
+  "companies": [
+    "google",
+    "amazon",
+    "microsoft"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(m*n)",
+  "brute_force_time": "O((m*n)^2)",
+  "thinking_questions": [
+    "From each cell, you can go to any of 4 neighbors if they're strictly greater. Can you DFS + memoize?",
+    "Why can you guarantee no cycles in the DFS? (strict increase prevents revisiting)",
+    "What does memo[i][j] represent?"
+  ],
+  "hints": {
+    "L1": "DFS from every cell, but memoize: memo[i][j] = length of longest increasing path starting at (i,j).",
+    "L2": "DFS with memo: from each cell, try all 4 neighbors that are strictly larger. Cache results — no revisit needed because strictly increasing paths can't have cycles.",
+    "L3": "# Longest Increasing Path in Matrix — O(m*n) time and space\n# KEY INSIGHT: DFS + memo. No cycles because path is strictly increasing\n\ndef longestIncreasingPath(matrix):\n    m, n = len(matrix), len(matrix[0])\n    memo = {}\n\n    def dfs(i, j):\n        if (i, j) in memo:\n            return memo[(i, j)]\n\n        best = 1  # at minimum, the cell itself\n        for di, dj in [(0,1),(0,-1),(1,0),(-1,0)]:\n            ni, nj = i + di, j + dj\n            if 0 <= ni < m and 0 <= nj < n and matrix[ni][nj] > matrix[i][j]:\n                best = max(best, 1 + dfs(ni, nj))\n\n        memo[(i, j)] = best\n        return best\n\n    return max(dfs(i, j) for i in range(m) for j in range(n))\n# WHY no cycle: strictly increasing means you can never return to a lower cell"
+  },
+  "test_cases": [
+    {
+      "input": "matrix=[[9,9,4],[6,6,8],[2,1,1]]",
+      "expected": "4 ([1,2,6,9])"
+    },
+    {
+      "input": "matrix=[[3,4,5],[3,2,6],[2,2,1]]",
+      "expected": "4 ([3,4,5,6])"
+    },
+    {
+      "input": "matrix=[[1]]",
+      "expected": "1"
+    },
+    {
+      "input": "matrix=[[1,2],[3,4]]",
+      "expected": "3 ([1,2,4] or [1,3,4])"
+    }
+  ],
+  "follow_up_questions": [
+    "Why can't you have a cycle in the DFS (why is memoization safe)?",
+    "What's the topological sort approach using in-degree?",
+    "How would you reconstruct the actual path?"
+  ],
+  "solution_notes": "DFS + memo. No cycles because strictly increasing prevents revisiting. Try all 4 neighbors with val > current. O(m*n) time."
+}
