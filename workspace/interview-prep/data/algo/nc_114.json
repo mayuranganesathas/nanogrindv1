@@ -1,0 +1,73 @@
+{
+  "id": "nc_114",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "494",
+  "title": "Target Sum",
+  "url": "https://leetcode.com/problems/target-sum/",
+  "description": "You are given an integer array nums and an integer target. You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers. Return the number of different expressions that you can build, which evaluates to target.",
+  "constraints": [
+    "1 <= nums.length <= 20",
+    "0 <= nums[i] <= 1000",
+    "0 <= sum(nums[i]) <= 1000",
+    "-1000 <= target <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "subset-sum",
+    "dfs-memoization"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "facebook",
+    "amazon",
+    "google"
+  ],
+  "optimal_time": "O(n * sum)",
+  "optimal_space": "O(n * sum)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "Each number can be + or -. What's the state space for memoized DFS?",
+    "State: (index, current_sum). How many unique states are there?",
+    "Can you reduce to a subset-sum problem? (P-N = target, P+N = total, so P = (target+total)/2)"
+  ],
+  "hints": {
+    "L1": "Use DFS with memoization: at each index, try adding or subtracting the number, cache by (index, current_sum).",
+    "L2": "Memo[i][s] = number of ways to assign +/- to nums[i:] to reach remaining sum s. Or reduce to subset-sum: find subset summing to (total+target)/2.",
+    "L3": "# Target Sum — O(n * sum) time with memoization\n# KEY INSIGHT: DFS(index, remaining_sum) = ways to assign signs\n\ndef findTargetSumWays(nums, target):\n    memo = {}\n\n    def dfs(i, remaining):\n        if i == len(nums):\n            return 1 if remaining == 0 else 0\n        if (i, remaining) in memo:\n            return memo[(i, remaining)]\n\n        # Add or subtract current number\n        add = dfs(i + 1, remaining - nums[i])\n        sub = dfs(i + 1, remaining + nums[i])\n        memo[(i, remaining)] = add + sub\n        return memo[(i, remaining)]\n\n    return dfs(0, target)\n# SUBSET-SUM REDUCTION: P - N = target, P + N = total\n# → P = (total + target) / 2, find subsets summing to P"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[1,1,1,1,1], target=3",
+      "expected": "5"
+    },
+    {
+      "input": "nums=[1], target=1",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1], target=2",
+      "expected": "0"
+    },
+    {
+      "input": "nums=[1,0], target=1",
+      "expected": "2 (both ± on 0)"
+    },
+    {
+      "input": "nums=[0,0,0,0,0,0,0,0,1], target=1",
+      "expected": "256"
+    }
+  ],
+  "follow_up_questions": [
+    "How does the subset-sum reduction work mathematically?",
+    "Why does nums containing zeros increase the count?",
+    "Could you solve this bottom-up with a 2D dp table?"
+  ],
+  "solution_notes": "DFS + memo on (index, remaining_sum). O(n * total_sum) states. Subset-sum reduction: P=(total+target)/2."
+}
