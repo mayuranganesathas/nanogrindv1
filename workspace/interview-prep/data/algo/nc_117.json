@@ -1,0 +1,70 @@
+{
+  "id": "nc_117",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "115",
+  "title": "Distinct Subsequences",
+  "url": "https://leetcode.com/problems/distinct-subsequences/",
+  "description": "Given two strings s and t, return the number of distinct subsequences of s which equals t. A subsequence of a string is a new string generated from the original by deleting some (or no) characters without changing the relative order of the remaining characters. The answer fits in a 32-bit unsigned integer.",
+  "constraints": [
+    "1 <= s.length, t.length <= 1000",
+    "s and t consist of English letters"
+  ],
+  "difficulty": "hard",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "sequence-dp",
+    "counting-dp"
+  ],
+  "estimated_minutes": 45,
+  "phase": 2,
+  "week": 6,
+  "day": 1,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(2^m)",
+  "thinking_questions": [
+    "dp[i][j] = number of ways t[:j] appears as a subsequence of s[:i]. What are the transitions?",
+    "When s[i]==t[j], how many ways are there? When they don't match?",
+    "What does dp[i][0] = 1 for all i mean?"
+  ],
+  "hints": {
+    "L1": "2D DP: count how many ways t can appear as a subsequence of s up to each position.",
+    "L2": "dp[i][j] = ways t[:j] appears in s[:i]. If s[i-1]==t[j-1]: dp[i][j] = dp[i-1][j-1] + dp[i-1][j] (use or skip char). Else: dp[i][j] = dp[i-1][j].",
+    "L3": "# Distinct Subsequences — O(m*n) time, O(n) space\n# KEY INSIGHT: at each s[i], decide: use it to match t[j], or skip it\n\ndef numDistinct(s, t):\n    m, n = len(s), len(t)\n    # dp[j] = ways t[:j] appears in s so far\n    dp = [0] * (n + 1)\n    dp[0] = 1  # empty t is a subsequence of any s (1 way)\n\n    for i in range(1, m + 1):\n        # Process RIGHT to LEFT to avoid using s[i] multiple times\n        for j in range(n, 0, -1):\n            if s[i-1] == t[j-1]:\n                dp[j] += dp[j-1]  # use s[i] to match t[j], OR don't use it (dp[j] already included)\n\n    return dp[n]\n# WHY right to left: same pattern as 0/1 knapsack"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"rabbbit\", t=\"rabbit\"",
+      "expected": "3"
+    },
+    {
+      "input": "s=\"babgbag\", t=\"bag\"",
+      "expected": "5"
+    },
+    {
+      "input": "s=\"a\", t=\"a\"",
+      "expected": "1"
+    },
+    {
+      "input": "s=\"a\", t=\"b\"",
+      "expected": "0"
+    },
+    {
+      "input": "s=\"aaa\", t=\"aa\"",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does the inner loop go right to left?",
+    "What's the relationship between this and LCS?",
+    "How does dp[j] += dp[j-1] handle both 'use' and 'skip' cases?"
+  ],
+  "solution_notes": "dp[j] = ways t[:j] is subsequence of s so far. Match: dp[j] += dp[j-1]. Iterate j right-to-left (0/1 knapsack pattern)."
+}
