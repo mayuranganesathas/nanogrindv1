@@ -1,0 +1,73 @@
+{
+  "id": "nc_118",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "72",
+  "title": "Edit Distance",
+  "url": "https://leetcode.com/problems/edit-distance/",
+  "description": "Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. You have three operations permitted on a word: Insert a character, Delete a character, Replace a character.",
+  "constraints": [
+    "0 <= word1.length, word2.length <= 500",
+    "word1 and word2 consist of lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "sequence-dp",
+    "edit-distance"
+  ],
+  "estimated_minutes": 40,
+  "phase": 1,
+  "week": 5,
+  "day": 2,
+  "companies": [
+    "google",
+    "amazon",
+    "microsoft",
+    "facebook",
+    "linkedin"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(3^(m+n))",
+  "thinking_questions": [
+    "dp[i][j] = min edits to convert word1[:i] to word2[:j]. What are the 3 operations?",
+    "If word1[i]==word2[j], no edit needed — you can take dp[i-1][j-1]. What if they differ?",
+    "What do the base cases dp[i][0]=i and dp[0][j]=j represent?"
+  ],
+  "hints": {
+    "L1": "At each position, try all 3 operations (insert, delete, replace) and take the minimum plus 1.",
+    "L2": "dp[i][j]: if chars match = dp[i-1][j-1]. Else = 1 + min(dp[i-1][j-1] replace, dp[i-1][j] delete, dp[i][j-1] insert). Base: dp[i][0]=i, dp[0][j]=j.",
+    "L3": "# Edit Distance — O(m*n) time, O(n) space\n# KEY INSIGHT: dp[i][j] = min edits to convert word1[:i] → word2[:j]\n# 3 operations: replace (diagonal), delete from w1 (above), insert into w1 (left)\n\ndef minDistance(word1, word2):\n    m, n = len(word1), len(word2)\n    # dp[j] represents current row\n    dp = list(range(n + 1))  # base case: dp[0][j] = j\n\n    for i in range(1, m + 1):\n        prev = dp[0]          # save dp[i-1][j-1]\n        dp[0] = i             # base case: dp[i][0] = i\n\n        for j in range(1, n + 1):\n            temp = dp[j]      # save before overwrite (= dp[i-1][j])\n            if word1[i-1] == word2[j-1]:\n                dp[j] = prev  # no edit needed: take diagonal\n            else:\n                dp[j] = 1 + min(prev,    # replace\n                                dp[j],   # delete from word1\n                                dp[j-1]) # insert into word1\n            prev = temp       # move diagonal forward\n\n    return dp[n]"
+  },
+  "test_cases": [
+    {
+      "input": "word1=\"horse\", word2=\"ros\"",
+      "expected": "3"
+    },
+    {
+      "input": "word1=\"intention\", word2=\"execution\"",
+      "expected": "5"
+    },
+    {
+      "input": "word1=\"\", word2=\"abc\"",
+      "expected": "3"
+    },
+    {
+      "input": "word1=\"abc\", word2=\"\"",
+      "expected": "3"
+    },
+    {
+      "input": "word1=\"abc\", word2=\"abc\"",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "What does each of the 3 operations correspond to in the dp table?",
+    "How would you reconstruct the actual sequence of edits?",
+    "What's the relationship between Edit Distance and LCS?"
+  ],
+  "solution_notes": "dp[i][j]: match=dp[i-1][j-1], else 1+min(replace diagonal, delete above, insert left). Base: dp[i][0]=i, dp[0][j]=j."
+}
