@@ -1,0 +1,75 @@
+{
+  "id": "nc_120",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "10",
+  "title": "Regular Expression Matching",
+  "url": "https://leetcode.com/problems/regular-expression-matching/",
+  "description": "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where: '.' matches any single character, and '*' matches zero or more of the preceding element. The matching should cover the entire input string (not partial). Note that '*' cannot appear as the first element of the pattern.",
+  "constraints": [
+    "1 <= s.length <= 20",
+    "1 <= p.length <= 30",
+    "s contains only lowercase English letters",
+    "p contains only lowercase English letters, '.', and '*'",
+    "It is guaranteed for each occurrence of '*', there will be a previous valid character to match"
+  ],
+  "difficulty": "hard",
+  "category": "2-D Dynamic Programming",
+  "pattern_tags": [
+    "dp",
+    "2d-string-dp",
+    "regex"
+  ],
+  "estimated_minutes": 50,
+  "phase": 2,
+  "week": 6,
+  "day": 2,
+  "companies": [
+    "google",
+    "facebook",
+    "amazon",
+    "airbnb"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(m*n)",
+  "brute_force_time": "O(2^(m+n))",
+  "thinking_questions": [
+    "dp[i][j] = does s[:i] match p[:j]? How do you handle '.' vs '*'?",
+    "When p[j-1] == '*': two cases — use zero of preceding (dp[i][j-2]) or use one more (dp[i-1][j] if chars match).",
+    "What is the base case dp[0][0]? What about dp[0][j] when pattern has 'a*b*c*'?"
+  ],
+  "hints": {
+    "L1": "2D DP: dp[i][j] = does s[:i] match p[:j]. Handle '.' as wildcard single char, '*' as zero-or-more of preceding char.",
+    "L2": "If p[j-1]=='*': dp[i][j] = dp[i][j-2] (zero uses) OR (if s[i-1] matches p[j-2]): dp[i-1][j] (one more use). If p[j-1]=='.' or exact match: dp[i][j] = dp[i-1][j-1].",
+    "L3": "# Regular Expression Matching — O(m*n) time and space\n# KEY INSIGHT: '*' means zero or more of the PRECEDING element\n\ndef isMatch(s, p):\n    m, n = len(s), len(p)\n    dp = [[False] * (n + 1) for _ in range(m + 1)]\n    dp[0][0] = True  # empty matches empty\n\n    # Base: patterns like a* or a*b* can match empty string\n    for j in range(1, n + 1):\n        if p[j-1] == '*':\n            dp[0][j] = dp[0][j-2]  # '*' eliminates preceding char\n\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if p[j-1] == '*':\n                # Zero occurrences of preceding char\n                dp[i][j] = dp[i][j-2]\n                # One more occurrence (if preceding matches s[i-1])\n                if p[j-2] == s[i-1] or p[j-2] == '.':\n                    dp[i][j] = dp[i][j] or dp[i-1][j]\n            elif p[j-1] == '.' or p[j-1] == s[i-1]:\n                dp[i][j] = dp[i-1][j-1]  # single char match\n\n    return dp[m][n]"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"aa\", p=\"a\"",
+      "expected": "False"
+    },
+    {
+      "input": "s=\"aa\", p=\"a*\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"ab\", p=\".*\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"aab\", p=\"c*a*b\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"mississippi\", p=\"mis*is*p*.\"",
+      "expected": "False"
+    }
+  ],
+  "follow_up_questions": [
+    "How does handling '*' with dp[i][j-2] cover the zero-occurrences case?",
+    "Why do you need to initialize dp[0][j] for patterns like 'a*b*'?",
+    "How would you extend this to support '+' (one or more)?"
+  ],
+  "solution_notes": "2D DP. '*' = zero uses (dp[i][j-2]) or more uses (dp[i-1][j] if match). '.' matches any. Init dp[0][j] for x*y* patterns."
+}
