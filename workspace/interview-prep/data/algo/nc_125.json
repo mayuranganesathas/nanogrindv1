@@ -1,0 +1,70 @@
+{
+  "id": "nc_125",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "846",
+  "title": "Hand of Straights",
+  "url": "https://leetcode.com/problems/hand-of-straights/",
+  "description": "Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size groupSize, and consists of groupSize consecutive cards. Given an integer array hand where hand[i] is the value written on the ith card and an integer groupSize, return true if she can rearrange the cards, or false otherwise.",
+  "constraints": [
+    "1 <= hand.length <= 10^4",
+    "0 <= hand[i] <= 10^9",
+    "1 <= groupSize <= hand.length"
+  ],
+  "difficulty": "medium",
+  "category": "Greedy",
+  "pattern_tags": [
+    "greedy",
+    "sorted-map"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 5,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "What's the smallest card remaining? It must start a group. Why?",
+    "Use a sorted frequency map. For each group starting at smallest card, consume groupSize consecutive cards.",
+    "What happens if any consecutive card count goes to 0 before the group is complete?"
+  ],
+  "hints": {
+    "L1": "The smallest remaining card must always start a new group. Greedily form groups from the minimum.",
+    "L2": "Use an ordered counter (sorted map). Start each group from the minimum key. Decrement groupSize consecutive keys. If any goes negative, return False.",
+    "L3": "# Hand of Straights — O(n log n) time, O(n) space\n# KEY INSIGHT: smallest card always starts a group (greedy)\n\nfrom collections import Counter\nimport heapq\n\ndef isNStraightHand(hand, groupSize):\n    if len(hand) % groupSize != 0:\n        return False\n\n    count = Counter(hand)\n    min_heap = list(count.keys())\n    heapq.heapify(min_heap)\n\n    while min_heap:\n        start = min_heap[0]  # smallest remaining card\n\n        for card in range(start, start + groupSize):\n            if count[card] == 0:\n                return False\n            count[card] -= 1\n            if count[card] == 0:\n                if card != min_heap[0]:\n                    return False  # heap top should be card if it hit 0\n                heapq.heappop(min_heap)\n\n    return True"
+  },
+  "test_cases": [
+    {
+      "input": "hand=[1,2,3,6,2,3,4,7,8], groupSize=3",
+      "expected": "True"
+    },
+    {
+      "input": "hand=[1,2,3,4,5], groupSize=4",
+      "expected": "False"
+    },
+    {
+      "input": "hand=[1], groupSize=1",
+      "expected": "True"
+    },
+    {
+      "input": "hand=[1,2,3], groupSize=3",
+      "expected": "True"
+    },
+    {
+      "input": "hand=[1,2,3,4], groupSize=2",
+      "expected": "True"
+    }
+  ],
+  "follow_up_questions": [
+    "Is this the same as 'Divide Array in Sets of K Consecutive Numbers'?",
+    "Why must the smallest card always start a group?",
+    "What's the time complexity with sorted dict vs heap?"
+  ],
+  "solution_notes": "Greedy: smallest always starts a group. Counter + min-heap. For each group, consume groupSize consecutive cards."
+}
