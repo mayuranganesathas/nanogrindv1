@@ -1,0 +1,71 @@
+{
+  "id": "nc_123",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "45",
+  "title": "Jump Game II",
+  "url": "https://leetcode.com/problems/jump-game-ii/",
+  "description": "You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0]. Each element nums[i] represents the maximum length of a forward jump from index i. Return the minimum number of jumps to reach nums[n-1]. The test cases are generated such that you can reach nums[n-1].",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "0 <= nums[i] <= 1000",
+    "The generated input guarantees that you can reach nums[n-1]"
+  ],
+  "difficulty": "medium",
+  "category": "Greedy",
+  "pattern_tags": [
+    "greedy",
+    "bfs-levels"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 4,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "Think of this like BFS levels: all positions reachable in k jumps form one 'level'. What's the farthest you can reach from this level?",
+    "When do you increment the jump count?",
+    "What are farthest (max reach in current level) and curEnd (boundary of current level)?"
+  ],
+  "hints": {
+    "L1": "Think of jumps as BFS levels. At each level, extend as far as possible before taking the next jump.",
+    "L2": "Track curEnd (current jump boundary) and farthest (max reachable from current level). When i reaches curEnd, increment jumps and set curEnd = farthest.",
+    "L3": "# Jump Game II — O(n) time, O(1) space\n# KEY INSIGHT: BFS level approach — each jump is one level\n# Greedily extend farthest reach, jump when hitting level boundary\n\ndef jump(nums):\n    jumps = 0\n    cur_end = 0   # rightmost index in current level\n    farthest = 0  # farthest we can reach from current level\n\n    for i in range(len(nums) - 1):  # don't need to jump from last\n        farthest = max(farthest, i + nums[i])\n\n        if i == cur_end:       # reached end of current level\n            jumps += 1\n            cur_end = farthest  # next level ends at farthest\n\n    return jumps\n# WHY stop at n-2: if we're at last index, no more jumps needed"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[2,3,1,1,4]",
+      "expected": "2 (0→1→4)"
+    },
+    {
+      "input": "nums=[2,3,0,1,4]",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[1,2,3]",
+      "expected": "2 (0→1→2 or 0→2)"
+    },
+    {
+      "input": "nums=[0]",
+      "expected": "0"
+    },
+    {
+      "input": "nums=[1,1,1,1]",
+      "expected": "3"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do you loop to len(nums)-1 and not len(nums)?",
+    "How does this relate to BFS on a graph?",
+    "What if you wanted the actual jump path?"
+  ],
+  "solution_notes": "BFS levels. farthest=max reach, curEnd=level boundary. When i==curEnd: jump++, curEnd=farthest. Loop to n-2."
+}
