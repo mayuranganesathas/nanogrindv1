@@ -1,0 +1,64 @@
+{
+  "id": "nc_126",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "1899",
+  "title": "Merge Triplets to Form Target Triplet",
+  "url": "https://leetcode.com/problems/merge-triplets-to-form-target-triplet/",
+  "description": "A triplet is an array of three integers. You are given a 2D integer array triplets, where triplets[i] = [ai, bi, ci] describes the ith triplet. You are also given an integer array target = [x, y, z] that describes the triplet you want to obtain. To obtain target, you may apply the following operation on triplets any number of times: Choose two indices i and j (0-indexed) and update triplets[j] = [max(ai, aj), max(bi, bj), max(ci, cj)]. Return true if it is possible to obtain the target triplet [x, y, z] as an element of triplets, or false otherwise.",
+  "constraints": [
+    "1 <= triplets.length <= 10^5",
+    "triplets[i].length == target.length == 3",
+    "1 <= ai, bi, ci, x, y, z <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "Greedy",
+  "pattern_tags": [
+    "greedy"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^3)",
+  "thinking_questions": [
+    "Merging takes the max of each position. When is a triplet 'bad' to include?",
+    "A triplet is bad if any value exceeds the target at that position. Why?",
+    "Can you check which target positions are achievable by scanning valid triplets?"
+  ],
+  "hints": {
+    "L1": "Ignore triplets that exceed target in any position — they can never help. Check if remaining triplets can form the target.",
+    "L2": "Filter: skip triplets[i] if any triplets[i][j] > target[j]. Merge valid triplets by taking max at each position. Check if result == target.",
+    "L3": "# Merge Triplets to Form Target — O(n) time, O(1) space\n# KEY INSIGHT: skip any triplet exceeding target in any position (can't undo max)\n\ndef mergeTriplets(triplets, target):\n    result = [0, 0, 0]\n\n    for t in triplets:\n        # Skip triplet if it exceeds target in any position\n        if t[0] > target[0] or t[1] > target[1] or t[2] > target[2]:\n            continue\n\n        # Merge by taking max (this is what the merge operation does)\n        result[0] = max(result[0], t[0])\n        result[1] = max(result[1], t[1])\n        result[2] = max(result[2], t[2])\n\n    return result == target"
+  },
+  "test_cases": [
+    {
+      "input": "triplets=[[2,5,3],[1,8,4],[1,7,5]], target=[2,7,5]",
+      "expected": "True"
+    },
+    {
+      "input": "triplets=[[3,4,5],[4,5,6]], target=[3,2,5]",
+      "expected": "False"
+    },
+    {
+      "input": "triplets=[[2,5,3],[2,3,4],[1,2,5],[5,2,3]], target=[5,5,5]",
+      "expected": "True"
+    },
+    {
+      "input": "triplets=[[1,1,1]], target=[1,1,1]",
+      "expected": "True"
+    }
+  ],
+  "follow_up_questions": [
+    "Why can't you include a triplet that exceeds target[i] in position i?",
+    "Is the order of merging relevant?",
+    "What if you had n-tuples instead of triplets?"
+  ],
+  "solution_notes": "Filter triplets exceeding target in any position. Merge valid ones by max. Check == target. O(n)."
+}
