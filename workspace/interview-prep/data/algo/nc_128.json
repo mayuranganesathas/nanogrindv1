@@ -1,0 +1,70 @@
+{
+  "id": "nc_128",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "678",
+  "title": "Valid Parenthesis String",
+  "url": "https://leetcode.com/problems/valid-parenthesis-string/",
+  "description": "Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid. The following rules define a valid string: Any left parenthesis '(' must have a corresponding right parenthesis ')'. Any right parenthesis ')' must have a corresponding left parenthesis '('. Left parenthesis '(' must go before the corresponding right parenthesis ')'. '*' could be treated as a single right parenthesis ')', a single left parenthesis '(', or an empty string ''.",
+  "constraints": [
+    "1 <= s.length <= 100",
+    "s[i] is '(', ')' or '*'"
+  ],
+  "difficulty": "medium",
+  "category": "Greedy",
+  "pattern_tags": [
+    "greedy",
+    "range-tracking"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 5,
+  "day": 2,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(3^n)",
+  "thinking_questions": [
+    "Instead of tracking one count, track a range [min, max] of possible open parentheses.",
+    "What does '*' do to the range? What does '(' and ')' do?",
+    "When is the range invalid (impossible to balance)? When is it valid at the end?"
+  ],
+  "hints": {
+    "L1": "Track a range of possible open paren counts instead of one specific count.",
+    "L2": "lo = min possible opens, hi = max possible opens. '(': lo++,hi++. ')': lo--,hi--. '*': lo--,hi++. If hi<0: invalid. Clamp lo>=0. End: lo==0.",
+    "L3": "# Valid Parenthesis String — O(n) time, O(1) space\n# KEY INSIGHT: track [lo, hi] range of possible open paren counts\n# '*' can be '(' (hi++), ')' (lo--), or '' (neither)\n\ndef checkValidString(s):\n    lo = hi = 0  # [min, max] possible open parens\n\n    for c in s:\n        if c == '(':\n            lo += 1; hi += 1\n        elif c == ')':\n            lo -= 1; hi -= 1\n        else:  # '*'\n            lo -= 1  # '*' as ')'\n            hi += 1  # '*' as '('\n\n        if hi < 0:\n            return False  # too many closing parens even with all '*' as '('\n        lo = max(lo, 0)   # clamp: open count can't be negative\n\n    return lo == 0  # min possible opens = 0 means valid matching is possible"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"()\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"(*)\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"(*))\"",
+      "expected": "True"
+    },
+    {
+      "input": "s=\"((\"",
+      "expected": "False"
+    },
+    {
+      "input": "s=\"(*(*\"",
+      "expected": "False"
+    }
+  ],
+  "follow_up_questions": [
+    "Why clamp lo to 0 instead of allowing it to go negative?",
+    "What does hi < 0 mean physically?",
+    "How would you solve this with a stack instead?"
+  ],
+  "solution_notes": "Range [lo,hi] of possible open counts. ')' narrows both, '(' widens both, '*' widens range. hi<0: fail. End: lo==0."
+}
