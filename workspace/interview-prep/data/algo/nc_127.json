@@ -1,0 +1,70 @@
+{
+  "id": "nc_127",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "763",
+  "title": "Partition Labels",
+  "url": "https://leetcode.com/problems/partition-labels/",
+  "description": "You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part. Return a list of integers representing the size of these parts. Note that the partition is done so that after concatenating all the parts in order, the resultant string should be s.",
+  "constraints": [
+    "1 <= s.length <= 500",
+    "s consists of lowercase English letters"
+  ],
+  "difficulty": "medium",
+  "category": "Greedy",
+  "pattern_tags": [
+    "greedy",
+    "last-occurrence"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 5,
+  "day": 1,
+  "companies": [
+    "amazon",
+    "google",
+    "facebook"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "For a character to be in one partition, all its occurrences must be in that partition. What does this mean for the partition boundary?",
+    "Precompute the last occurrence of each character. How does this help set partition boundaries?",
+    "How do you extend the current partition's end when you encounter a character?"
+  ],
+  "hints": {
+    "L1": "The end of each partition is determined by the last occurrence of any character seen so far.",
+    "L2": "Precompute last[c] = last index of char c. Scan left-to-right: extend end = max(end, last[s[i]]). When i == end, partition boundary found.",
+    "L3": "# Partition Labels — O(n) time, O(1) space (O(26) for last array)\n# KEY INSIGHT: partition boundary = last occurrence of any seen character\n\ndef partitionLabels(s):\n    last = {c: i for i, c in enumerate(s)}  # last occurrence of each char\n    result = []\n    start = end = 0\n\n    for i, c in enumerate(s):\n        end = max(end, last[c])  # extend end to last occurrence of c\n\n        if i == end:             # reached the partition boundary\n            result.append(end - start + 1)\n            start = end + 1\n\n    return result"
+  },
+  "test_cases": [
+    {
+      "input": "s=\"ababcbacadefegdehijhklij\"",
+      "expected": "[9,7,8]"
+    },
+    {
+      "input": "s=\"eccbbbbdec\"",
+      "expected": "[10]"
+    },
+    {
+      "input": "s=\"a\"",
+      "expected": "[1]"
+    },
+    {
+      "input": "s=\"ab\"",
+      "expected": "[1,1]"
+    },
+    {
+      "input": "s=\"abacbc\"",
+      "expected": "[6]"
+    }
+  ],
+  "follow_up_questions": [
+    "What if a character can span multiple partitions?",
+    "How does this relate to the Merge Intervals problem?",
+    "What's the minimum number of partitions if you could reassign characters?"
+  ],
+  "solution_notes": "Precompute last occurrence. Scan: extend end=max(end,last[c]). When i==end: partition done. O(n) time, O(1) space."
+}
