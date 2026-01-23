@@ -1,0 +1,75 @@
+{
+  "id": "nc_129",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "57",
+  "title": "Insert Interval",
+  "url": "https://leetcode.com/problems/insert-interval/",
+  "description": "You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and end of the ith interval, sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval. Insert newInterval into intervals so that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary). Return the resulting intervals.",
+  "constraints": [
+    "0 <= intervals.length <= 10^4",
+    "intervals[i].length == 2",
+    "0 <= starti <= endi <= 10^5",
+    "intervals is sorted by starti in ascending order",
+    "newInterval.length == 2",
+    "0 <= start <= end <= 10^5"
+  ],
+  "difficulty": "medium",
+  "category": "Intervals",
+  "pattern_tags": [
+    "intervals",
+    "sweep"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "google",
+    "amazon",
+    "microsoft",
+    "facebook"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "There are 3 cases for each existing interval relative to the new one: before, overlapping, after.",
+    "When do two intervals overlap? When does an existing interval come entirely before the new one?",
+    "How do you merge overlapping intervals as you scan?"
+  ],
+  "hints": {
+    "L1": "Process intervals in three phases: before newInterval, overlapping with newInterval, after newInterval.",
+    "L2": "Before: existing[1] < new[0] → add as-is. Overlapping: new[0] <= existing[1] and existing[0] <= new[1] → merge (take min start, max end). After: existing[0] > new[1] → add rest.",
+    "L3": "# Insert Interval — O(n) time, O(n) space\n# 3 phases: before new interval, overlapping, after\n\ndef insert(intervals, newInterval):\n    result = []\n    i = 0\n    n = len(intervals)\n\n    # Phase 1: add all intervals that end before new starts\n    while i < n and intervals[i][1] < newInterval[0]:\n        result.append(intervals[i])\n        i += 1\n\n    # Phase 2: merge all overlapping intervals\n    while i < n and intervals[i][0] <= newInterval[1]:\n        newInterval[0] = min(newInterval[0], intervals[i][0])\n        newInterval[1] = max(newInterval[1], intervals[i][1])\n        i += 1\n    result.append(newInterval)\n\n    # Phase 3: add remaining intervals\n    while i < n:\n        result.append(intervals[i])\n        i += 1\n\n    return result"
+  },
+  "test_cases": [
+    {
+      "input": "intervals=[[1,3],[6,9]], newInterval=[2,5]",
+      "expected": "[[1,5],[6,9]]"
+    },
+    {
+      "input": "intervals=[[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval=[4,8]",
+      "expected": "[[1,2],[3,10],[12,16]]"
+    },
+    {
+      "input": "intervals=[], newInterval=[5,7]",
+      "expected": "[[5,7]]"
+    },
+    {
+      "input": "intervals=[[1,5]], newInterval=[2,3]",
+      "expected": "[[1,5]]"
+    },
+    {
+      "input": "intervals=[[1,5]], newInterval=[6,8]",
+      "expected": "[[1,5],[6,8]]"
+    }
+  ],
+  "follow_up_questions": [
+    "What if intervals are not pre-sorted?",
+    "How does this relate to Merge Intervals?",
+    "What are the exact overlap conditions?"
+  ],
+  "solution_notes": "3-phase linear scan. Phase 1: end<newStart (add). Phase 2: start<=newEnd (merge). Phase 3: add rest. O(n)."
+}
