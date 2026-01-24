@@ -1,0 +1,72 @@
+{
+  "id": "nc_131",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "435",
+  "title": "Non-overlapping Intervals",
+  "url": "https://leetcode.com/problems/non-overlapping-intervals/",
+  "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping. Note that intervals which only touch at a point are non-overlapping (e.g., [1,2] and [2,3] are non-overlapping).",
+  "constraints": [
+    "1 <= intervals.length <= 10^5",
+    "intervals[i].length == 2",
+    "-5 * 10^4 <= starti < endi <= 5 * 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Intervals",
+  "pattern_tags": [
+    "intervals",
+    "greedy",
+    "sorting"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(2^n)",
+  "thinking_questions": [
+    "To minimize removals, think about maximizing the intervals you KEEP.",
+    "Which interval should you keep when two overlap? The one that ends earlier — why?",
+    "This is the classic 'activity selection' greedy problem."
+  ],
+  "hints": {
+    "L1": "Greedy: when intervals overlap, remove the one that ends later (keep the one ending sooner to leave room for more).",
+    "L2": "Sort by end time. Track prevEnd. If curr[0] < prevEnd: conflict → remove current (count++). Else: update prevEnd = curr[1].",
+    "L3": "# Non-overlapping Intervals — O(n log n) time, O(1) space\n# KEY INSIGHT: greedy activity selection — keep interval ending earliest\n\ndef eraseOverlapIntervals(intervals):\n    intervals.sort(key=lambda x: x[1])  # sort by END time\n    removals = 0\n    prev_end = float('-inf')\n\n    for start, end in intervals:\n        if start >= prev_end:\n            prev_end = end   # compatible: keep this interval\n        else:\n            removals += 1    # overlap: remove (current already has later end since sorted)\n\n    return removals\n# WHY sort by end: keeping earliest-ending interval is greedy optimal\n# This is equivalent to finding max non-overlapping intervals"
+  },
+  "test_cases": [
+    {
+      "input": "intervals=[[1,2],[2,3],[3,4],[1,3]]",
+      "expected": "1 (remove [1,3])"
+    },
+    {
+      "input": "intervals=[[1,2],[1,2],[1,2]]",
+      "expected": "2"
+    },
+    {
+      "input": "intervals=[[1,2],[2,3]]",
+      "expected": "0"
+    },
+    {
+      "input": "intervals=[[0,2],[1,3],[2,4],[3,5],[4,6]]",
+      "expected": "2"
+    },
+    {
+      "input": "intervals=[[-52,31],[-73,-26],[82,97],[-65,-11],[-62,-49],[95,99],[58,95],[-31,49],[66,98],[-63,2],[30,47],[-40,-26]]",
+      "expected": "7"
+    }
+  ],
+  "follow_up_questions": [
+    "Why sort by end time rather than start time?",
+    "How is this the same as finding the maximum non-overlapping set?",
+    "What's the activity selection problem and how does it relate?"
+  ],
+  "solution_notes": "Sort by end. Greedy: keep earliest-ending non-conflicting interval. Count removals. O(n log n) sort."
+}
