@@ -1,0 +1,73 @@
+{
+  "id": "nc_130",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "56",
+  "title": "Merge Intervals",
+  "url": "https://leetcode.com/problems/merge-intervals/",
+  "description": "Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.",
+  "constraints": [
+    "1 <= intervals.length <= 10^4",
+    "intervals[i].length == 2",
+    "0 <= starti <= endi <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Intervals",
+  "pattern_tags": [
+    "intervals",
+    "sorting"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 3,
+  "day": 4,
+  "companies": [
+    "facebook",
+    "google",
+    "amazon",
+    "microsoft",
+    "twitter"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "If you sort by start time, when can two adjacent intervals overlap?",
+    "How do you merge into the previous interval vs starting a new one?",
+    "What does 'merged[-1][1] >= curr[0]' tell you?"
+  ],
+  "hints": {
+    "L1": "Sort by start time. Then scan: if current start <= last merged end, extend the merge. Otherwise start a new interval.",
+    "L2": "Sort by start. For each interval: if result is empty or result[-1][1] < curr[0]: append. Else: result[-1][1] = max(result[-1][1], curr[1]).",
+    "L3": "# Merge Intervals — O(n log n) time, O(n) space\n# KEY INSIGHT: after sorting by start, overlapping intervals are adjacent\n\ndef merge(intervals):\n    intervals.sort(key=lambda x: x[0])\n    result = [intervals[0]]\n\n    for start, end in intervals[1:]:\n        if start <= result[-1][1]:        # overlaps with last merged\n            result[-1][1] = max(result[-1][1], end)  # extend end\n        else:\n            result.append([start, end])   # no overlap: new interval\n\n    return result\n# PITFALL: use max(result[-1][1], end) not just end (nested intervals)"
+  },
+  "test_cases": [
+    {
+      "input": "intervals=[[1,3],[2,6],[8,10],[15,18]]",
+      "expected": "[[1,6],[8,10],[15,18]]"
+    },
+    {
+      "input": "intervals=[[1,4],[4,5]]",
+      "expected": "[[1,5]]"
+    },
+    {
+      "input": "intervals=[[1,4],[2,3]]",
+      "expected": "[[1,4]] (nested)"
+    },
+    {
+      "input": "intervals=[[1,4]]",
+      "expected": "[[1,4]]"
+    },
+    {
+      "input": "intervals=[[2,3],[4,5],[6,7],[8,9]]",
+      "expected": "[[2,3],[4,5],[6,7],[8,9]]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do you need max() when merging ends, not just take curr[1]?",
+    "How would you handle an interval being completely contained?",
+    "What's the difference between this and Insert Interval?"
+  ],
+  "solution_notes": "Sort by start. Scan: overlap (start <= last end) → extend last end with max. No overlap → append new. O(n log n)."
+}
