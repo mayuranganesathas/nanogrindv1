@@ -1,0 +1,70 @@
+{
+  "id": "nc_135",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "48",
+  "title": "Rotate Image",
+  "url": "https://leetcode.com/problems/rotate-image/",
+  "description": "You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees clockwise. You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. Do not allocate another 2D matrix and do the rotation.",
+  "constraints": [
+    "n == matrix.length == matrix[i].length",
+    "1 <= n <= 20",
+    "-1000 <= matrix[i][j] <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "matrix",
+    "transpose",
+    "in-place"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "google",
+    "facebook",
+    "apple"
+  ],
+  "optimal_time": "O(n^2)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "Can you decompose a 90-degree clockwise rotation into two simpler operations?",
+    "What happens if you transpose the matrix (flip along diagonal) then reverse each row?",
+    "What does transpose do to element (i,j)? What does reversing each row do?"
+  ],
+  "hints": {
+    "L1": "A 90-degree clockwise rotation = transpose + reverse each row.",
+    "L2": "Step 1: Transpose (swap matrix[i][j] and matrix[j][i] for i<j). Step 2: Reverse each row. Both O(n^2) in-place.",
+    "L3": "# Rotate Image 90° clockwise — O(n^2) time, O(1) space\n# KEY INSIGHT: clockwise 90° = transpose + reverse each row\n# Counterclockwise 90° = transpose + reverse each column\n\ndef rotate(matrix):\n    n = len(matrix)\n\n    # Step 1: Transpose (reflect across main diagonal)\n    for i in range(n):\n        for j in range(i + 1, n):  # only upper triangle\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n\n    # Step 2: Reverse each row\n    for row in matrix:\n        row.reverse()\n\n# VERIFY: element at (r,c) → clockwise → (c, n-1-r)\n# Transpose: (r,c)→(c,r). Reverse row: (c,r)→(c,n-1-r) ✓"
+  },
+  "test_cases": [
+    {
+      "input": "matrix=[[1,2,3],[4,5,6],[7,8,9]]",
+      "expected": "[[7,4,1],[8,5,2],[9,6,3]]"
+    },
+    {
+      "input": "matrix=[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]",
+      "expected": "[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]"
+    },
+    {
+      "input": "matrix=[[1]]",
+      "expected": "[[1]]"
+    },
+    {
+      "input": "matrix=[[1,2],[3,4]]",
+      "expected": "[[3,1],[4,2]]"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you rotate 90° counterclockwise?",
+    "What's the mathematical transformation for each (row, col)?",
+    "How would you rotate 180°?"
+  ],
+  "solution_notes": "Clockwise = transpose + reverse rows. Counterclockwise = transpose + reverse columns. Both O(n^2) time, O(1) space."
+}
