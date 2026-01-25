@@ -1,0 +1,74 @@
+{
+  "id": "nc_133",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "253",
+  "title": "Meeting Rooms II",
+  "url": "https://leetcode.com/problems/meeting-rooms-ii/",
+  "description": "Given an array of meeting time intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required to hold all meetings.",
+  "constraints": [
+    "1 <= intervals.length <= 10^4",
+    "0 <= starti < endi <= 10^6"
+  ],
+  "difficulty": "medium",
+  "category": "Intervals",
+  "pattern_tags": [
+    "intervals",
+    "heap",
+    "sorting",
+    "sweep-line"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 3,
+  "day": 5,
+  "companies": [
+    "facebook",
+    "google",
+    "amazon",
+    "microsoft",
+    "bloomberg"
+  ],
+  "optimal_time": "O(n log n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n^2)",
+  "thinking_questions": [
+    "When can a new meeting reuse an existing room?",
+    "Use a min-heap of end times. What does the top of the heap represent?",
+    "Can you also solve this with a sorted start/end event sweep?"
+  ],
+  "hints": {
+    "L1": "Use a min-heap of end times. If new meeting starts after earliest ending, reuse that room. Otherwise, open a new room.",
+    "L2": "Sort by start. Min-heap of end times. For each meeting: if heap[0] <= start: pop (room freed). Push current end. Answer = heap size at end.",
+    "L3": "# Meeting Rooms II — O(n log n) time, O(n) space\n# KEY INSIGHT: greedily reuse rooms — use min-heap of end times\n\nimport heapq\n\ndef minMeetingRooms(intervals):\n    if not intervals:\n        return 0\n\n    intervals.sort(key=lambda x: x[0])\n    heap = []  # min-heap of end times\n\n    for start, end in intervals:\n        if heap and heap[0] <= start:\n            heapq.heapreplace(heap, end)  # reuse room (replace old end)\n        else:\n            heapq.heappush(heap, end)     # need new room\n\n    return len(heap)\n\n# SWEEP LINE ALTERNATIVE:\n# events = [(t, type)] where start=+1, end=-1, sort by time\n# running count, max running count = answer"
+  },
+  "test_cases": [
+    {
+      "input": "intervals=[[0,30],[5,10],[15,20]]",
+      "expected": "2"
+    },
+    {
+      "input": "intervals=[[7,10],[2,4]]",
+      "expected": "1"
+    },
+    {
+      "input": "intervals=[[1,5],[2,6],[3,7]]",
+      "expected": "3"
+    },
+    {
+      "input": "intervals=[[1,4],[2,5],[7,9]]",
+      "expected": "2"
+    },
+    {
+      "input": "intervals=[[1,2]]",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "What does the heap size represent at the end?",
+    "How does the sweep line approach work?",
+    "How is this different from Meeting Rooms I?"
+  ],
+  "solution_notes": "Sort by start. Min-heap of end times. If earliest end <= new start: reuse (heapreplace). Else: new room (heappush). Size = answer."
+}
