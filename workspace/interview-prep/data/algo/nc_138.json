@@ -1,0 +1,70 @@
+{
+  "id": "nc_138",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "202",
+  "title": "Happy Number",
+  "url": "https://leetcode.com/problems/happy-number/",
+  "description": "Write an algorithm to determine if a number n is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle that does not include 1. Those numbers for which this process ends in 1 are happy. Return true if n is a happy number, and false if not.",
+  "constraints": [
+    "1 <= n <= 2^31 - 1"
+  ],
+  "difficulty": "easy",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "math",
+    "cycle-detection",
+    "floyd"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "adobe",
+    "google"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "The sequence of digit-sum-of-squares either reaches 1 or cycles. How do you detect the cycle?",
+    "Can you use Floyd's cycle detection (slow/fast pointers) on this sequence?",
+    "What function maps n to its next value in the sequence?"
+  ],
+  "hints": {
+    "L1": "The process either reaches 1 (happy) or enters a cycle. Detect the cycle with a set or Floyd's algorithm.",
+    "L2": "Floyd's cycle detection: slow moves 1 step, fast moves 2 steps. If slow == fast and equals 1: happy. If they meet otherwise: cycle (not happy).",
+    "L3": "# Happy Number — O(log n) time, O(1) space\n# KEY INSIGHT: Floyd's cycle detection on digit-square sequence\n\ndef isHappy(n):\n    def digit_square_sum(num):\n        total = 0\n        while num:\n            digit = num % 10\n            total += digit * digit\n            num //= 10\n        return total\n\n    slow = n\n    fast = digit_square_sum(n)\n\n    while fast != 1 and slow != fast:\n        slow = digit_square_sum(slow)\n        fast = digit_square_sum(digit_square_sum(fast))\n\n    return fast == 1\n# SIMPLE ALTERNATIVE: use a set, detect if we've seen a number before\n# Not happy numbers always reach 4 in their cycle"
+  },
+  "test_cases": [
+    {
+      "input": "n=19",
+      "expected": "True (1^2+9^2=82→68→100→1)"
+    },
+    {
+      "input": "n=2",
+      "expected": "False (cycles)"
+    },
+    {
+      "input": "n=1",
+      "expected": "True"
+    },
+    {
+      "input": "n=7",
+      "expected": "True"
+    },
+    {
+      "input": "n=4",
+      "expected": "False (entry point of cycle)"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do non-happy numbers always form a cycle?",
+    "What's the O(1) space Floyd's approach vs O(log n) set approach?",
+    "What number do all non-happy sequences eventually reach?"
+  ],
+  "solution_notes": "Floyd's cycle detection. slow/fast on digit-square-sum function. Returns fast==1. Simpler: set-based O(log n) space."
+}
