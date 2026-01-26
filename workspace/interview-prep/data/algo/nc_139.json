@@ -1,0 +1,71 @@
+{
+  "id": "nc_139",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "66",
+  "title": "Plus One",
+  "url": "https://leetcode.com/problems/plus-one/",
+  "description": "You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's. Increment the large integer by one and return the resulting array of digits.",
+  "constraints": [
+    "1 <= digits.length <= 100",
+    "0 <= digits[i] <= 9",
+    "digits does not contain any leading 0's"
+  ],
+  "difficulty": "easy",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "math",
+    "array"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 2,
+  "companies": [
+    "google",
+    "amazon",
+    "apple"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "Process from rightmost digit. What happens when you add 1 to 9?",
+    "When do you need to prepend a new digit?",
+    "What's the special case for all 9s (e.g., [9,9,9])?"
+  ],
+  "hints": {
+    "L1": "Process digits from right to left. If digit < 9: increment and return. If 9: set to 0 and carry.",
+    "L2": "Iterate right to left. For each digit: if < 9, increment and return. Else, set to 0 (carry continues). If all were 9s: prepend 1.",
+    "L3": "# Plus One — O(n) time, O(1) space\n# KEY INSIGHT: propagate carry right to left; all-9s needs new leading digit\n\ndef plusOne(digits):\n    for i in range(len(digits) - 1, -1, -1):\n        if digits[i] < 9:\n            digits[i] += 1\n            return digits\n        digits[i] = 0  # digit was 9, set to 0 and carry\n\n    # All digits were 9 (e.g., [9,9,9] → [1,0,0,0])\n    return [1] + digits"
+  },
+  "test_cases": [
+    {
+      "input": "digits=[1,2,3]",
+      "expected": "[1,2,4]"
+    },
+    {
+      "input": "digits=[4,3,2,1]",
+      "expected": "[4,3,2,2]"
+    },
+    {
+      "input": "digits=[9]",
+      "expected": "[1,0]"
+    },
+    {
+      "input": "digits=[9,9,9]",
+      "expected": "[1,0,0,0]"
+    },
+    {
+      "input": "digits=[1,9]",
+      "expected": "[2,0]"
+    }
+  ],
+  "follow_up_questions": [
+    "How would you implement 'Plus K' for arbitrary k?",
+    "What if the input could have leading zeros?",
+    "How does this compare to big integer addition?"
+  ],
+  "solution_notes": "Right-to-left carry propagation. Early return if digit<9. Set to 0 if 9. Prepend 1 if all were 9s. O(n)."
+}
