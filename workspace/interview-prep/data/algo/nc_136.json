@@ -1,0 +1,71 @@
+{
+  "id": "nc_136",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "54",
+  "title": "Spiral Matrix",
+  "url": "https://leetcode.com/problems/spiral-matrix/",
+  "description": "Given an m x n matrix, return all elements of the matrix in spiral order (clockwise from top-left).",
+  "constraints": [
+    "m == matrix.length",
+    "n == matrix[i].length",
+    "1 <= m, n <= 10",
+    "-100 <= matrix[i][j] <= 100"
+  ],
+  "difficulty": "medium",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "matrix",
+    "boundary-tracking",
+    "simulation"
+  ],
+  "estimated_minutes": 30,
+  "phase": 1,
+  "week": 2,
+  "day": 4,
+  "companies": [
+    "microsoft",
+    "amazon",
+    "google",
+    "apple",
+    "bloomberg"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(m*n)",
+  "thinking_questions": [
+    "How do you keep track of which cells you've already visited without extra space?",
+    "Can you use four boundary variables (top, bottom, left, right) to shrink the traversal area?",
+    "In what order do you traverse each layer: right, down, left, up?"
+  ],
+  "hints": {
+    "L1": "Use four boundaries (top, bottom, left, right) and shrink them after traversing each edge.",
+    "L2": "Go right (top row), shrink top. Go down (right col), shrink right. Go left (bottom row), shrink bottom. Go up (left col), shrink left. Repeat while top<=bottom and left<=right.",
+    "L3": "# Spiral Matrix — O(m*n) time, O(1) space\n# KEY INSIGHT: 4 boundaries shrink inward after each directional pass\n\ndef spiralOrder(matrix):\n    result = []\n    top, bottom = 0, len(matrix) - 1\n    left, right = 0, len(matrix[0]) - 1\n\n    while top <= bottom and left <= right:\n        # → right along top row\n        for col in range(left, right + 1):\n            result.append(matrix[top][col])\n        top += 1\n\n        # ↓ down along right column\n        for row in range(top, bottom + 1):\n            result.append(matrix[row][right])\n        right -= 1\n\n        # ← left along bottom row (guard: top <= bottom)\n        if top <= bottom:\n            for col in range(right, left - 1, -1):\n                result.append(matrix[bottom][col])\n            bottom -= 1\n\n        # ↑ up along left column (guard: left <= right)\n        if left <= right:\n            for row in range(bottom, top - 1, -1):\n                result.append(matrix[row][left])\n            left += 1\n\n    return result"
+  },
+  "test_cases": [
+    {
+      "input": "matrix=[[1,2,3],[4,5,6],[7,8,9]]",
+      "expected": "[1,2,3,6,9,8,7,4,5]"
+    },
+    {
+      "input": "matrix=[[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
+      "expected": "[1,2,3,4,8,12,11,10,9,5,6,7]"
+    },
+    {
+      "input": "matrix=[[1]]",
+      "expected": "[1]"
+    },
+    {
+      "input": "matrix=[[1,2],[3,4]]",
+      "expected": "[1,2,4,3]"
+    }
+  ],
+  "follow_up_questions": [
+    "Why do you need guards (top<=bottom and left<=right) for the left and up passes?",
+    "How would you generate a spiral matrix (Spiral Matrix II)?",
+    "What's the time complexity — is it O(m*n)?"
+  ],
+  "solution_notes": "4 boundaries shrink inward. Right→top++, Down→right--, Left→bottom-- (guard), Up→left++ (guard). O(m*n)."
+}
