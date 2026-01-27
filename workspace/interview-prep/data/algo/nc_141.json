@@ -1,0 +1,69 @@
+{
+  "id": "nc_141",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "43",
+  "title": "Multiply Strings",
+  "url": "https://leetcode.com/problems/multiply-strings/",
+  "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string. Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.",
+  "constraints": [
+    "1 <= num1.length, num2.length <= 200",
+    "num1 and num2 consist of digits only",
+    "Both num1 and num2 do not contain any leading zero, except the number 0 itself"
+  ],
+  "difficulty": "medium",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "math",
+    "string",
+    "big-integer"
+  ],
+  "estimated_minutes": 35,
+  "phase": 1,
+  "week": 2,
+  "day": 5,
+  "companies": [
+    "facebook",
+    "amazon",
+    "google",
+    "microsoft"
+  ],
+  "optimal_time": "O(m*n)",
+  "optimal_space": "O(m+n)",
+  "brute_force_time": "O(m*n)",
+  "thinking_questions": [
+    "How does grade-school multiplication work digit by digit?",
+    "If num1[i] * num2[j] contributes to position i+j and i+j+1 in the result, how do you track carries?",
+    "What's the maximum number of digits in the product of m-digit and n-digit numbers?"
+  ],
+  "hints": {
+    "L1": "Simulate grade-school multiplication: each digit pair (i,j) contributes to positions i+j and i+j+1 in the result array.",
+    "L2": "Result array of size m+n. For each i,j: pos1=i+j, pos2=i+j+1. product = (num1[i]*num2[j]) + result[pos2]. result[pos2]=product%10, result[pos1]+=product//10.",
+    "L3": "# Multiply Strings — O(m*n) time, O(m+n) space\n# KEY INSIGHT: digit at num1[i] * num2[j] goes to positions [i+j, i+j+1]\n\ndef multiply(num1, num2):\n    if num1 == \"0\" or num2 == \"0\":\n        return \"0\"\n\n    m, n = len(num1), len(num2)\n    pos = [0] * (m + n)\n\n    for i in range(m - 1, -1, -1):\n        for j in range(n - 1, -1, -1):\n            mul = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))\n            p1, p2 = i + j, i + j + 1\n            total = mul + pos[p2]\n\n            pos[p2] = total % 10\n            pos[p1] += total // 10  # carry\n\n    result = ''.join(str(d) for d in pos)\n    return result.lstrip('0') or '0'"
+  },
+  "test_cases": [
+    {
+      "input": "num1=\"2\", num2=\"3\"",
+      "expected": "\"6\""
+    },
+    {
+      "input": "num1=\"123\", num2=\"456\"",
+      "expected": "\"56088\""
+    },
+    {
+      "input": "num1=\"0\", num2=\"52\"",
+      "expected": "\"0\""
+    },
+    {
+      "input": "num1=\"99\", num2=\"99\"",
+      "expected": "\"9801\""
+    }
+  ],
+  "follow_up_questions": [
+    "Why is the result array size m+n (not m+n-1)?",
+    "Why process digits from right to left?",
+    "How would you implement big integer addition?"
+  ],
+  "solution_notes": "pos[i+j] carries, pos[i+j+1] units. Process right-to-left. Accumulate carries. Strip leading zeros. O(m*n)."
+}
