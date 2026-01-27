@@ -1,0 +1,63 @@
+{
+  "id": "nc_142",
+  "source": "neetcode_150",
+  "blind75": false,
+  "neetcode150": true,
+  "leetcode_id": "2013",
+  "title": "Detect Squares",
+  "url": "https://leetcode.com/problems/detect-squares/",
+  "description": "You are given a stream of points on the X-Y plane. Design an algorithm that: Adds new points from the stream into a data structure. Counts the number of ways to choose three points from the data structure such that the three points and a given query point form an axis-aligned square with positive area. Implement the DetectSquares class: DetectSquares() initializes the object with an empty data structure. void add(int[] point) adds a new point point = [x, y] to the data structure. int count(int[] point) counts the number of ways to form axis-aligned squares with point point = [px, py] as one of the corners.",
+  "constraints": [
+    "point.length == 2",
+    "0 <= x, y <= 1000",
+    "At most 3000 calls will be made to add and count"
+  ],
+  "difficulty": "medium",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "math",
+    "hash-map",
+    "geometry"
+  ],
+  "estimated_minutes": 40,
+  "phase": 2,
+  "week": 6,
+  "day": 3,
+  "companies": [
+    "google",
+    "amazon"
+  ],
+  "optimal_time": "O(n) add, O(sqrt(n)) query",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n^2) per query",
+  "thinking_questions": [
+    "To form an axis-aligned square with query point Q, what are the constraints on the diagonal point?",
+    "Fix two points that share the same x-coordinate as the query (vertical edge). How do you find the other two?",
+    "How do you count efficiently using a point frequency map?"
+  ],
+  "hints": {
+    "L1": "For each point sharing the same x-coordinate as query, check if a valid square can be completed using the count map.",
+    "L2": "For query point (px, py): enumerate all points (px, y) in points_on_x[px]. Width = |y - py|. Check both (px±width, y) and (px±width, py) exist. Multiply counts.",
+    "L3": "# Detect Squares — O(n) add, O(sqrt(n)) count query\n# KEY INSIGHT: fix vertical edge (same x as query), find horizontal width\n\nfrom collections import defaultdict\n\nclass DetectSquares:\n    def __init__(self):\n        self.pt_count = defaultdict(int)   # (x,y) -> count\n        self.x_to_ys = defaultdict(set)    # x -> set of y values\n\n    def add(self, point):\n        x, y = point\n        self.pt_count[(x, y)] += 1\n        self.x_to_ys[x].add(y)\n\n    def count(self, point):\n        px, py = point\n        result = 0\n\n        # Fix same-x points to get vertical edge\n        for y in self.x_to_ys[px]:\n            if y == py:\n                continue\n            width = abs(y - py)  # side length of square\n\n            # Try both directions for the square (left and right)\n            for dx in [width, -width]:\n                # Other two corners: (px+dx, py) and (px+dx, y)\n                result += (self.pt_count[(px, y)] *\n                           self.pt_count[(px + dx, py)] *\n                           self.pt_count[(px + dx, y)])\n\n        return result"
+  },
+  "test_cases": [
+    {
+      "input": "add(3,10),add(11,2),add(3,2), count(11,10)",
+      "expected": "1"
+    },
+    {
+      "input": "add(3,10),add(11,2),add(3,2), count(14,8)",
+      "expected": "0"
+    },
+    {
+      "input": "add(1,1),add(1,1), count(2,2)",
+      "expected": "0 (need 4 corners)"
+    }
+  ],
+  "follow_up_questions": [
+    "Why enumerate y values for the same x as the query point?",
+    "Why multiply three counts instead of checking existence only?",
+    "What if squares don't need to be axis-aligned?"
+  ],
+  "solution_notes": "Fix vertical edge on same x as query. Width=|y-py|. Try both ±width. Multiply counts of 3 other corners. O(sqrt(n)) per query."
+}
