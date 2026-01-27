@@ -1,0 +1,75 @@
+{
+  "id": "nc_140",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "50",
+  "title": "Pow(x, n)",
+  "url": "https://leetcode.com/problems/powx-n/",
+  "description": "Implement pow(x, n), which calculates x raised to the power n (i.e., x^n). Note: n can be negative, meaning x^(-n) = 1 / x^n.",
+  "constraints": [
+    "-100.0 < x < 100.0",
+    "-2^31 <= n <= 2^31 - 1",
+    "n is an integer",
+    "Either x is not zero or n > 0",
+    "-10^4 <= x^n <= 10^4"
+  ],
+  "difficulty": "medium",
+  "category": "Math & Geometry",
+  "pattern_tags": [
+    "math",
+    "binary-exponentiation",
+    "divide-and-conquer"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 5,
+  "companies": [
+    "facebook",
+    "google",
+    "amazon",
+    "bloomberg"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(log n)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "If you know x^(n/2), how do you get x^n in O(1)?",
+    "How do you handle negative exponents?",
+    "Iterative vs recursive: which avoids stack overflow for large n?"
+  ],
+  "hints": {
+    "L1": "Use fast exponentiation: x^n = (x^(n//2))^2. Halve the problem each time for O(log n).",
+    "L2": "Fast power: if n is odd, multiply by x once. If n is even, just square. Handle n<0 as 1/x^(-n). Iterative avoids recursion overhead.",
+    "L3": "# Pow(x, n) — O(log n) time, O(1) space (iterative)\n# KEY INSIGHT: binary exponentiation — halve n each step\n\ndef myPow(x, n):\n    if n < 0:\n        x = 1 / x\n        n = -n\n\n    result = 1.0\n\n    while n > 0:\n        if n % 2 == 1:     # odd exponent: multiply result by current x\n            result *= x\n        x *= x             # square x\n        n //= 2            # halve n\n\n    return result\n# TRACE: x^13 = x^8 * x^4 * x^1 (bits of 13 = 1101)\n# Each bit of n determines whether to multiply result by current power"
+  },
+  "test_cases": [
+    {
+      "input": "x=2.00000, n=10",
+      "expected": "1024.00000"
+    },
+    {
+      "input": "x=2.10000, n=3",
+      "expected": "9.26100"
+    },
+    {
+      "input": "x=2.00000, n=-2",
+      "expected": "0.25000"
+    },
+    {
+      "input": "x=1.0, n=2147483647",
+      "expected": "1.0"
+    },
+    {
+      "input": "x=-1.0, n=-2147483648",
+      "expected": "1.0"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does binary exponentiation work — what's the invariant?",
+    "How does this relate to fast matrix exponentiation for Fibonacci?",
+    "How would you handle integer overflow in n?"
+  ],
+  "solution_notes": "Binary exponentiation. Odd n: result *= x. Square x, halve n. Handle n<0 with x=1/x. O(log n) iterative."
+}
