@@ -1,0 +1,72 @@
+{
+  "id": "nc_143",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "136",
+  "title": "Single Number",
+  "url": "https://leetcode.com/problems/single-number/",
+  "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one. You must implement a solution with a linear runtime complexity and use only constant extra space.",
+  "constraints": [
+    "1 <= nums.length <= 3 * 10^4",
+    "-3 * 10^4 <= nums[i] <= 3 * 10^4",
+    "Each element in the array appears twice except for one element which appears only once"
+  ],
+  "difficulty": "easy",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation",
+    "xor"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "google",
+    "microsoft",
+    "facebook"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "What does XOR do to two identical numbers? What about a number XORed with 0?",
+    "If you XOR all numbers together, what happens to the pairs?",
+    "Why is XOR the perfect operation here?"
+  ],
+  "hints": {
+    "L1": "XOR: a ^ a = 0, a ^ 0 = a. XOR all numbers — pairs cancel to 0, leaving the single number.",
+    "L2": "result = 0. For each num: result ^= num. All paired numbers cancel. Result is the single.",
+    "L3": "# Single Number — O(n) time, O(1) space\n# KEY INSIGHT: XOR is commutative & associative. a^a=0, a^0=a\n# All pairs cancel, leaving the single number\n\ndef singleNumber(nums):\n    result = 0\n    for num in nums:\n        result ^= num\n    return result\n\n# WHY: [4,1,2,1,2] → 4^1^2^1^2 = 4^(1^1)^(2^2) = 4^0^0 = 4\n# PITFALL: this only works when all others appear EXACTLY twice"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[2,2,1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[4,1,2,1,2]",
+      "expected": "4"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[0,1,0]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[-1,-1,0]",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "What if numbers appear 3 times instead of 2? (Single Number II)",
+    "What if two numbers appear once and rest appear twice? (Single Number III)",
+    "Why does order not matter for XOR?"
+  ],
+  "solution_notes": "XOR all numbers. Pairs cancel (a^a=0). Single remains. O(n) time, O(1) space. Works only for 'all others appear exactly twice'."
+}
