@@ -1,0 +1,69 @@
+{
+  "id": "nc_144",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "191",
+  "title": "Number of 1 Bits",
+  "url": "https://leetcode.com/problems/number-of-1-bits/",
+  "description": "Write a function that takes the binary representation of a positive integer and returns the number of set bits it has (also known as the Hamming weight).",
+  "constraints": [
+    "1 <= n <= 2^31 - 1"
+  ],
+  "difficulty": "easy",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation",
+    "kernighan"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "apple",
+    "microsoft",
+    "amazon"
+  ],
+  "optimal_time": "O(k) where k=number of set bits",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(32)",
+  "thinking_questions": [
+    "What does n & (n-1) do? How does it relate to the rightmost set bit?",
+    "How many times can you apply n = n & (n-1) before n becomes 0?",
+    "What's the naive O(32) approach, and why is n & (n-1) more elegant?"
+  ],
+  "hints": {
+    "L1": "n & (n-1) clears the rightmost set bit. Count how many times you can do this until n=0.",
+    "L2": "Kernighan's trick: while n > 0: count++; n = n & (n-1). This runs exactly k times where k = number of 1 bits.",
+    "L3": "# Number of 1 Bits (Hamming Weight) — O(k) time, O(1) space\n# KEY INSIGHT: n & (n-1) clears the lowest set bit each iteration\n\ndef hammingWeight(n):\n    count = 0\n    while n:\n        n &= n - 1  # clear lowest set bit\n        count += 1\n    return count\n\n# WHY: n-1 flips all bits after lowest set bit, including it\n# e.g., n=1100, n-1=1011, n&(n-1)=1000 (cleared lowest set bit)\n\n# ALTERNATIVE: count = bin(n).count('1')  # Pythonic but not O(1)\n# ALTERNATIVE: n & 1 then n >>= 1 (always 32 iterations)"
+  },
+  "test_cases": [
+    {
+      "input": "n=00000000000000000000000000001011 (11)",
+      "expected": "3"
+    },
+    {
+      "input": "n=00000000000000000000000010000000 (128)",
+      "expected": "1"
+    },
+    {
+      "input": "n=11111111111111111111111111111101 (4294967293)",
+      "expected": "31"
+    },
+    {
+      "input": "n=0",
+      "expected": "0"
+    },
+    {
+      "input": "n=2147483648 (10...0)",
+      "expected": "1"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does n & (n-1) always clear exactly one bit?",
+    "What's the O(32) naive approach?",
+    "How is this used in detecting power of 2 (n & n-1 == 0)?"
+  ],
+  "solution_notes": "Kernighan's: n &= n-1 clears lowest set bit. Count iterations until n=0. O(k) where k=set bits."
+}
