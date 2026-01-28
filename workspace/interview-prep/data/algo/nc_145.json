@@ -1,0 +1,65 @@
+{
+  "id": "nc_145",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "338",
+  "title": "Counting Bits",
+  "url": "https://leetcode.com/problems/counting-bits/",
+  "description": "Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.",
+  "constraints": [
+    "0 <= n <= 10^5"
+  ],
+  "difficulty": "easy",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation",
+    "dp"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "google"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(n)",
+  "brute_force_time": "O(n log n)",
+  "thinking_questions": [
+    "What's the relationship between popcount(i) and popcount(i >> 1)?",
+    "When you right-shift i by 1, you drop the last bit. How does that affect the count?",
+    "Can you use dp where dp[i] = dp[i >> 1] + (i & 1)?"
+  ],
+  "hints": {
+    "L1": "dp[i] = dp[i >> 1] + (i & 1). Right-shifting removes one bit, and you add back whether that bit was 1.",
+    "L2": "dp[0]=0. For i in 1..n: dp[i] = dp[i//2] + (i % 2). Builds on previous results in O(n) total.",
+    "L3": "# Counting Bits — O(n) time, O(n) space\n# KEY INSIGHT: dp[i] = dp[i >> 1] + (i & 1)\n# i >> 1 drops LSB; add 1 if LSB was set\n\ndef countBits(n):\n    dp = [0] * (n + 1)\n\n    for i in range(1, n + 1):\n        dp[i] = dp[i >> 1] + (i & 1)\n        # dp[i//2]: bits in i without last bit\n        # (i & 1): 1 if i is odd, 0 if even\n\n    return dp\n# Example: dp[7]=dp[3]+1=dp[1]+1+1=dp[0]+1+1+1=3 ✓"
+  },
+  "test_cases": [
+    {
+      "input": "n=2",
+      "expected": "[0,1,1]"
+    },
+    {
+      "input": "n=5",
+      "expected": "[0,1,1,2,1,2]"
+    },
+    {
+      "input": "n=0",
+      "expected": "[0]"
+    },
+    {
+      "input": "n=8",
+      "expected": "[0,1,1,2,1,2,2,3,1]"
+    }
+  ],
+  "follow_up_questions": [
+    "What other recurrences work? (e.g., dp[i] = dp[i & (i-1)] + 1)",
+    "How would you solve this without DP (using Number of 1 Bits for each)?",
+    "What's the pattern in the dp array?"
+  ],
+  "solution_notes": "dp[i] = dp[i>>1] + (i&1). Right-shift removes LSB, add 1 if it was set. O(n) total."
+}
