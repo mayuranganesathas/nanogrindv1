@@ -1,0 +1,64 @@
+{
+  "id": "nc_146",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "190",
+  "title": "Reverse Bits",
+  "url": "https://leetcode.com/problems/reverse-bits/",
+  "description": "Reverse bits of a given 32-bit unsigned integer. Note: In some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned. In Java, the compiler represents the signed integers using 2's complement notation.",
+  "constraints": [
+    "The input must be a binary string of length 32"
+  ],
+  "difficulty": "easy",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "apple",
+    "amazon",
+    "facebook"
+  ],
+  "optimal_time": "O(1) — always 32 bits",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(32)",
+  "thinking_questions": [
+    "Extract each bit from n (right to left) and place it into result from MSB side.",
+    "How do you extract the least significant bit? How do you place a bit at a specific position?",
+    "How many iterations do you need regardless of n's value?"
+  ],
+  "hints": {
+    "L1": "For each of 32 bits: extract LSB from n, shift it to the correct position in result, then right-shift n.",
+    "L2": "result = 0. For i in 0..31: result = (result << 1) | (n & 1); n >>= 1. Result builds from MSB to LSB.",
+    "L3": "# Reverse Bits — O(1) time (32 iterations), O(1) space\n\ndef reverseBits(n):\n    result = 0\n\n    for _ in range(32):\n        result = (result << 1) | (n & 1)  # shift result left, add LSB of n\n        n >>= 1                            # remove processed bit from n\n\n    return result\n# TRACE: n=...1011 → result builds: 1,11,110,1101,...\n# After 32 iterations, result has bits of n in reverse order\n\n# PYTHON NOTE: Python ints are arbitrary precision\n# Use result & 0xFFFFFFFF if you need unsigned 32-bit"
+  },
+  "test_cases": [
+    {
+      "input": "n=00000010100101000001111010011100 (43261596)",
+      "expected": "964176192 (00111001011110000010100101000000)"
+    },
+    {
+      "input": "n=11111111111111111111111111111101 (4294967293)",
+      "expected": "3221225471 (10111111111111111111111111111111)"
+    },
+    {
+      "input": "n=0",
+      "expected": "0"
+    },
+    {
+      "input": "n=1",
+      "expected": "2147483648 (10...0)"
+    }
+  ],
+  "follow_up_questions": [
+    "If called many times, how would you optimize? (byte-level lookup table)",
+    "Why exactly 32 iterations regardless of n's value?",
+    "How do you handle Python's arbitrary precision integers?"
+  ],
+  "solution_notes": "Build result left-to-right: (result<<1)|(n&1), then n>>=1. Always 32 iterations. O(1)."
+}
