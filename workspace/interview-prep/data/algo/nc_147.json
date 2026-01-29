@@ -1,0 +1,74 @@
+{
+  "id": "nc_147",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "268",
+  "title": "Missing Number",
+  "url": "https://leetcode.com/problems/missing-number/",
+  "description": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.",
+  "constraints": [
+    "n == nums.length",
+    "1 <= n <= 10^4",
+    "0 <= nums[i] <= n",
+    "All the numbers of nums are unique"
+  ],
+  "difficulty": "easy",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation",
+    "xor",
+    "math"
+  ],
+  "estimated_minutes": 15,
+  "phase": 1,
+  "week": 1,
+  "day": 4,
+  "companies": [
+    "amazon",
+    "microsoft",
+    "google",
+    "facebook"
+  ],
+  "optimal_time": "O(n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(n)",
+  "thinking_questions": [
+    "If you XOR all indices 0..n with all values in nums, what remains?",
+    "Alternatively, what's the expected sum vs actual sum?",
+    "Can you solve this with O(1) space using either XOR or Gauss's formula?"
+  ],
+  "hints": {
+    "L1": "Expected sum - actual sum = missing number. Or XOR all indices with all values — pairs cancel, missing remains.",
+    "L2": "Math: return n*(n+1)//2 - sum(nums). XOR: result=n, then XOR with each i and nums[i]. Both O(n) time, O(1) space.",
+    "L3": "# Missing Number — O(n) time, O(1) space\n# METHOD 1: Math (Gauss formula)\ndef missingNumber_math(nums):\n    n = len(nums)\n    return n * (n + 1) // 2 - sum(nums)\n\n# METHOD 2: XOR\ndef missingNumber_xor(nums):\n    result = len(nums)\n    for i, num in enumerate(nums):\n        result ^= i ^ num  # XOR with both index and value; pairs cancel\n    return result\n\n# WHY XOR works: [0..n] XOR [nums] = missing\n# All present numbers appear twice (once as index, once as value) → cancel"
+  },
+  "test_cases": [
+    {
+      "input": "nums=[3,0,1]",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[0,1]",
+      "expected": "2"
+    },
+    {
+      "input": "nums=[9,6,4,2,3,5,7,0,1]",
+      "expected": "8"
+    },
+    {
+      "input": "nums=[0]",
+      "expected": "1"
+    },
+    {
+      "input": "nums=[1]",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "Which approach handles overflow better: math or XOR?",
+    "What if the array had duplicates instead of one missing?",
+    "What if two numbers were missing?"
+  ],
+  "solution_notes": "Math: n*(n+1)//2 - sum(nums). XOR: XOR all [0..n] with all nums. Both O(n) time, O(1) space."
+}
