@@ -1,0 +1,71 @@
+{
+  "id": "nc_148",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "371",
+  "title": "Sum of Two Integers",
+  "url": "https://leetcode.com/problems/sum-of-two-integers/",
+  "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.",
+  "constraints": [
+    "-1000 <= a, b <= 1000"
+  ],
+  "difficulty": "medium",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "bit-manipulation",
+    "xor",
+    "carry"
+  ],
+  "estimated_minutes": 25,
+  "phase": 1,
+  "week": 2,
+  "day": 3,
+  "companies": [
+    "facebook",
+    "amazon",
+    "microsoft",
+    "bloomberg"
+  ],
+  "optimal_time": "O(1) — max 32 iterations",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(1) with + operator",
+  "thinking_questions": [
+    "XOR gives sum without carry. AND gives carry positions. How do you combine these?",
+    "How do you propagate the carry? What do you shift the carry by?",
+    "Python integers are unbounded — how do you handle negative numbers in 32-bit?"
+  ],
+  "hints": {
+    "L1": "a XOR b = sum without carry. (a AND b) << 1 = carry. Repeat until carry is 0.",
+    "L2": "while b != 0: carry = (a & b) << 1; a = a ^ b; b = carry. Python: mask with 0xFFFFFFFF for 32-bit.",
+    "L3": "# Sum of Two Integers — O(1) space, O(32) iterations max\n# KEY INSIGHT: XOR = sum without carry, AND<<1 = carry\n\ndef getSum(a, b):\n    mask = 0xFFFFFFFF  # 32-bit mask for Python\n\n    while b & mask:\n        carry = (a & b) << 1\n        a = a ^ b\n        b = carry\n\n    # Handle Python's arbitrary precision for negative results\n    if b == 0:\n        return a & mask if a > 0x7FFFFFFF else a\n    else:\n        return b  # b has the final carry (non-masked)\n\n# SIMPLE VERSION (if no 32-bit constraint):\n# while b: a, b = a ^ b, (a & b) << 1\n# return a"
+  },
+  "test_cases": [
+    {
+      "input": "a=1, b=2",
+      "expected": "3"
+    },
+    {
+      "input": "a=2, b=3",
+      "expected": "5"
+    },
+    {
+      "input": "a=-1, b=1",
+      "expected": "0"
+    },
+    {
+      "input": "a=-2, b=3",
+      "expected": "1"
+    },
+    {
+      "input": "a=0, b=0",
+      "expected": "0"
+    }
+  ],
+  "follow_up_questions": [
+    "Why does XOR give sum without carry?",
+    "Why must you AND then shift left by 1 for carry?",
+    "How do you handle Python's infinite precision for negative numbers?"
+  ],
+  "solution_notes": "XOR=sum, AND<<1=carry. Iterate until carry=0. Python: mask=0xFFFFFFFF for 32-bit correctness."
+}
