@@ -1,0 +1,70 @@
+{
+  "id": "nc_149",
+  "source": "neetcode_150",
+  "blind75": true,
+  "neetcode150": true,
+  "leetcode_id": "7",
+  "title": "Reverse Integer",
+  "url": "https://leetcode.com/problems/reverse-integer/",
+  "description": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0. Assume the environment does not allow you to store 64-bit integers (signed or unsigned).",
+  "constraints": [
+    "-2^31 <= x <= 2^31 - 1"
+  ],
+  "difficulty": "medium",
+  "category": "Bit Manipulation",
+  "pattern_tags": [
+    "math",
+    "overflow-handling"
+  ],
+  "estimated_minutes": 20,
+  "phase": 1,
+  "week": 2,
+  "day": 5,
+  "companies": [
+    "amazon",
+    "apple",
+    "microsoft",
+    "bloomberg"
+  ],
+  "optimal_time": "O(log n)",
+  "optimal_space": "O(1)",
+  "brute_force_time": "O(log n)",
+  "thinking_questions": [
+    "Extract digits one by one using % 10 and build the reversed number.",
+    "How do you check for 32-bit integer overflow BEFORE it happens?",
+    "Python handles big integers natively — but the problem requires 32-bit overflow behavior."
+  ],
+  "hints": {
+    "L1": "Extract digits with % 10 and build reverse. Check overflow before multiplying: if result > (INT_MAX - digit) / 10.",
+    "L2": "while x != 0: digit = x % 10; x //= 10; check if result > (2^31-1-digit)/10; result = result*10 + digit. Return 0 on overflow.",
+    "L3": "# Reverse Integer — O(log n) time, O(1) space\n# KEY INSIGHT: overflow check BEFORE multiplying by 10\n\ndef reverse(x):\n    INT_MAX = 2**31 - 1  # 2147483647\n    INT_MIN = -2**31     # -2147483648\n\n    result = 0\n    sign = 1 if x >= 0 else -1\n    x = abs(x)\n\n    while x != 0:\n        digit = x % 10\n        x //= 10\n\n        # Check overflow before: result*10 + digit > INT_MAX?\n        if result > (INT_MAX - digit) // 10:\n            return 0\n\n        result = result * 10 + digit\n\n    return sign * result\n# NOTE: Python % 10 is always non-negative, so handle sign separately"
+  },
+  "test_cases": [
+    {
+      "input": "x=123",
+      "expected": "321"
+    },
+    {
+      "input": "x=-123",
+      "expected": "-321"
+    },
+    {
+      "input": "x=120",
+      "expected": "21"
+    },
+    {
+      "input": "x=0",
+      "expected": "0"
+    },
+    {
+      "input": "x=1534236469",
+      "expected": "0 (overflow)"
+    }
+  ],
+  "follow_up_questions": [
+    "Why check before multiplying instead of after?",
+    "How does Python's modulo behavior differ from Java/C for negative numbers?",
+    "What if you needed to handle arbitrary precision integers?"
+  ],
+  "solution_notes": "Extract digits with %10. Overflow check: result > (INT_MAX - digit) // 10 → return 0. Handle sign separately. O(log n)."
+}
