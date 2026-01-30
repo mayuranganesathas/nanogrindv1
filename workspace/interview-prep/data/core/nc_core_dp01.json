@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_dp01",
+  "trigger": {
+    "track": "algo",
+    "category": "1-D DP"
+  },
+  "title": "0/1 Knapsack",
+  "difficulty": "Medium",
+  "category": "Dynamic Programming",
+  "neetcode_url": "https://neetcode.io/problems/01Knapsack",
+  "description": "Given n items with weights and profits, and a knapsack with capacity W, find the maximum profit achievable without exceeding capacity. Each item can be used at most once.",
+  "key_concept": "dp[i][w] = max profit using first i items with capacity w. Either skip item i or take it (if weight fits). Bottom-up 2D DP or 1D optimized.",
+  "when_best": "Items used at most once, capacity constraint, partition problems, subset sum variants",
+  "hints": {
+    "L1": "Define dp[i][w] = max value using items 0..i-1 with capacity w. For each item, try including vs excluding.",
+    "L2": "dp[i][w] = max(dp[i-1][w], profit[i-1] + dp[i-1][w-weight[i-1]]) if weight[i-1] <= w, else dp[i-1][w]. Can optimize to 1D array iterating w from W down to 0.",
+    "L3": "1D optimization: dp=[0]*(W+1); for each item: for w from W down to item.weight: dp[w]=max(dp[w], item.profit+dp[w-item.weight]); return dp[W]"
+  },
+  "optimal_solution": "// O(n*W) time, O(W) space (1D optimized)\nfunction zeroOneKnapsack(profits, weights, capacity) {\n  const dp = new Array(capacity + 1).fill(0);\n  for (let i = 0; i < profits.length; i++) {\n    // iterate right-to-left to prevent using same item twice\n    for (let w = capacity; w >= weights[i]; w--) {\n      dp[w] = Math.max(dp[w], profits[i] + dp[w - weights[i]]);\n    }\n  }\n  return dp[capacity];\n}",
+  "complexity": {
+    "time": "O(n*W)",
+    "space": "O(W)"
+  }
+}
