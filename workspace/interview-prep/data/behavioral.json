@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "behavioral": {
+    "schema_version": "2.0",
+    "competencies": {
+      "leadership_ownership": {
+        "description": "Demonstrates senior ownership: drives projects end-to-end, takes accountability",
+        "questions": [
+          { "id": "bq_001", "question": "Tell me about a time you took ownership of a project that was failing. What did you do?" },
+          { "id": "bq_002", "question": "Describe a situation where you had to make a critical decision without complete information." },
+          { "id": "bq_003", "question": "Tell me about a time you disagreed with your manager's technical decision. What did you do?" },
+          { "id": "bq_004", "question": "Describe a time you proactively identified and fixed a problem before it became critical." },
+          { "id": "bq_005", "question": "Tell me about a time you had to lead a team through significant uncertainty or ambiguity." }
+        ]
+      },
+      "technical_depth": {
+        "description": "Shows deep technical judgment, architecture decisions, tradeoffs",
+        "questions": [
+          { "id": "bq_006", "question": "Tell me about the most complex technical problem you've solved. Walk me through your approach." },
+          { "id": "bq_007", "question": "Describe a time you had to make a significant architectural decision. What tradeoffs did you consider?" },
+          { "id": "bq_008", "question": "Tell me about a time you had to learn a new technology quickly to solve a problem." },
+          { "id": "bq_009", "question": "Describe a system you built that you're particularly proud of — what made it excellent?" },
+          { "id": "bq_010", "question": "Tell me about a time a technical decision you made didn't pan out. What happened and what did you learn?" }
+        ]
+      },
+      "collaboration_influence": {
+        "description": "Works effectively across teams, influences without authority",
+        "questions": [
+          { "id": "bq_011", "question": "Tell me about a time you had to influence stakeholders who didn't report to you." },
+          { "id": "bq_012", "question": "Describe a conflict with a colleague or cross-functional partner. How did you resolve it?" },
+          { "id": "bq_013", "question": "Tell me about a time you had to work with a difficult team member. How did you handle it?" },
+          { "id": "bq_014", "question": "Describe a time you successfully aligned multiple teams with competing priorities." },
+          { "id": "bq_015", "question": "Tell me about a time you mentored someone and what impact it had." }
+        ]
+      },
+      "impact_delivery": {
+        "description": "Delivers measurable results, prioritizes high-impact work",
+        "questions": [
+          { "id": "bq_016", "question": "Tell me about the highest-impact project you've delivered. How did you measure success?" },
+          { "id": "bq_017", "question": "Describe a time you had to prioritize between multiple critical projects. How did you decide?" },
+          { "id": "bq_018", "question": "Tell me about a time you significantly improved system performance or reliability." },
+          { "id": "bq_019", "question": "Describe a time you delivered under a tight deadline. What tradeoffs did you make?" },
+          { "id": "bq_020", "question": "Tell me about a time your work directly impacted business outcomes (revenue, users, costs)." }
+        ]
+      },
+      "growth_learning": {
+        "description": "Demonstrates continuous learning, adaptability, self-awareness",
+        "questions": [
+          { "id": "bq_021", "question": "Tell me about a significant mistake you made. How did you handle it and what did you learn?" },
+          { "id": "bq_022", "question": "Describe a time you had to significantly change your approach mid-project. Why and how?" },
+          { "id": "bq_023", "question": "Tell me about a time you received critical feedback. How did you respond?" },
+          { "id": "bq_024", "question": "Describe how you stay current with technology trends and decide which to invest in." },
+          { "id": "bq_025", "question": "Tell me about a time you had to admit you were wrong to a stakeholder. How did you handle it?" }
+        ]
+      },
+      "customer_focus": {
+        "description": "Keeps end user needs at center of technical decisions",
+        "questions": [
+          { "id": "bq_026", "question": "Tell me about a time you advocated for the customer when others were focused on technical concerns." },
+          { "id": "bq_027", "question": "Describe a time you gathered user feedback that significantly changed your technical direction." },
+          { "id": "bq_028", "question": "Tell me about a time you had to balance technical debt with user-facing features." },
+          { "id": "bq_029", "question": "Describe a situation where you simplified a complex technical system to improve user experience." },
+          { "id": "bq_030", "question": "Tell me about a time you anticipated a customer need before they expressed it." }
+        ]
+      }
+    }
+  }
+}
