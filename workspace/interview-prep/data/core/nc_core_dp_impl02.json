@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl02",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_001"
+  },
+  "title": "Singleton Pattern",
+  "difficulty": "Medium",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/singletonDesignPattern",
+  "description": "Implement a thread-safe Singleton for a database connection. Only one instance should exist; getInstance() always returns the same object.",
+  "key_concept": "Private constructor + static instance + lazy initialization. Thread safety via double-checked locking or module-level initialization.",
+  "reference_gof_id": "gof_001"
+}
