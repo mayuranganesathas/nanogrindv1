@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_dp02",
+  "trigger": {
+    "track": "algo",
+    "category": "1-D DP"
+  },
+  "title": "Unbounded Knapsack",
+  "difficulty": "Medium",
+  "category": "Dynamic Programming",
+  "neetcode_url": "https://neetcode.io/problems/unboundedKnapsack",
+  "description": "Same as 0/1 Knapsack, but each item can be used unlimited times. Find maximum profit within the weight capacity.",
+  "key_concept": "dp[w] = max profit with exactly capacity w. Each item can be reused, so iterate capacity left-to-right (vs right-to-left in 0/1 knapsack).",
+  "when_best": "Coin change, rod cutting, item reuse allowed. Key difference from 0/1: inner loop goes forward not backward.",
+  "hints": {
+    "L1": "Same DP table as 0/1 but items can be reused. The only change: iterate capacity left-to-right instead of right-to-left.",
+    "L2": "dp=[0]*(W+1). For each item: for w from item.weight to W: dp[w]=max(dp[w], item.profit+dp[w-item.weight]). Left-to-right allows reusing the same item.",
+    "L3": "Why left-to-right works: when we compute dp[w], dp[w-weight] already reflects the current item being included → allows reuse."
+  },
+  "optimal_solution": "// O(n*W) time, O(W) space\nfunction unboundedKnapsack(profits, weights, capacity) {\n  const dp = new Array(capacity + 1).fill(0);\n  for (let i = 0; i < profits.length; i++) {\n    // iterate left-to-right: allows reusing the same item\n    for (let w = weights[i]; w <= capacity; w++) {\n      dp[w] = Math.max(dp[w], profits[i] + dp[w - weights[i]]);\n    }\n  }\n  return dp[capacity];\n}",
+  "complexity": {
+    "time": "O(n*W)",
+    "space": "O(W)"
+  }
+}
