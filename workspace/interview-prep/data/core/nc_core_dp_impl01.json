@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl01",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_002"
+  },
+  "title": "Factory Method Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/factoryDesignPattern",
+  "description": "Implement the Factory Method pattern. Create a Vehicle factory that produces Car and Bike objects, with a common interface method getType().",
+  "key_concept": "Define interface, let subclasses decide which concrete class to instantiate. Creator has factory method returning Product interface.",
+  "reference_gof_id": "gof_002"
+}
