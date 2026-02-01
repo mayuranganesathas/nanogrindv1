@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl03",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_004"
+  },
+  "title": "Builder Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/builderDesignPattern",
+  "description": "Implement Builder for a House object with optional roof, floor, walls, and pool. Support method chaining.",
+  "key_concept": "Builder accumulates parameters; build() produces final object. Fluent interface via returning 'this'. Eliminates telescoping constructors.",
+  "reference_gof_id": "gof_004"
+}
