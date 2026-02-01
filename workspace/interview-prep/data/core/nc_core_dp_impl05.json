@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl05",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_006"
+  },
+  "title": "Adapter Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/adapterDesignPattern",
+  "description": "Implement Adapter to make a UsbCable compatible with a MicroUsb interface without modifying either class.",
+  "key_concept": "Wrap incompatible class with adapter that implements the target interface. Composition over inheritance.",
+  "reference_gof_id": "gof_006"
+}
