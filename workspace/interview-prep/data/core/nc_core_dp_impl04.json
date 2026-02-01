@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl04",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_005"
+  },
+  "title": "Prototype Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/prototypeDesignPattern",
+  "description": "Implement Prototype for an Animal class. clone() should return a deep copy of the object.",
+  "key_concept": "Implement a clone() method that creates a new object with copied state. Watch for shallow vs deep copy pitfalls with nested objects.",
+  "reference_gof_id": "gof_005"
+}
