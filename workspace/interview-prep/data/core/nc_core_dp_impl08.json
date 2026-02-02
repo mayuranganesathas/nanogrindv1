@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl08",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_020"
+  },
+  "title": "Strategy Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/strategyDesignPattern",
+  "description": "Implement Strategy for a shopping cart payment system. Support CreditCardPayment and PayPalPayment strategies, switchable at runtime.",
+  "key_concept": "Context holds a strategy reference. setStrategy() swaps algorithms at runtime. Strategy interface standardizes the execute() method.",
+  "reference_gof_id": "gof_020"
+}
