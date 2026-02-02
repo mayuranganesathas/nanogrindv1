@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl07",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_010"
+  },
+  "title": "Facade Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/facadeDesignPattern",
+  "description": "Implement Facade for a home theater system with TV, SoundSystem, and StreamingService. The facade provides a single watchMovie() method.",
+  "key_concept": "Facade coordinates multiple subsystems through one simplified interface. Subsystems remain accessible directly if needed.",
+  "reference_gof_id": "gof_010"
+}
