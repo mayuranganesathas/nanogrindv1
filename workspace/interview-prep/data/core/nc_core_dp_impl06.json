@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl06",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_009"
+  },
+  "title": "Decorator Pattern",
+  "difficulty": "Medium",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/decoratorDesignPattern",
+  "description": "Implement Decorator for a Milk coffee shop. Base: BlackCoffee. Decorators: Milk, Sugar. Each decorator wraps the previous and adds to the cost.",
+  "key_concept": "Each decorator holds a reference to the wrapped component, calls its methods, and adds its own behavior. Same interface as component.",
+  "reference_gof_id": "gof_009"
+}
