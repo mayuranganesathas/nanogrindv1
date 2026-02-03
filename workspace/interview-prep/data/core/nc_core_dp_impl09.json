@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl09",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_018"
+  },
+  "title": "Observer Pattern",
+  "difficulty": "Easy",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/observerDesignPattern",
+  "description": "Implement Observer for a YouTube channel. Subscribers are notified when a new video is uploaded. Support subscribe, unsubscribe, notify.",
+  "key_concept": "Subject maintains a list of observers. notify() calls update() on all observers. Observers self-register with subscribe().",
+  "reference_gof_id": "gof_018"
+}
