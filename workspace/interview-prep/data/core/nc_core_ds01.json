@@ -1,0 +1,26 @@
+{
+  "id": "nc_core_ds01",
+  "trigger": {
+    "track": "algo",
+    "category": "Arrays & Hashing"
+  },
+  "title": "Design Dynamic Array",
+  "difficulty": "Easy",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/dynamicArray",
+  "description": "Design a resizable array (similar to ArrayList/vector). Implement: pushback(val), popback(), get(i), resize() that doubles capacity when full. Start with capacity 1.",
+  "key_concept": "Amortized O(1) pushback via doubling strategy. Total work for n pushes = 1+2+4+...+n = O(n), so per-push amortized O(1).",
+  "key_operations": {
+    "get": "O(1)",
+    "set": "O(1)",
+    "pushback": "O(1) amortized",
+    "popback": "O(1)",
+    "resize": "O(n)"
+  },
+  "hints": {
+    "L1": "Maintain capacity, size, and an inner fixed array. When size==capacity, create new array with 2x capacity and copy.",
+    "L2": "pushback: if size==capacity, resize. arr[size]=val; size++. popback: size--; return arr[size]. get(i): return arr[i].",
+    "L3": "resize: newArr=new Array(capacity*2); copy all; capacity*=2; arr=newArr"
+  },
+  "optimal_solution": "class DynamicArray {\n  constructor() { this.cap = 1; this.size = 0; this.arr = new Array(1); }\n  get(i) { return this.arr[i]; }\n  set(i, val) { this.arr[i] = val; }\n  pushback(val) {\n    if (this.size === this.cap) this.resize();\n    this.arr[this.size++] = val;\n  }\n  popback() { return this.arr[--this.size]; }\n  resize() {\n    this.cap *= 2;\n    const newArr = new Array(this.cap);\n    for (let i = 0; i < this.size; i++) newArr[i] = this.arr[i];\n    this.arr = newArr;\n  }\n  getSize() { return this.size; }\n  getCapacity() { return this.cap; }\n}"
+}
