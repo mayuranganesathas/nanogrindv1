@@ -1,0 +1,14 @@
+{
+  "id": "nc_core_dp_impl10",
+  "trigger": {
+    "track": "gof",
+    "gof_id": "gof_019"
+  },
+  "title": "State Pattern",
+  "difficulty": "Medium",
+  "category": "Design Patterns",
+  "neetcode_url": "https://neetcode.io/problems/stateDesignPattern",
+  "description": "Implement State for a vending machine with Idle, HasMoney, and Dispensing states. Each state handles insertCoin(), selectItem(), and dispense() differently.",
+  "key_concept": "Context delegates behavior to current state object. State transitions handled by state objects themselves (or the context). Eliminates if/else chains.",
+  "reference_gof_id": "gof_019"
+}
