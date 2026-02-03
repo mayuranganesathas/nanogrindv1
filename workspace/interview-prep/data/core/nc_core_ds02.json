@@ -1,0 +1,25 @@
+{
+  "id": "nc_core_ds02",
+  "trigger": {
+    "track": "algo",
+    "category": "Linked List"
+  },
+  "title": "Design Singly Linked List",
+  "difficulty": "Easy",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/singlyLinkedList",
+  "description": "Design a singly linked list supporting: get(index), insertHead(val), insertTail(val), insertAt(index, val), removeAt(index), getValues() → array of all values.",
+  "key_concept": "Dummy head node simplifies insert/delete at head (no special case). Track length for O(1) bounds checking.",
+  "key_operations": {
+    "get": "O(n)",
+    "insertHead": "O(1)",
+    "insertTail": "O(n)",
+    "remove": "O(n)"
+  },
+  "hints": {
+    "L1": "Use a dummy head node pointing to the actual first node. This eliminates special cases for inserting/removing at index 0.",
+    "L2": "For insertAt(index): traverse to node at index-1. newNode.next = cur.next; cur.next = newNode. For removeAt: cur.next = cur.next.next.",
+    "L3": "Always traverse starting from dummy head. Count steps carefully — insertAt(0) means inserting after dummy, traversal needs 0 steps."
+  },
+  "optimal_solution": "class ListNode { constructor(val) { this.val=val; this.next=null; } }\nclass LinkedList {\n  constructor() { this.head=new ListNode(-1); this.size=0; }\n  get(i) {\n    if(i<0||i>=this.size) return -1;\n    let cur=this.head.next; for(let k=0;k<i;k++) cur=cur.next; return cur.val;\n  }\n  insertHead(v) { const n=new ListNode(v); n.next=this.head.next; this.head.next=n; this.size++; }\n  insertTail(v) { let cur=this.head; while(cur.next) cur=cur.next; cur.next=new ListNode(v); this.size++; }\n  remove(i) {\n    if(i<0||i>=this.size) return false;\n    let cur=this.head; for(let k=0;k<i;k++) cur=cur.next;\n    cur.next=cur.next.next; this.size--; return true;\n  }\n}"
+}
