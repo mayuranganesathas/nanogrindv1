@@ -1,0 +1,25 @@
+{
+  "id": "nc_core_ds03",
+  "trigger": {
+    "track": "algo",
+    "category": "Stack"
+  },
+  "title": "Design Double-Ended Queue",
+  "difficulty": "Medium",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/doubleEndedQueue",
+  "description": "Design a Deque (double-ended queue) using a doubly-linked list. Support: append(val), appendleft(val), pop(), popleft() all in O(1).",
+  "key_concept": "Doubly-linked list with dummy head and tail enables O(1) insert/delete at both ends without special cases.",
+  "key_operations": {
+    "append": "O(1)",
+    "appendleft": "O(1)",
+    "pop": "O(1)",
+    "popleft": "O(1)"
+  },
+  "hints": {
+    "L1": "Use a doubly-linked list with dummy head and tail nodes. Connect head.next=tail and tail.prev=head initially.",
+    "L2": "insertAfter(node, val): new_node.prev=node; new_node.next=node.next; node.next.prev=new_node; node.next=new_node. Remove(node): node.prev.next=node.next; node.next.prev=node.prev.",
+    "L3": "append: insertAfter(tail.prev, val). appendleft: insertAfter(head, val). pop: remove(tail.prev). popleft: remove(head.next)."
+  },
+  "optimal_solution": "class Node { constructor(v) { this.val=v; this.prev=this.next=null; } }\nclass Deque {\n  constructor() {\n    this.head=new Node(0); this.tail=new Node(0);\n    this.head.next=this.tail; this.tail.prev=this.head;\n  }\n  _insert(prev, val) {\n    const n=new Node(val); const next=prev.next;\n    prev.next=n; n.prev=prev; n.next=next; next.prev=n;\n    return n;\n  }\n  _remove(n) { n.prev.next=n.next; n.next.prev=n.prev; return n.val; }\n  append(v) { this._insert(this.tail.prev, v); }\n  appendleft(v) { this._insert(this.head, v); }\n  pop() { return this._remove(this.tail.prev); }\n  popleft() { return this._remove(this.head.next); }\n}"
+}
