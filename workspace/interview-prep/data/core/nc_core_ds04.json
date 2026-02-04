@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_ds04",
+  "trigger": {
+    "track": "algo",
+    "category": "Trees"
+  },
+  "title": "Design Binary Search Tree",
+  "difficulty": "Medium",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/binarySearchTree",
+  "description": "Design a BST with insert(val), remove(val), and search(val). All operations must maintain BST invariant: left < node < right.",
+  "key_concept": "BST: O(log n) avg for search/insert/delete when balanced. Remove has 3 cases: leaf, one child, two children (replace with in-order successor).",
+  "key_operations": {
+    "search": "O(log n) avg",
+    "insert": "O(log n) avg",
+    "remove": "O(log n) avg"
+  },
+  "hints": {
+    "L1": "Insert: recurse left if val < node.val, right otherwise. When null, create node. Search: same direction logic.",
+    "L2": "Remove 3 cases: (1) leaf → return null; (2) one child → return that child; (3) two children → find min in right subtree, copy its value, delete that min node.",
+    "L3": "def get_min(node): while node.left: node=node.left; return node. For case 3: node.val=get_min(node.right).val; node.right=remove(node.right, node.val)"
+  },
+  "optimal_solution": "class TreeNode { constructor(v) { this.val=v; this.left=this.right=null; } }\nclass BST {\n  constructor() { this.root=null; }\n  insert(v) { this.root=this._ins(this.root,v); }\n  _ins(n,v) { if(!n) return new TreeNode(v); if(v<n.val) n.left=this._ins(n.left,v); else if(v>n.val) n.right=this._ins(n.right,v); return n; }\n  remove(v) { this.root=this._rem(this.root,v); }\n  _rem(n,v) {\n    if(!n) return null;\n    if(v<n.val) n.left=this._rem(n.left,v);\n    else if(v>n.val) n.right=this._rem(n.right,v);\n    else {\n      if(!n.left) return n.right;\n      if(!n.right) return n.left;\n      let m=n.right; while(m.left) m=m.left; // in-order successor\n      n.val=m.val; n.right=this._rem(n.right,m.val);\n    }\n    return n;\n  }\n  search(v) { let n=this.root; while(n) { if(v<n.val) n=n.left; else if(v>n.val) n=n.right; else return true; } return false; }\n}"
+}
