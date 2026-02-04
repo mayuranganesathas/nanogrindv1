@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_ds05",
+  "trigger": {
+    "track": "algo",
+    "category": "Arrays & Hashing"
+  },
+  "title": "Design Hash Table",
+  "difficulty": "Medium",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/hashTable",
+  "description": "Design a hash table with get(key), put(key, val), remove(key). Use chaining to handle collisions. Hash function: key % capacity.",
+  "key_concept": "Hash function maps keys to buckets. Chaining: each bucket is a linked list of (key, value) pairs. Load factor determines resize threshold.",
+  "key_operations": {
+    "get": "O(1) avg",
+    "put": "O(1) avg",
+    "remove": "O(1) avg"
+  },
+  "hints": {
+    "L1": "Use an array of lists (chaining). Hash: index = key % capacity. For each operation, find the bucket then linear scan for the key.",
+    "L2": "get: hash(key), scan bucket for key, return value or -1. put: hash, scan for existing key (update) or append new pair. remove: hash, find and delete pair.",
+    "L3": "Consider resizing when load factor (size/capacity) exceeds 0.5 — rehash all pairs into new larger array."
+  },
+  "optimal_solution": "class HashTable {\n  constructor(capacity=16) {\n    this.cap=capacity; this.size=0;\n    this.buckets=Array.from({length:capacity},()=>[]);\n  }\n  _hash(k) { return k % this.cap; }\n  get(k) {\n    for(const [bk,bv] of this.buckets[this._hash(k)]) if(bk===k) return bv;\n    return -1;\n  }\n  put(k,v) {\n    const b=this.buckets[this._hash(k)];\n    for(const pair of b) if(pair[0]===k) { pair[1]=v; return; }\n    b.push([k,v]); this.size++;\n    if(this.size/this.cap>0.5) this._resize();\n  }\n  remove(k) {\n    const b=this.buckets[this._hash(k)];\n    const i=b.findIndex(p=>p[0]===k);\n    if(i!==-1) { b.splice(i,1); this.size--; }\n  }\n  _resize() {\n    const old=this.buckets; this.cap*=2; this.size=0;\n    this.buckets=Array.from({length:this.cap},()=>[]);\n    for(const b of old) for(const [k,v] of b) this.put(k,v);\n  }\n}"
+}
