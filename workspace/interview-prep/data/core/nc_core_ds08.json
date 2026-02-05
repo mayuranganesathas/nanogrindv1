@@ -1,0 +1,23 @@
+{
+  "id": "nc_core_ds08",
+  "trigger": {
+    "track": "algo",
+    "category": "Graphs"
+  },
+  "title": "Design Disjoint Set (Union-Find)",
+  "difficulty": "Medium",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/unionFind",
+  "description": "Design a Union-Find / Disjoint Set Union (DSU) with find(x) and union(x,y). Use path compression and union by rank for near-O(1) amortized operations.",
+  "key_concept": "find: follow parent pointers to root (with path compression — point directly to root). union: attach smaller rank tree under larger rank root.",
+  "key_operations": {
+    "find": "O(α(n)) amortized ≈ O(1)",
+    "union": "O(α(n)) amortized ≈ O(1)"
+  },
+  "hints": {
+    "L1": "parent[i] = i initially (each node is its own root). find(x): if parent[x]==x, it's the root. Otherwise, recurse and update parent[x] directly to root (path compression).",
+    "L2": "union(x, y): find roots. If same root, already connected. Attach smaller rank under larger. If equal rank, increment one.",
+    "L3": "find(x): if parent[x]!=x: parent[x]=find(parent[x]); return parent[x] ← this one-liner does path compression"
+  },
+  "optimal_solution": "class UnionFind {\n  constructor(n) {\n    this.parent=Array.from({length:n},(_,i)=>i);\n    this.rank=new Array(n).fill(0);\n  }\n  find(x) {\n    if(this.parent[x]!==x) this.parent[x]=this.find(this.parent[x]);\n    return this.parent[x];\n  }\n  union(x,y) {\n    const [px,py]=[this.find(x),this.find(y)];\n    if(px===py) return false;\n    if(this.rank[px]<this.rank[py]) this.parent[px]=py;\n    else if(this.rank[px]>this.rank[py]) this.parent[py]=px;\n    else { this.parent[py]=px; this.rank[px]++; }\n    return true;\n  }\n  connected(x,y) { return this.find(x)===this.find(y); }\n}"
+}
