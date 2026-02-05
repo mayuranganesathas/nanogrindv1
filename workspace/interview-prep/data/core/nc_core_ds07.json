@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_ds07",
+  "trigger": {
+    "track": "algo",
+    "category": "Graphs"
+  },
+  "title": "Design Graph",
+  "difficulty": "Easy",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/adjacencyList",
+  "description": "Design a directed graph using adjacency list. Support: addEdge(src, dst), removeEdge(src, dst), hasPath(src, dst) using DFS or BFS.",
+  "key_concept": "Adjacency list: Map<node, Set<neighbor>>. Space O(V+E). DFS/BFS for path existence. Visited set prevents infinite loops in cyclic graphs.",
+  "key_operations": {
+    "addEdge": "O(1)",
+    "removeEdge": "O(1)",
+    "hasPath": "O(V+E)"
+  },
+  "hints": {
+    "L1": "Use a Map (or object) where each key is a node, value is a Set of neighbors. hasPath uses BFS or DFS with a visited set.",
+    "L2": "hasPath(src, dst): BFS with queue. Pop node, if == dst return true. Add unvisited neighbors. Mark visited immediately on enqueue to avoid re-processing.",
+    "L3": "DFS hasPath: visited=set(); stack=[src]; while stack: n=pop; if n==dst: return true; if n in visited: continue; visited.add(n); push all neighbors"
+  },
+  "optimal_solution": "class Graph {\n  constructor() { this.adj=new Map(); }\n  addEdge(s,d) {\n    if(!this.adj.has(s)) this.adj.set(s,new Set());\n    this.adj.get(s).add(d);\n  }\n  removeEdge(s,d) { this.adj.get(s)?.delete(d); }\n  hasPath(s,d) {\n    const visited=new Set(), queue=[s];\n    while(queue.length) {\n      const n=queue.shift();\n      if(n===d) return true;\n      if(visited.has(n)) continue;\n      visited.add(n);\n      for(const nb of this.adj.get(n)||[]) queue.push(nb);\n    }\n    return false;\n  }\n}"
+}
