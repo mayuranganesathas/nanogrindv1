@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_ds09",
+  "trigger": {
+    "track": "algo",
+    "category": "Advanced Graphs"
+  },
+  "title": "Design Segment Tree",
+  "difficulty": "Hard",
+  "category": "Data Structures",
+  "neetcode_url": "https://neetcode.io/problems/segmentTree",
+  "description": "Design a Segment Tree supporting range sum query (sumRange(l, r)) and point update (update(i, val)) in O(log n) time.",
+  "key_concept": "Complete binary tree over array. Each node stores sum of its range. Build O(n), query and update O(log n) by halving the range each level.",
+  "key_operations": {
+    "build": "O(n)",
+    "query": "O(log n)",
+    "update": "O(log n)"
+  },
+  "hints": {
+    "L1": "Store tree in array of size 4*n. Node i covers a range; left child at 2i, right child at 2i+1. Leaf nodes hold single values, internal nodes hold sums.",
+    "L2": "build(node, lo, hi): if lo==hi: tree[node]=nums[lo]; else: mid=(lo+hi)//2; build(2*node, lo, mid); build(2*node+1, mid+1, hi); tree[node]=tree[2*node]+tree[2*node+1]",
+    "L3": "query(node, lo, hi, l, r): if r<lo or hi<l: return 0; if l<=lo and hi<=r: return tree[node]; mid=(lo+hi)//2; return query(2*node,lo,mid,l,r)+query(2*node+1,mid+1,hi,l,r)"
+  },
+  "optimal_solution": "class SegmentTree {\n  constructor(nums) {\n    this.n=nums.length;\n    this.tree=new Array(4*this.n).fill(0);\n    this._build(nums,1,0,this.n-1);\n  }\n  _build(a,node,lo,hi) {\n    if(lo===hi){this.tree[node]=a[lo];return;}\n    const mid=(lo+hi)>>1;\n    this._build(a,2*node,lo,mid);\n    this._build(a,2*node+1,mid+1,hi);\n    this.tree[node]=this.tree[2*node]+this.tree[2*node+1];\n  }\n  update(i,val,node=1,lo=0,hi=this.n-1) {\n    if(lo===hi){this.tree[node]=val;return;}\n    const mid=(lo+hi)>>1;\n    if(i<=mid) this.update(i,val,2*node,lo,mid);\n    else this.update(i,val,2*node+1,mid+1,hi);\n    this.tree[node]=this.tree[2*node]+this.tree[2*node+1];\n  }\n  query(l,r,node=1,lo=0,hi=this.n-1) {\n    if(r<lo||hi<l) return 0;\n    if(l<=lo&&hi<=r) return this.tree[node];\n    const mid=(lo+hi)>>1;\n    return this.query(l,r,2*node,lo,mid)+this.query(l,r,2*node+1,mid+1,hi);\n  }\n}"
+}
