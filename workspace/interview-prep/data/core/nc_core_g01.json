@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_g01",
+  "trigger": {
+    "track": "algo",
+    "category": "Graphs"
+  },
+  "title": "Matrix Depth-First Search",
+  "difficulty": "Easy",
+  "category": "Graphs",
+  "neetcode_url": "https://neetcode.io/problems/matrixDfs",
+  "description": "Given an m×n grid of 0s and 1s, count the number of distinct paths from top-left (0,0) to bottom-right (m-1,n-1). You can only move right or down through cells with value 0.",
+  "key_concept": "DFS on a matrix with visited set. 4-directional or constrained traversal. Stack-based recursion, backtrack by removing from visited.",
+  "when_best": "Explore all paths, find any path, connected components in grids",
+  "hints": {
+    "L1": "Recursive DFS: from current cell, try all valid neighbors. Mark visited to avoid cycles. Backtrack after recursion.",
+    "L2": "Base case: reached bottom-right → return 1. Invalid (OOB, wall, visited) → return 0. Add to visited before recursing, remove after.",
+    "L3": "def dfs(r,c,visit): if OOB or grid[r][c]==1 or (r,c) in visit: return 0; if r==rows-1 and c==cols-1: return 1; visit.add((r,c)); count=dfs(r+1,c)+dfs(r-1,c)+dfs(r,c+1)+dfs(r,c-1); visit.remove((r,c)); return count"
+  },
+  "optimal_solution": "// DFS with backtracking\nfunction countPaths(grid) {\n  const rows = grid.length, cols = grid[0].length;\n  const visited = new Set();\n  function dfs(r, c) {\n    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] === 1 || visited.has(`${r},${c}`)) return 0;\n    if (r === rows-1 && c === cols-1) return 1;\n    visited.add(`${r},${c}`);\n    const count = dfs(r+1,c) + dfs(r-1,c) + dfs(r,c+1) + dfs(r,c-1);\n    visited.delete(`${r},${c}`);\n    return count;\n  }\n  return dfs(0, 0);\n}",
+  "complexity": {
+    "time": "O(4^(m*n))",
+    "space": "O(m*n)"
+  }
+}
