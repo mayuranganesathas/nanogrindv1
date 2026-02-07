@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_g03",
+  "trigger": {
+    "track": "algo",
+    "category": "Advanced Graphs"
+  },
+  "title": "Dijkstra's Algorithm",
+  "difficulty": "Medium",
+  "category": "Graphs",
+  "neetcode_url": "https://neetcode.io/problems/dijkstra",
+  "description": "Given a weighted directed graph, find the shortest path from source node 0 to all other nodes. Return an array of shortest distances. Use -1 for unreachable nodes.",
+  "key_concept": "Min-heap BFS — always expand the unvisited node with smallest known distance. Greedy: once a node is settled, its distance is final.",
+  "when_best": "Shortest path with non-negative edge weights. O((V+E) log V) vs O(V²) for dense graphs",
+  "hints": {
+    "L1": "Initialize dist[0]=0, all others infinity. Use min-heap of (dist, node). Pop minimum, skip if already settled.",
+    "L2": "For each neighbor v of u: if dist[u]+weight < dist[v]: update dist[v], push (dist[v], v) to heap. Old (larger dist, v) entries in heap are ignored when popped.",
+    "L3": "heap=[(0,src)]; dist=[inf]*n; dist[src]=0; while heap: d,u=heappop(heap); if d>dist[u]: continue; for v,w in graph[u]: if dist[u]+w<dist[v]: dist[v]=dist[u]+w; heappush(heap,(dist[v],v))"
+  },
+  "optimal_solution": "// O((V+E) log V)\nfunction dijkstra(n, edges, src) {\n  const graph = Array.from({length: n}, () => []);\n  for (const [u, v, w] of edges) graph[u].push([v, w]);\n  const dist = new Array(n).fill(Infinity);\n  dist[src] = 0;\n  const heap = [[0, src]]; // min-heap simulation\n  while (heap.length) {\n    heap.sort((a,b) => a[0]-b[0]);\n    const [d, u] = heap.shift();\n    if (d > dist[u]) continue;\n    for (const [v, w] of graph[u]) {\n      if (dist[u] + w < dist[v]) {\n        dist[v] = dist[u] + w;\n        heap.push([dist[v], v]);\n      }\n    }\n  }\n  return dist.map(d => d === Infinity ? -1 : d);\n}",
+  "complexity": {
+    "time": "O((V+E) log V)",
+    "space": "O(V+E)"
+  }
+}
