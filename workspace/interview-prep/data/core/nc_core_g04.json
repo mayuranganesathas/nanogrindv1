@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_g04",
+  "trigger": {
+    "track": "algo",
+    "category": "Advanced Graphs"
+  },
+  "title": "Prim's Algorithm",
+  "difficulty": "Hard",
+  "category": "Graphs",
+  "neetcode_url": "https://neetcode.io/problems/primsMst",
+  "description": "Given an undirected weighted graph with n nodes (0-indexed), find the total weight of the Minimum Spanning Tree using Prim's algorithm.",
+  "key_concept": "Grow MST one edge at a time from a start node — always add the minimum weight edge connecting the MST to an unvisited node. Min-heap of (weight, node).",
+  "when_best": "Dense graphs (better than Kruskal when E is close to V²), starting from a specific node",
+  "hints": {
+    "L1": "Start from node 0. Use a min-heap of (edge_weight, neighbor). Mark nodes as visited when added to MST.",
+    "L2": "Pop minimum from heap. If already visited, skip. Add weight to total, mark visited. Push all unvisited neighbors with their edge weights.",
+    "L3": "heap=[(0,0)]; visited=set(); total=0; while heap: w,u=heappop(heap); if u in visited: continue; visited.add(u); total+=w; for v,weight in graph[u]: if v not in visited: heappush(heap,(weight,v)); return total"
+  },
+  "optimal_solution": "// O(E log V)\nfunction primsAlgo(n, edges) {\n  const graph = Array.from({length: n}, () => []);\n  for (const [u, v, w] of edges) {\n    graph[u].push([v, w]);\n    graph[v].push([u, w]);\n  }\n  const visited = new Set();\n  const heap = [[0, 0]]; // [weight, node]\n  let total = 0;\n  while (heap.length) {\n    heap.sort((a,b) => a[0]-b[0]);\n    const [w, u] = heap.shift();\n    if (visited.has(u)) continue;\n    visited.add(u);\n    total += w;\n    for (const [v, weight] of graph[u]) {\n      if (!visited.has(v)) heap.push([weight, v]);\n    }\n  }\n  return visited.size === n ? total : -1;\n}",
+  "complexity": {
+    "time": "O(E log V)",
+    "space": "O(V+E)"
+  }
+}
