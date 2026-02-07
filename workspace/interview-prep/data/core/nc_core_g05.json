@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_g05",
+  "trigger": {
+    "track": "algo",
+    "category": "Advanced Graphs"
+  },
+  "title": "Kruskal's Algorithm",
+  "difficulty": "Hard",
+  "category": "Graphs",
+  "neetcode_url": "https://neetcode.io/problems/kruskalsMst",
+  "description": "Given an undirected weighted graph, find the total weight of the Minimum Spanning Tree using Kruskal's algorithm with Union-Find.",
+  "key_concept": "Sort all edges by weight. Greedily add cheapest edge that doesn't form a cycle. Union-Find detects cycles in O(α(n)).",
+  "when_best": "Sparse graphs (E << V²), when edges are already sorted or need global minimum first",
+  "hints": {
+    "L1": "Sort edges by weight. Use Union-Find to detect cycles. Add edge if the two endpoints are in different components.",
+    "L2": "DSU with path compression + union by rank. For each edge (u,v,w) in sorted order: if find(u) != find(v): union(u,v); total += w; stop when n-1 edges added.",
+    "L3": "Sort edges; init DSU; total=0; edges_used=0; for w,u,v in edges: if find(u)!=find(v): union(u,v); total+=w; edges_used++; if edges_used==n-1: break; return total"
+  },
+  "optimal_solution": "// O(E log E)\nfunction kruskalsMST(n, edges) {\n  edges.sort((a,b) => a[2]-b[2]);\n  const parent = Array.from({length:n},(_,i)=>i);\n  const rank = new Array(n).fill(0);\n  const find = x => parent[x]===x ? x : (parent[x]=find(parent[x]));\n  const union = (x,y) => {\n    const [px,py]=[find(x),find(y)];\n    if(px===py) return false;\n    if(rank[px]<rank[py]) parent[px]=py;\n    else if(rank[px]>rank[py]) parent[py]=px;\n    else { parent[py]=px; rank[px]++; }\n    return true;\n  };\n  let total=0, count=0;\n  for(const [u,v,w] of edges) {\n    if(union(u,v)) { total+=w; if(++count===n-1) break; }\n  }\n  return count===n-1 ? total : -1;\n}",
+  "complexity": {
+    "time": "O(E log E)",
+    "space": "O(V)"
+  }
+}
