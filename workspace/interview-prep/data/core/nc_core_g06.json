@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_g06",
+  "trigger": {
+    "track": "algo",
+    "category": "Graphs"
+  },
+  "title": "Topological Sort",
+  "difficulty": "Medium",
+  "category": "Graphs",
+  "neetcode_url": "https://neetcode.io/problems/topologicalSort",
+  "description": "Given a directed acyclic graph (DAG), return a valid topological ordering of its nodes using Kahn's algorithm (BFS with in-degrees).",
+  "key_concept": "Process nodes with no incoming edges first. Decrement neighbor in-degrees as nodes are removed. If order length < n → cycle detected.",
+  "when_best": "Course scheduling, build order, task dependencies, detecting cycles in directed graphs",
+  "hints": {
+    "L1": "Compute in-degree for every node. Add all nodes with in-degree 0 to a queue. Process queue: add to result, decrement neighbors' in-degrees.",
+    "L2": "When a neighbor's in-degree reaches 0, add it to the queue. Continue until queue empty. If result.length < n, graph has a cycle.",
+    "L3": "in_deg=[0]*n; for u,v in edges: in_deg[v]++; q=deque(i for i if in_deg[i]==0); order=[]; while q: u=popleft; order.append(u); for v in graph[u]: in_deg[v]--; if in_deg[v]==0: q.append(v); return order if len==n else []"
+  },
+  "optimal_solution": "// Kahn's algorithm — O(V+E)\nfunction topologicalSort(n, edges) {\n  const graph = Array.from({length:n},()=>[]);\n  const inDeg = new Array(n).fill(0);\n  for(const [u,v] of edges) { graph[u].push(v); inDeg[v]++; }\n  const queue = [];\n  for(let i=0;i<n;i++) if(inDeg[i]===0) queue.push(i);\n  const order = [];\n  while(queue.length) {\n    const u = queue.shift();\n    order.push(u);\n    for(const v of graph[u]) {\n      if(--inDeg[v]===0) queue.push(v);\n    }\n  }\n  return order.length===n ? order : [];\n}",
+  "complexity": {
+    "time": "O(V+E)",
+    "space": "O(V+E)"
+  }
+}
