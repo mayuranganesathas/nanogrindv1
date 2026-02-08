@@ -1,0 +1,23 @@
+{
+  "id": "nc_core_ml01",
+  "trigger": {
+    "track": "aiml",
+    "aiml_id": "ml_m06"
+  },
+  "title": "Gradient Descent",
+  "difficulty": "Easy",
+  "category": "Machine Learning",
+  "neetcode_url": "https://neetcode.io/problems/gradientDescent",
+  "description": "Implement gradient descent to minimize a 1D function f(x) = (x-3)^2. Given learning rate and number of iterations, return the value of x that minimizes f(x).",
+  "key_concept": "x = x - learning_rate * gradient. Gradient of (x-3)^2 is 2(x-3). Step in negative gradient direction to descend toward minimum.",
+  "hints": {
+    "L1": "Gradient descent: x_new = x - lr * df/dx. Compute gradient at current x, take a step in the negative gradient direction.",
+    "L2": "For f(x) = (x-3)^2: df/dx = 2*(x-3). Repeat for n iterations: x = x - lr * 2*(x-3). Return x after iterations.",
+    "L3": "Python: def gradient_descent(x, lr, n): for _ in range(n): grad = 2*(x-3); x = x - lr*grad; return round(x, 5)"
+  },
+  "optimal_solution": "def gradient_descent(x: float, learning_rate: float, iterations: int) -> list:\n    result = []\n    for _ in range(iterations):\n        grad = 2 * (x - 3)  # gradient of (x-3)^2\n        x = x - learning_rate * grad\n        result.append(round(x, 5))\n    return result",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  }
+}
