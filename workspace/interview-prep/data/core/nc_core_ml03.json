@@ -1,0 +1,23 @@
+{
+  "id": "nc_core_ml03",
+  "trigger": {
+    "track": "aiml",
+    "aiml_id": "ml_c01"
+  },
+  "title": "Linear Regression (Training)",
+  "difficulty": "Medium",
+  "category": "Machine Learning",
+  "neetcode_url": "https://neetcode.io/problems/linearRegressionTraining",
+  "description": "Implement linear regression training with gradient descent. Given X, y, learning rate, and epochs, update weights w and bias b to minimize MSE loss.",
+  "key_concept": "MSE loss = (1/n) * sum((y_hat - y)^2). Gradients: dL/dw = (2/n) * X.T @ (y_hat - y), dL/db = (2/n) * sum(y_hat - y). Update: w -= lr * dw, b -= lr * db.",
+  "hints": {
+    "L1": "Forward: y_hat = X @ w + b. Compute MSE loss. Backward: gradient of loss w.r.t. w and b. Update w and b.",
+    "L2": "error = y_hat - y. dw = (2/n) * X.T @ error. db = (2/n) * sum(error). w -= lr * dw; b -= lr * db. Repeat for all epochs.",
+    "L3": "def train(X,y,w,b,lr,epochs): n=len(y); for _ in range(epochs): yh=X@w+b; err=yh-y; w-=lr*(2/n)*(X.T@err); b-=lr*(2/n)*err.sum(); return w,b"
+  },
+  "optimal_solution": "import numpy as np\n\ndef train_linear_regression(X: np.ndarray, y: np.ndarray, w: np.ndarray, b: float, lr: float, epochs: int):\n    n = len(y)\n    for _ in range(epochs):\n        y_hat = np.dot(X, w) + b\n        error = y_hat - y\n        dw = (2/n) * np.dot(X.T, error)\n        db = (2/n) * np.sum(error)\n        w = w - lr * dw\n        b = b - lr * db\n    return w, b",
+  "complexity": {
+    "time": "O(epochs * n * features)",
+    "space": "O(1) extra"
+  }
+}
