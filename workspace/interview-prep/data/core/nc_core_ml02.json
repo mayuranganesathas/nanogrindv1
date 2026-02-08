@@ -1,0 +1,23 @@
+{
+  "id": "nc_core_ml02",
+  "trigger": {
+    "track": "aiml",
+    "aiml_id": "ml_c01"
+  },
+  "title": "Linear Regression (Forward Pass)",
+  "difficulty": "Easy",
+  "category": "Machine Learning",
+  "neetcode_url": "https://neetcode.io/problems/linearRegressionForward",
+  "description": "Implement the forward pass of linear regression. Given inputs X (n × features), weights w, and bias b, compute predictions y_hat = X @ w + b.",
+  "key_concept": "y_hat = X @ w + b. Matrix multiply input features by weights, add bias term. This is the prediction step before computing loss.",
+  "hints": {
+    "L1": "Linear regression prediction: y = X @ w + b. Use numpy matrix multiplication. X has shape (n, features), w has shape (features,), b is scalar.",
+    "L2": "import numpy as np. y_hat = np.dot(X, w) + b. Each output is the dot product of one sample's features with weights, plus bias.",
+    "L3": "def predict(X, w, b): return np.matmul(X, w) + b  # shape: (n,)"
+  },
+  "optimal_solution": "import numpy as np\n\ndef linear_regression_forward(X: np.ndarray, w: np.ndarray, b: float) -> np.ndarray:\n    \"\"\"\n    X: shape (n_samples, n_features)\n    w: shape (n_features,)\n    b: scalar bias\n    returns: y_hat shape (n_samples,)\n    \"\"\"\n    return np.dot(X, w) + b",
+  "complexity": {
+    "time": "O(n * features)",
+    "space": "O(n)"
+  }
+}
