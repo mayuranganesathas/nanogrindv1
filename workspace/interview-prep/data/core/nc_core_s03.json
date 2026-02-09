@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_s03",
+  "trigger": {
+    "track": "algo",
+    "category": "Arrays & Hashing"
+  },
+  "title": "Quick Sort",
+  "difficulty": "Medium",
+  "category": "Sorting",
+  "neetcode_url": "https://neetcode.io/problems/quickSort",
+  "description": "Implement Quick Sort. Sort an integer array in-place using the quicksort algorithm with Lomuto partition scheme.",
+  "key_concept": "Pick pivot, partition into smaller/larger, recurse. O(n log n) avg / O(n²) worst, in-place O(log n) stack space, unstable but fastest in practice",
+  "when_best": "In-memory sorting where average case matters, pivot randomization avoids worst case, cache-friendly access patterns",
+  "hints": {
+    "L1": "Choose last element as pivot. Partition: keep index of 'smaller element boundary', swap elements <= pivot to left side.",
+    "L2": "Lomuto: i=-1; for j in 0..n-1: if arr[j]<=pivot: i++; swap(i,j); swap(i+1, pivot_index). Recurse on arr[lo..pi-1] and arr[pi+1..hi].",
+    "L3": "def partition(arr,lo,hi): pivot=arr[hi]; i=lo-1; for j in lo..hi-1: if arr[j]<=pivot: i++; swap(i,j); swap(i+1,hi); return i+1"
+  },
+  "optimal_solution": "// O(n log n) avg, O(log n) space\nfunction quickSort(arr, lo = 0, hi = arr.length - 1) {\n  if (lo >= hi) return arr;\n  const pi = partition(arr, lo, hi);\n  quickSort(arr, lo, pi - 1);\n  quickSort(arr, pi + 1, hi);\n  return arr;\n}\nfunction partition(arr, lo, hi) {\n  const pivot = arr[hi];\n  let i = lo - 1;\n  for (let j = lo; j < hi; j++) {\n    if (arr[j] <= pivot) {\n      i++;\n      [arr[i], arr[j]] = [arr[j], arr[i]];\n    }\n  }\n  [arr[i+1], arr[hi]] = [arr[hi], arr[i+1]];\n  return i + 1;\n}",
+  "complexity": {
+    "time": "O(n log n) avg / O(n²) worst",
+    "space": "O(log n) stack"
+  }
+}
