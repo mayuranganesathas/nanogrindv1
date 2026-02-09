@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_s01",
+  "trigger": {
+    "track": "algo",
+    "category": "Arrays & Hashing"
+  },
+  "title": "Insertion Sort",
+  "difficulty": "Easy",
+  "category": "Sorting",
+  "neetcode_url": "https://neetcode.io/problems/insertionSort",
+  "description": "Implement Insertion Sort. Given an array of integers, sort it in ascending order using insertion sort. Return a 2D array where each row is the state of the array after each insertion step.",
+  "key_concept": "Shift elements right to insert current element in its sorted position — O(n²) but O(1) space, stable, efficient for nearly sorted arrays",
+  "when_best": "Nearly sorted input, small arrays, or as a subroutine in Timsort",
+  "hints": {
+    "L1": "Iterate from index 1. For each element, compare backward and shift right until you find its correct position.",
+    "L2": "Inner while loop: while j > 0 and arr[j-1] > arr[j]: swap, j--. Capture state after each outer iteration.",
+    "L3": "for i in 1..n: j=i; while j>0 and arr[j-1]>arr[j]: swap(arr,j,j-1); j--; record arr snapshot"
+  },
+  "optimal_solution": "// O(n²) time, O(1) space\nfunction insertionSort(arr) {\n  const result = [];\n  for (let i = 1; i < arr.length; i++) {\n    let j = i;\n    while (j > 0 && arr[j-1] > arr[j]) {\n      [arr[j], arr[j-1]] = [arr[j-1], arr[j]];\n      j--;\n    }\n    result.push([...arr]);\n  }\n  return result;\n}",
+  "complexity": {
+    "time": "O(n²)",
+    "space": "O(1)"
+  }
+}
