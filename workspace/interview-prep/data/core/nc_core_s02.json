@@ -1,0 +1,24 @@
+{
+  "id": "nc_core_s02",
+  "trigger": {
+    "track": "algo",
+    "category": "Arrays & Hashing"
+  },
+  "title": "Merge Sort",
+  "difficulty": "Medium",
+  "category": "Sorting",
+  "neetcode_url": "https://neetcode.io/problems/mergeSort",
+  "description": "Implement Merge Sort. Sort an integer array using the merge sort algorithm. Return a pair: [sorted array, number of swaps (inversions)].",
+  "key_concept": "Divide and conquer — split in half, recursively sort, merge. O(n log n) guaranteed, stable sort, O(n) extra space",
+  "when_best": "Stable sort needed, external sorting, linked lists (no random access), counting inversions",
+  "hints": {
+    "L1": "Split array in half recursively until size 1. Merge two sorted halves by comparing front elements.",
+    "L2": "merge(left, right): two pointers, pick smaller head. Append remainder. Count: each time right[j] < left[i], add len(left)-i to inversion count.",
+    "L3": "def merge_sort(arr): if len<=1: return arr,0; mid=len//2; L,c1=merge_sort(arr[:mid]); R,c2=merge_sort(arr[mid:]); merged,c3=merge(L,R); return merged, c1+c2+c3"
+  },
+  "optimal_solution": "// O(n log n) time, O(n) space\nfunction mergeSort(arr) {\n  if (arr.length <= 1) return [arr, 0];\n  const mid = Math.floor(arr.length / 2);\n  const [left, lCount] = mergeSort(arr.slice(0, mid));\n  const [right, rCount] = mergeSort(arr.slice(mid));\n  const [merged, mCount] = merge(left, right);\n  return [merged, lCount + rCount + mCount];\n}\nfunction merge(left, right) {\n  const res = []; let i = 0, j = 0, count = 0;\n  while (i < left.length && j < right.length) {\n    if (left[i] <= right[j]) res.push(left[i++]);\n    else { res.push(right[j++]); count += left.length - i; }\n  }\n  return [[...res, ...left.slice(i), ...right.slice(j)], count];\n}",
+  "complexity": {
+    "time": "O(n log n)",
+    "space": "O(n)"
+  }
+}
