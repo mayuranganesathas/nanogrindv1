@@ -1,0 +1,693 @@
+{
+  "schema_version": "1.0",
+  "description": "NeetCode core DS concepts — presented once before the first problem of each new category",
+  "ds_concepts": [
+    {
+      "id": "ds_a01",
+      "title": "Arrays",
+      "neetcode_category": "Arrays & Hashing",
+      "summary": "Contiguous memory. Random access O(1). The foundation of almost every algorithm.",
+      "key_concepts": [
+        "Random access: arr[i] is O(1) — direct memory offset calculation",
+        "Insertion/deletion at end: O(1) amortized (dynamic arrays double capacity)",
+        "Insertion/deletion at middle: O(n) — must shift elements",
+        "Two-pass technique: scan once to gather info, scan again to act on it",
+        "Prefix sums: precompute arr[0..i] totals to answer range queries in O(1)"
+      ],
+      "time_complexity": {
+        "access": "O(1)",
+        "search": "O(n)",
+        "insert_end": "O(1) amortized",
+        "insert_middle": "O(n)",
+        "delete_end": "O(1)",
+        "delete_middle": "O(n)"
+      },
+      "when_to_use": [
+        "Need index-based access",
+        "Data is ordered and you need range queries",
+        "Building a prefix sum for range aggregation",
+        "Sorting + binary search combo"
+      ],
+      "common_patterns": [
+        "Prefix sums for range sum queries",
+        "Sorting to enable two-pointer / binary search",
+        "Kadane's algorithm for maximum subarray",
+        "Dutch national flag for 3-way partition"
+      ],
+      "code_example": "# Prefix sum — range query in O(1) after O(n) build\nnums = [1, 2, 3, 4, 5]\nprefix = [0] * (len(nums) + 1)\nfor i, n in enumerate(nums):\n    prefix[i+1] = prefix[i] + n\n# Sum of nums[1..3] = prefix[4] - prefix[1] = 10 - 1 = 9\n\n# Kadane's — max subarray O(n)\nmax_sum = cur = nums[0]\nfor n in nums[1:]:\n    cur = max(n, cur + n)\n    max_sum = max(max_sum, cur)",
+      "js_code_example": "// Prefix sum\nconst prefix = [0];\nfor (const n of nums) prefix.push(prefix.at(-1) + n);\nconst rangeSum = (l, r) => prefix[r+1] - prefix[l];",
+      "thinking_questions": [
+        "Why does inserting at the front of an array cost O(n)? What data structure fixes this?",
+        "Given an array, how would you find all pairs that sum to a target in O(n)?"
+      ]
+    },
+    {
+      "id": "ds_h01",
+      "title": "Hash Maps & Hash Sets",
+      "neetcode_category": "Arrays & Hashing",
+      "summary": "O(1) average insert/lookup/delete. Trade memory for speed. The most common interview tool.",
+      "key_concepts": [
+        "Hash function maps key → bucket index. Collisions handled by chaining or open addressing",
+        "Average O(1) for get/set/delete — worst case O(n) with many collisions",
+        "HashSet: membership check in O(1). HashMap: key→value in O(1)",
+        "Frequency counting: iterate once, store counts — classic O(n) pattern",
+        "Two-sum pattern: for each x, check if (target - x) is in the map"
+      ],
+      "time_complexity": {
+        "get": "O(1) average",
+        "set": "O(1) average",
+        "delete": "O(1) average",
+        "contains": "O(1) average"
+      },
+      "when_to_use": [
+        "Need O(1) lookup — 'have I seen this before?'",
+        "Counting frequencies of elements",
+        "Grouping elements by a computed key (anagram grouping)",
+        "Two-sum / complement lookup pattern"
+      ],
+      "common_patterns": [
+        "Frequency map: count occurrences, then reason about counts",
+        "Complement lookup: store seen values, check for target - current",
+        "Group by key: defaultdict(list) to bucket items",
+        "Sliding window + hash map for substring problems"
+      ],
+      "code_example": "from collections import defaultdict, Counter\n\n# Frequency count\nfreq = Counter([1,2,2,3,3,3])  # {3:3, 2:2, 1:1}\n\n# Two-sum O(n)\ndef two_sum(nums, target):\n    seen = {}  # val -> index\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i\n\n# Group anagrams\ngroups = defaultdict(list)\nfor w in words:\n    groups[tuple(sorted(w))].append(w)",
+      "js_code_example": "// Two-sum\nconst seen = new Map();\nfor (let i = 0; i < nums.length; i++) {\n  if (seen.has(target - nums[i])) return [seen.get(target - nums[i]), i];\n  seen.set(nums[i], i);\n}",
+      "thinking_questions": [
+        "What happens to HashMap performance when load factor exceeds 0.75? What does Java do?",
+        "How would you design a HashMap from scratch? What's the tradeoff between array size and collision rate?"
+      ]
+    },
+    {
+      "id": "ds_tp01",
+      "title": "Two Pointers",
+      "neetcode_category": "Two Pointers",
+      "summary": "Two indices moving through an array. Eliminates the need for O(n²) nested loops in sorted arrays.",
+      "key_concepts": [
+        "Classic: left at 0, right at n-1, move inward based on condition",
+        "Requires sorted array (usually) — sort first if needed at O(n log n) cost",
+        "Fast/slow pointer variant: detect cycles, find midpoints in linked lists",
+        "Three-sum: fix one element, run two-pointer on the rest",
+        "Deduplication: skip duplicates by checking prev before advancing"
+      ],
+      "time_complexity": {
+        "two_pointer_scan": "O(n)",
+        "after_sorting": "O(n log n) total",
+        "three_sum": "O(n²)"
+      },
+      "when_to_use": [
+        "Array is sorted and you need pairs/triplets summing to target",
+        "Need to compare elements from both ends",
+        "Palindrome check",
+        "Fast/slow pointer for cycle detection or midpoint"
+      ],
+      "common_patterns": [
+        "Squeeze inward: left++ if sum too small, right-- if too large",
+        "Same-direction: both pointers move right, one faster (sliding window)",
+        "Fast/slow (Floyd's): cycle detection, nth-from-end in linked list"
+      ],
+      "code_example": "# Two-sum in sorted array O(n)\ndef two_sum_sorted(nums, target):\n    l, r = 0, len(nums) - 1\n    while l < r:\n        s = nums[l] + nums[r]\n        if s == target: return [l, r]\n        elif s < target: l += 1\n        else: r -= 1\n\n# Three-sum O(n²)\ndef three_sum(nums):\n    nums.sort()\n    res = []\n    for i, n in enumerate(nums):\n        if i > 0 and n == nums[i-1]: continue  # skip duplicates\n        l, r = i+1, len(nums)-1\n        while l < r:\n            s = n + nums[l] + nums[r]\n            if s == 0: res.append([n, nums[l], nums[r]]); l += 1\n            elif s < 0: l += 1\n            else: r -= 1\n    return res",
+      "js_code_example": "// Two-sum sorted\nlet l = 0, r = nums.length - 1;\nwhile (l < r) {\n  const s = nums[l] + nums[r];\n  if (s === target) return [l, r];\n  else if (s < target) l++;\n  else r--;\n}",
+      "thinking_questions": [
+        "Why does two-pointer only work reliably on sorted arrays for sum problems?",
+        "How does Floyd's cycle detection work — why does fast pointer catching slow guarantee a cycle?"
+      ]
+    },
+    {
+      "id": "ds_sw01",
+      "title": "Sliding Window",
+      "neetcode_category": "Sliding Window",
+      "summary": "A subarray window that expands/contracts as it slides. Converts O(n²) substring/subarray problems to O(n).",
+      "key_concepts": [
+        "Fixed window: window size k stays constant, slide right dropping leftmost",
+        "Variable window: expand right, shrink from left when constraint violated",
+        "Maintain window state (sum, freq map, distinct count) incrementally",
+        "Key insight: when you move window right, you only add one element and remove one",
+        "At most K distinct: classic variable window with a hashmap tracking frequencies"
+      ],
+      "time_complexity": {
+        "fixed_window": "O(n)",
+        "variable_window": "O(n) — each element added/removed at most once"
+      },
+      "when_to_use": [
+        "Longest/shortest subarray/substring satisfying a condition",
+        "Maximum/minimum sum subarray of size k",
+        "Anagram or permutation detection in string",
+        "At most K distinct characters/elements"
+      ],
+      "common_patterns": [
+        "Expand right always, shrink left when constraint violated",
+        "Track window state with a Counter/HashMap",
+        "Result = max(result, r - l + 1) after each valid expansion"
+      ],
+      "code_example": "# Longest substring without repeating chars — O(n)\ndef length_of_longest_substring(s):\n    char_idx = {}\n    l = res = 0\n    for r, c in enumerate(s):\n        if c in char_idx and char_idx[c] >= l:\n            l = char_idx[c] + 1  # shrink from left\n        char_idx[c] = r\n        res = max(res, r - l + 1)\n    return res\n\n# Fixed window max sum of size k — O(n)\ndef max_sum_k(nums, k):\n    window = sum(nums[:k])\n    res = window\n    for i in range(k, len(nums)):\n        window += nums[i] - nums[i-k]\n        res = max(res, window)\n    return res",
+      "js_code_example": "// Variable window — longest substring without repeating\nconst map = new Map(); let l = 0, res = 0;\nfor (let r = 0; r < s.length; r++) {\n  if (map.has(s[r]) && map.get(s[r]) >= l) l = map.get(s[r]) + 1;\n  map.set(s[r], r);\n  res = Math.max(res, r - l + 1);\n}",
+      "thinking_questions": [
+        "Why is the variable sliding window O(n) even though it has a nested while loop to shrink?",
+        "How would you modify the window approach to find all anagrams of a pattern in a string?"
+      ]
+    },
+    {
+      "id": "ds_st01",
+      "title": "Stack",
+      "neetcode_category": "Stack",
+      "summary": "LIFO. Push/pop in O(1). The monotonic stack is one of the most powerful interview patterns.",
+      "key_concepts": [
+        "LIFO: last in, first out. Push and pop from same end",
+        "Call stack analogy: used for DFS, backtracking, expression evaluation",
+        "Monotonic stack: maintain increasing or decreasing order by popping on violation",
+        "Monotonic increasing stack: each element is larger than all below it",
+        "Classic uses: next greater element, largest rectangle in histogram, daily temperatures"
+      ],
+      "time_complexity": {
+        "push": "O(1)",
+        "pop": "O(1)",
+        "peek": "O(1)",
+        "monotonic_scan": "O(n) — each element pushed/popped once"
+      },
+      "when_to_use": [
+        "Matching brackets/parentheses",
+        "Next greater/smaller element to the right or left",
+        "Undo/redo operations",
+        "DFS iteratively",
+        "Evaluating expressions (infix, postfix)"
+      ],
+      "common_patterns": [
+        "Monotonic decreasing stack: pop when current > top → finds next greater element",
+        "Monotonic increasing stack: pop when current < top → finds next smaller element",
+        "Min stack: maintain auxiliary stack tracking minimum at each level"
+      ],
+      "code_example": "# Next greater element — O(n) using monotonic stack\ndef next_greater(nums):\n    res = [-1] * len(nums)\n    stack = []  # indices, monotonic decreasing values\n    for i, n in enumerate(nums):\n        while stack and nums[stack[-1]] < n:\n            res[stack.pop()] = n  # n is the next greater for popped index\n        stack.append(i)\n    return res\n\n# Min stack O(1) getMin\nclass MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n    def push(self, val):\n        self.stack.append(val)\n        self.min_stack.append(min(val, self.min_stack[-1] if self.min_stack else val))\n    def pop(self):\n        self.stack.pop(); self.min_stack.pop()\n    def getMin(self):\n        return self.min_stack[-1]",
+      "js_code_example": "// Next greater element\nconst res = new Array(nums.length).fill(-1);\nconst stack = [];\nfor (let i = 0; i < nums.length; i++) {\n  while (stack.length && nums[stack.at(-1)] < nums[i])\n    res[stack.pop()] = nums[i];\n  stack.push(i);\n}",
+      "thinking_questions": [
+        "Why is a monotonic stack O(n) even though there's a while loop inside a for loop?",
+        "How does the 'largest rectangle in histogram' problem use a monotonic stack? What does the stack track?"
+      ]
+    },
+    {
+      "id": "ds_bs01",
+      "title": "Binary Search",
+      "neetcode_category": "Binary Search",
+      "summary": "Halve the search space each step. O(log n). Works on any monotonic function, not just sorted arrays.",
+      "key_concepts": [
+        "Standard: find target in sorted array by comparing mid to target",
+        "Template: lo=0, hi=n-1, mid=(lo+hi)//2, move lo or hi based on condition",
+        "Off-by-one: lo<=hi (find exact) vs lo<hi (find boundary)",
+        "Search on answer: binary search the answer space when you can verify feasibility",
+        "Rotated array: determine which half is sorted, then decide which half to search"
+      ],
+      "time_complexity": {
+        "search_sorted": "O(log n)",
+        "search_on_answer": "O(log(range) × O(verify))"
+      },
+      "when_to_use": [
+        "Array is sorted (or rotated sorted)",
+        "Find first/last occurrence of element",
+        "Search on answer: 'minimum/maximum X such that condition holds'",
+        "Koko eating bananas, ship packages — classic search-on-answer"
+      ],
+      "common_patterns": [
+        "Find leftmost: when arr[mid]==target, move hi=mid-1 (keep searching left)",
+        "Find rightmost: when arr[mid]==target, move lo=mid+1",
+        "Search on answer: define feasible(mid), binary search over answer range"
+      ],
+      "code_example": "# Standard binary search\ndef binary_search(nums, target):\n    lo, hi = 0, len(nums) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: lo = mid + 1\n        else: hi = mid - 1\n    return -1\n\n# Search on answer — minimum eating speed (Koko)\ndef min_eating_speed(piles, h):\n    def can_finish(k):\n        return sum((p + k - 1) // k for p in piles) <= h\n    lo, hi = 1, max(piles)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if can_finish(mid): hi = mid  # try smaller\n        else: lo = mid + 1\n    return lo",
+      "js_code_example": "let lo = 0, hi = nums.length - 1;\nwhile (lo <= hi) {\n  const mid = lo + hi >> 1;\n  if (nums[mid] === target) return mid;\n  else if (nums[mid] < target) lo = mid + 1;\n  else hi = mid - 1;\n}",
+      "thinking_questions": [
+        "Why do we use mid = lo + (hi - lo) // 2 instead of (lo + hi) // 2 in some languages?",
+        "How do you binary search for the first element >= target (lower_bound) in a sorted array?"
+      ]
+    },
+    {
+      "id": "ds_ll01",
+      "title": "Linked Lists",
+      "neetcode_category": "Linked List",
+      "summary": "Nodes with pointers. O(1) insert/delete at known position. Master the dummy head and fast/slow pointer.",
+      "key_concepts": [
+        "Singly linked: each node has val + next. No random access — must traverse O(n)",
+        "Dummy head node: simplifies edge cases for insertion/deletion at the head",
+        "Fast/slow pointer: fast moves 2x speed. When fast reaches end, slow is at midpoint",
+        "Cycle detection: fast/slow meet inside cycle → Floyd's algorithm",
+        "Reversal: iterative with prev/curr/next pointers. Recursive also works",
+        "In-place operations: always draw pointer diagrams — order of assignments matters"
+      ],
+      "time_complexity": {
+        "access": "O(n)",
+        "insert_at_head": "O(1)",
+        "insert_at_tail": "O(n) singly / O(1) if tail pointer maintained",
+        "delete_known_node": "O(1)",
+        "search": "O(n)"
+      },
+      "when_to_use": [
+        "Frequent insertion/deletion (no shifting)",
+        "LRU cache (doubly linked list + hashmap)",
+        "Midpoint, nth from end, cycle detection",
+        "Merge/sort operations on lists"
+      ],
+      "common_patterns": [
+        "Dummy head: prev = ListNode(0); prev.next = head — handles head deletion cleanly",
+        "Fast/slow: midpoint, cycle, nth-from-end",
+        "Reverse in-place: prev=None, while curr: next=curr.next; curr.next=prev; prev=curr; curr=next"
+      ],
+      "code_example": "# Reverse linked list — iterative O(n)\ndef reverse_list(head):\n    prev = None\n    curr = head\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    return prev\n\n# Find middle using fast/slow\ndef find_middle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow  # slow is at midpoint\n\n# Remove nth from end — one pass with dummy head\ndef remove_nth(head, n):\n    dummy = ListNode(0, head)\n    l, r = dummy, head\n    for _ in range(n): r = r.next\n    while r:\n        l = l.next; r = r.next\n    l.next = l.next.next\n    return dummy.next",
+      "js_code_example": "// Reverse linked list\nlet prev = null, curr = head;\nwhile (curr) {\n  const nxt = curr.next;\n  curr.next = prev;\n  prev = curr;\n  curr = nxt;\n}\nreturn prev;",
+      "thinking_questions": [
+        "Why does the dummy head pattern eliminate edge cases for head deletion?",
+        "How does the fast/slow pointer guarantee slow is exactly at the midpoint when fast reaches the end?"
+      ]
+    },
+    {
+      "id": "ds_bt01",
+      "title": "Binary Trees",
+      "neetcode_category": "Trees",
+      "summary": "Recursive structure. Every tree problem has a recursive subproblem. Master DFS and BFS traversals.",
+      "key_concepts": [
+        "Height: O(log n) for balanced, O(n) worst case (degenerate/skewed)",
+        "DFS traversals: inorder (L→Root→R), preorder (Root→L→R), postorder (L→R→Root)",
+        "BFS (level-order): use a queue, process level by level",
+        "Recursive pattern: solve for left subtree, solve for right subtree, combine",
+        "Return value vs global variable: track max path through node needs global; height can return up"
+      ],
+      "time_complexity": {
+        "access": "O(n) worst / O(log n) balanced",
+        "dfs_traversal": "O(n)",
+        "bfs_traversal": "O(n)",
+        "space_dfs": "O(h) — h is height",
+        "space_bfs": "O(w) — w is max width"
+      },
+      "when_to_use": [
+        "Any hierarchical data",
+        "Level-by-level processing → BFS",
+        "Path problems, depth problems → DFS",
+        "Validate BST property",
+        "Lowest common ancestor"
+      ],
+      "common_patterns": [
+        "Return (value, bool) tuple upward to propagate multiple facts",
+        "Global max variable updated inside DFS for path problems",
+        "BFS with deque: process all nodes at each level before moving down",
+        "Sentinel None returns for base case: if not node: return 0"
+      ],
+      "code_example": "from collections import deque\n\n# DFS — max depth O(n)\ndef max_depth(root):\n    if not root: return 0\n    return 1 + max(max_depth(root.left), max_depth(root.right))\n\n# BFS — level order O(n)\ndef level_order(root):\n    if not root: return []\n    q, res = deque([root]), []\n    while q:\n        level = []\n        for _ in range(len(q)):\n            node = q.popleft()\n            level.append(node.val)\n            if node.left: q.append(node.left)\n            if node.right: q.append(node.right)\n        res.append(level)\n    return res\n\n# Max path sum — global variable pattern\ndef max_path_sum(root):\n    res = [root.val]\n    def dfs(node):\n        if not node: return 0\n        l = max(dfs(node.left), 0)\n        r = max(dfs(node.right), 0)\n        res[0] = max(res[0], node.val + l + r)\n        return node.val + max(l, r)\n    dfs(root)\n    return res[0]",
+      "js_code_example": "// Max depth\nconst maxDepth = (root) =>\n  !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));",
+      "thinking_questions": [
+        "When would you choose BFS over DFS for a tree problem? Give a concrete example.",
+        "Why does the max path sum problem need a global variable instead of just returning from recursion?"
+      ]
+    },
+    {
+      "id": "ds_hp01",
+      "title": "Heap / Priority Queue",
+      "neetcode_category": "Heap / Priority Queue",
+      "summary": "Complete binary tree stored as array. O(log n) insert/extract. Get min/max in O(1).",
+      "key_concepts": [
+        "Min-heap: parent <= children. heapq in Python is min-heap by default",
+        "Max-heap: negate values to simulate with Python's heapq",
+        "heappush O(log n), heappop O(log n), heap[0] is always min O(1)",
+        "K largest/smallest: use a heap of size k — O(n log k) vs O(n log n) sort",
+        "Merge K sorted lists: push (val, list_idx) into heap, pop min and push next from same list"
+      ],
+      "time_complexity": {
+        "peek_min": "O(1)",
+        "insert": "O(log n)",
+        "extract_min": "O(log n)",
+        "heapify": "O(n)",
+        "k_largest": "O(n log k)"
+      },
+      "when_to_use": [
+        "Repeatedly need the minimum or maximum element",
+        "K largest / K smallest / Kth largest",
+        "Merge K sorted arrays or lists",
+        "Dijkstra's shortest path",
+        "Scheduling / task with deadlines"
+      ],
+      "common_patterns": [
+        "K smallest: max-heap of size k — pop when size > k (keeps k smallest)",
+        "K largest: min-heap of size k — pop when size > k (keeps k largest)",
+        "Custom comparator: push (priority, item) tuples"
+      ],
+      "code_example": "import heapq\n\n# Kth largest element — min-heap of size k\ndef find_kth_largest(nums, k):\n    heap = []\n    for n in nums:\n        heapq.heappush(heap, n)\n        if len(heap) > k:\n            heapq.heappop(heap)  # remove smallest\n    return heap[0]  # kth largest = smallest in heap of size k\n\n# Max-heap: negate values\nmax_heap = []\nheapq.heappush(max_heap, -val)\nmax_val = -heapq.heappop(max_heap)\n\n# Merge K sorted lists\ndef merge_k_lists(lists):\n    heap = []\n    for i, node in enumerate(lists):\n        if node: heapq.heappush(heap, (node.val, i, node))\n    dummy = curr = ListNode(0)\n    while heap:\n        val, i, node = heapq.heappop(heap)\n        curr.next = node; curr = curr.next\n        if node.next: heapq.heappush(heap, (node.next.val, i, node.next))\n    return dummy.next",
+      "js_code_example": "// JS has no built-in heap — use a sorted structure or implement\n// For interviews: mention O(n log k) approach with a min-heap of size k",
+      "thinking_questions": [
+        "Why is building a heap from an array O(n) and not O(n log n)?",
+        "For finding the Kth largest: when do you use a min-heap of size k vs sorting?"
+      ]
+    },
+    {
+      "id": "ds_tr01",
+      "title": "Trie (Prefix Tree)",
+      "neetcode_category": "Tries",
+      "summary": "Tree where each path from root to node represents a prefix. O(L) insert/search where L = word length.",
+      "key_concepts": [
+        "Each node has up to 26 children (one per letter) and an is_end flag",
+        "Insert: traverse/create nodes for each char, set is_end=True at last char",
+        "Search: traverse nodes — return False if any char missing",
+        "StartsWith (prefix search): same as search but don't need is_end",
+        "Space: O(n × L) — n words, average length L. Worse than hash but enables prefix ops"
+      ],
+      "time_complexity": {
+        "insert": "O(L)",
+        "search": "O(L)",
+        "starts_with": "O(L)",
+        "space": "O(n × L)"
+      },
+      "when_to_use": [
+        "Autocomplete / prefix search",
+        "Word dictionary with prefix queries",
+        "IP routing (longest prefix match)",
+        "Spell checker"
+      ],
+      "common_patterns": [
+        "TrieNode with children dict and is_end bool",
+        "DFS on trie to find all words with a prefix",
+        "Word search II: build trie of words, DFS on board checking trie"
+      ],
+      "code_example": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word):\n        node = self.root\n        for c in word:\n            if c not in node.children:\n                node.children[c] = TrieNode()\n            node = node.children[c]\n        node.is_end = True\n\n    def search(self, word):\n        node = self.root\n        for c in word:\n            if c not in node.children: return False\n            node = node.children[c]\n        return node.is_end\n\n    def starts_with(self, prefix):\n        node = self.root\n        for c in prefix:\n            if c not in node.children: return False\n            node = node.children[c]\n        return True",
+      "js_code_example": "class TrieNode { constructor() { this.children = {}; this.isEnd = false; } }\nclass Trie {\n  constructor() { this.root = new TrieNode(); }\n  insert(word) {\n    let node = this.root;\n    for (const c of word) {\n      if (!node.children[c]) node.children[c] = new TrieNode();\n      node = node.children[c];\n    }\n    node.isEnd = true;\n  }\n}",
+      "thinking_questions": [
+        "When would a Trie be better than a HashSet for a dictionary? When worse?",
+        "How would you use a Trie to implement autocomplete that returns the top 3 completions by frequency?"
+      ]
+    },
+    {
+      "id": "ds_g01",
+      "title": "Graphs",
+      "neetcode_category": "Graphs",
+      "summary": "Nodes + edges. BFS for shortest path (unweighted). DFS for connectivity, cycles, topological sort.",
+      "key_concepts": [
+        "Representations: adjacency list O(V+E) space (use this), adjacency matrix O(V²)",
+        "BFS: queue, visited set, level-by-level — finds shortest path in unweighted graph",
+        "DFS: stack/recursion, visited set — connectivity, cycle detection, topological sort",
+        "Union-Find: disjoint set for cycle detection and connected components in O(α(n)) ≈ O(1)",
+        "Topological sort: Kahn's (BFS + in-degree) or DFS post-order"
+      ],
+      "time_complexity": {
+        "bfs_dfs": "O(V + E)",
+        "union_find_op": "O(α(n)) ≈ O(1) amortized"
+      },
+      "when_to_use": [
+        "Islands / connected components → DFS/BFS",
+        "Shortest path unweighted → BFS",
+        "Shortest path weighted → Dijkstra (min-heap + BFS)",
+        "Cycle detection → DFS with colors or Union-Find",
+        "Course prerequisites / ordering → Topological sort"
+      ],
+      "common_patterns": [
+        "Visited set or in-place marking (flip cell value) to avoid revisits",
+        "BFS from multiple sources simultaneously (multi-source BFS)",
+        "DFS with state: WHITE/GRAY/BLACK for cycle detection in directed graphs"
+      ],
+      "code_example": "from collections import deque\n\n# BFS — shortest path\ndef bfs(graph, start, end):\n    q = deque([(start, [start])])\n    visited = {start}\n    while q:\n        node, path = q.popleft()\n        if node == end: return path\n        for nei in graph[node]:\n            if nei not in visited:\n                visited.add(nei)\n                q.append((nei, path + [nei]))\n\n# Number of islands — DFS O(V+E)\ndef num_islands(grid):\n    count = 0\n    def dfs(r, c):\n        if r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0]) or grid[r][c] != '1': return\n        grid[r][c] = '0'  # mark visited\n        for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n            dfs(r+dr, c+dc)\n    for r in range(len(grid)):\n        for c in range(len(grid[0])):\n            if grid[r][c] == '1': dfs(r,c); count += 1\n    return count",
+      "js_code_example": "// BFS shortest path\nconst q = [[start, 0]]; const visited = new Set([start]);\nwhile (q.length) {\n  const [node, dist] = q.shift();\n  if (node === end) return dist;\n  for (const nei of graph[node])\n    if (!visited.has(nei)) { visited.add(nei); q.push([nei, dist+1]); }\n}",
+      "thinking_questions": [
+        "Why does BFS guarantee the shortest path in an unweighted graph but DFS does not?",
+        "How does Union-Find detect a cycle when adding edges one by one?"
+      ]
+    },
+    {
+      "id": "ds_dp01",
+      "title": "1D Dynamic Programming",
+      "neetcode_category": "1-D DP",
+      "summary": "Break problem into overlapping subproblems. Cache results. Bottom-up tabulation > top-down memoization for space.",
+      "key_concepts": [
+        "Optimal substructure: optimal solution built from optimal sub-solutions",
+        "Overlapping subproblems: same subproblem solved repeatedly without DP",
+        "Top-down (memoization): recursion + cache. Intuitive to write, O(n) space call stack",
+        "Bottom-up (tabulation): iterate, fill dp array. Usually O(1) space with rolling variable",
+        "State definition is everything: dp[i] = 'what does this represent?'"
+      ],
+      "time_complexity": {
+        "typical_1d_dp": "O(n) time, O(n) space or O(1) with optimization"
+      },
+      "when_to_use": [
+        "Count ways to reach a goal",
+        "Min/max cost to reach end",
+        "Longest increasing subsequence",
+        "Fibonacci-style recurrence",
+        "Knapsack (can/cannot take item)"
+      ],
+      "common_patterns": [
+        "Climbing stairs: dp[i] = dp[i-1] + dp[i-2] — only need last 2 values",
+        "House robber: dp[i] = max(dp[i-1], dp[i-2] + nums[i])",
+        "LIS: dp[i] = max(dp[j]+1 for j<i where nums[j]<nums[i]) — O(n²), or patience sort O(n log n)"
+      ],
+      "code_example": "# Climbing stairs (Fibonacci) — space O(1)\ndef climb_stairs(n):\n    a, b = 1, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n\n# House robber\ndef rob(nums):\n    prev2, prev1 = 0, 0\n    for n in nums:\n        prev2, prev1 = prev1, max(prev1, prev2 + n)\n    return prev1\n\n# Longest increasing subsequence O(n log n)\nimport bisect\ndef length_of_lis(nums):\n    tails = []\n    for n in nums:\n        pos = bisect.bisect_left(tails, n)\n        if pos == len(tails): tails.append(n)\n        else: tails[pos] = n\n    return len(tails)",
+      "js_code_example": "// House robber\nlet [prev2, prev1] = [0, 0];\nfor (const n of nums)\n  [prev2, prev1] = [prev1, Math.max(prev1, prev2 + n)];\nreturn prev1;",
+      "thinking_questions": [
+        "How do you identify if a problem has overlapping subproblems vs just recursion?",
+        "When can you optimize a DP solution from O(n) space to O(1)? What's the pattern?"
+      ]
+    },
+    {
+      "id": "ds_dp02",
+      "title": "2D Dynamic Programming",
+      "neetcode_category": "2-D DP",
+      "summary": "State depends on two dimensions. Grid paths, string matching (edit distance, LCS), knapsack.",
+      "key_concepts": [
+        "dp[i][j] represents some value at position (i,j) in a 2D state space",
+        "Grid paths: dp[i][j] = dp[i-1][j] + dp[i][j-1] (unique paths)",
+        "String matching: dp[i][j] involves comparing s1[i] with s2[j]",
+        "Edit distance: dp[i][j] = min insert/delete/replace at each char pair",
+        "Knapsack: dp[i][w] = max value using first i items with capacity w"
+      ],
+      "time_complexity": {
+        "typical_2d_dp": "O(n×m) time, O(n×m) space or O(min(n,m)) with row optimization"
+      },
+      "when_to_use": [
+        "Unique paths in a grid",
+        "Longest common subsequence",
+        "Edit distance between two strings",
+        "0/1 Knapsack",
+        "Coin change (number of ways)"
+      ],
+      "common_patterns": [
+        "Base cases: first row = 0..n, first col = 0..m for edit distance",
+        "LCS: if chars match, dp[i][j] = dp[i-1][j-1] + 1; else max(dp[i-1][j], dp[i][j-1])",
+        "Space optimization: roll current row over previous row"
+      ],
+      "code_example": "# Edit distance — O(n×m)\ndef edit_distance(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0]*(n+1) for _ in range(m+1)]\n    for i in range(m+1): dp[i][0] = i\n    for j in range(n+1): dp[0][j] = j\n    for i in range(1, m+1):\n        for j in range(1, n+1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = dp[i-1][j-1]\n            else:\n                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])\n    return dp[m][n]\n\n# Longest common subsequence\ndef lcs(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0]*(n+1) for _ in range(m+1)]\n    for i in range(1, m+1):\n        for j in range(1, n+1):\n            if s1[i-1] == s2[j-1]: dp[i][j] = dp[i-1][j-1] + 1\n            else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])\n    return dp[m][n]",
+      "js_code_example": "// Unique paths in grid\nconst dp = Array.from({length: m}, () => new Array(n).fill(1));\nfor (let i = 1; i < m; i++)\n  for (let j = 1; j < n; j++)\n    dp[i][j] = dp[i-1][j] + dp[i][j-1];\nreturn dp[m-1][n-1];",
+      "thinking_questions": [
+        "How do you reduce edit distance from O(n×m) space to O(min(n,m))? What observation enables this?",
+        "What's the difference between longest common subsequence and longest common substring?"
+      ]
+    },
+    {
+      "id": "ds_bk01",
+      "title": "Backtracking",
+      "neetcode_category": "Backtracking",
+      "summary": "Explore all possibilities by trying choices and undoing them. Prune branches early to avoid brute force.",
+      "key_concepts": [
+        "Template: choose → explore → unchoose (undo)",
+        "State space tree: each node is a partial solution, leaves are complete solutions",
+        "Pruning: if current state can't lead to valid solution, return early",
+        "Permutations vs combinations: permutations care about order, combinations don't",
+        "Distinct results: sort + skip duplicates at the same recursion level"
+      ],
+      "time_complexity": {
+        "permutations": "O(n! × n)",
+        "combinations": "O(2^n × n)",
+        "subsets": "O(2^n × n)"
+      },
+      "when_to_use": [
+        "Generate all permutations, combinations, or subsets",
+        "N-Queens, Sudoku solver",
+        "Word search in a grid",
+        "Palindrome partitioning"
+      ],
+      "common_patterns": [
+        "Path array: build up path, add to results at base case, pop on backtrack",
+        "Used set: track which indices are used in current path (permutations)",
+        "Start index: pass start=i+1 to avoid reuse in combinations"
+      ],
+      "code_example": "# Subsets — O(2^n)\ndef subsets(nums):\n    res, path = [], []\n    def backtrack(start):\n        res.append(path[:])\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1)\n            path.pop()  # undo\n    backtrack(0)\n    return res\n\n# Permutations — O(n!)\ndef permutations(nums):\n    res, path = [], []\n    used = [False] * len(nums)\n    def backtrack():\n        if len(path) == len(nums): res.append(path[:]); return\n        for i in range(len(nums)):\n            if not used[i]:\n                used[i] = True; path.append(nums[i])\n                backtrack()\n                used[i] = False; path.pop()\n    backtrack()\n    return res",
+      "js_code_example": "// Subsets\nconst res = [], path = [];\nconst backtrack = (start) => {\n  res.push([...path]);\n  for (let i = start; i < nums.length; i++) {\n    path.push(nums[i]); backtrack(i + 1); path.pop();\n  }\n};\nbacktrack(0);",
+      "thinking_questions": [
+        "What's the difference between generating subsets vs combinations vs permutations in terms of the recursion structure?",
+        "How do you avoid duplicate subsets when the input array has duplicate values?"
+      ]
+    },
+    {
+      "id": "ds_bm01",
+      "title": "Bit Manipulation",
+      "neetcode_category": "Bit Manipulation",
+      "summary": "Work directly on binary representations. O(1) tricks for even/odd, powers of 2, XOR uniqueness.",
+      "key_concepts": [
+        "AND (&): both bits 1. OR (|): either bit 1. XOR (^): bits differ. NOT (~): flip bits",
+        "Left shift (<<): multiply by 2. Right shift (>>): divide by 2",
+        "n & (n-1): clears the lowest set bit (counts 1-bits, checks power of 2)",
+        "n & 1: checks if odd. n ^ n = 0: XOR with itself cancels",
+        "XOR trick: a ^ b ^ b = a — XOR with same value twice cancels out"
+      ],
+      "time_complexity": {
+        "all_operations": "O(1)"
+      },
+      "when_to_use": [
+        "Find single non-duplicate in array where all others appear twice → XOR all",
+        "Count set bits (Hamming weight)",
+        "Check/set/clear specific bit",
+        "Subset generation using bitmask",
+        "Reverse bits"
+      ],
+      "common_patterns": [
+        "XOR all elements: duplicates cancel, unique element remains",
+        "Bitmask subsets: for mask in range(1<<n) — iterates all 2^n subsets",
+        "Lowest set bit: n & (-n) isolates the rightmost 1-bit"
+      ],
+      "code_example": "# Single number — XOR O(n) time O(1) space\ndef single_number(nums):\n    result = 0\n    for n in nums:\n        result ^= n  # duplicates cancel: a^a=0, 0^b=b\n    return result\n\n# Count set bits (Hamming weight)\ndef count_bits(n):\n    count = 0\n    while n:\n        n &= n - 1  # clear lowest set bit\n        count += 1\n    return count\n\n# Check if power of 2\ndef is_power_of_two(n):\n    return n > 0 and (n & (n-1)) == 0\n\n# Generate all subsets using bitmask\ndef all_subsets(nums):\n    n = len(nums)\n    return [[nums[j] for j in range(n) if mask & (1<<j)]\n            for mask in range(1<<n)]",
+      "js_code_example": "// Single number\nreturn nums.reduce((acc, n) => acc ^ n, 0);\n\n// Count bits\nlet count = 0;\nwhile (n) { n &= n - 1; count++; }\nreturn count;",
+      "thinking_questions": [
+        "Why does n & (n-1) clear the lowest set bit? Walk through the binary arithmetic.",
+        "How would you find two non-duplicate numbers in an array where all others appear twice, using XOR?"
+      ]
+    },
+    {
+      "id": "ds_gr01",
+      "title": "Greedy Algorithms",
+      "neetcode_category": "Greedy",
+      "summary": "Make the locally optimal choice at each step. Works when greedy choice property and optimal substructure hold — no backtracking needed.",
+      "key_concepts": [
+        "Greedy choice property: local optimum leads to global optimum",
+        "Optimal substructure: optimal solution built from optimal subproblems",
+        "Sorting first often enables greedy (intervals, scheduling, gas station)",
+        "Two heaps / priority queues enable greedy on dynamic sets",
+        "Exchange argument: proof technique — show swapping any two elements worsens result"
+      ],
+      "time_complexity": {
+        "typical": "O(n log n) — dominated by sort",
+        "with_heap": "O(n log k) for heap-based greedy"
+      },
+      "when_to_use": [
+        "Interval scheduling: maximize non-overlapping intervals → sort by end time",
+        "Jump Game: can you reach end? → track max reachable index",
+        "Gas Station: can you complete circuit? → running sum trick",
+        "Meeting Rooms: how many rooms needed? → sort start, min-heap of end times",
+        "Task Scheduler: idle time minimization → frequency-based greedy"
+      ],
+      "common_patterns": [
+        "Sort by end time (interval problems): greedy picks earliest-ending valid interval",
+        "Sort by start time + merge: combine overlapping intervals",
+        "Two-pass greedy: left pass + right pass (Candy, Trap Rain Water)",
+        "Greedy with heap: always process min/max of current set"
+      ],
+      "code_example": "# Non-overlapping Intervals — O(n log n)\ndef erase_overlap_intervals(intervals):\n    intervals.sort(key=lambda x: x[1])  # sort by end\n    count, end = 0, float('-inf')\n    for s, e in intervals:\n        if s >= end:\n            end = e  # take this interval\n        else:\n            count += 1  # remove the overlapping one\n    return count\n\n# Jump Game — O(n)\ndef can_jump(nums):\n    max_reach = 0\n    for i, jump in enumerate(nums):\n        if i > max_reach: return False\n        max_reach = max(max_reach, i + jump)\n    return True\n\n# Gas Station — O(n)\ndef can_complete_circuit(gas, cost):\n    if sum(gas) < sum(cost): return -1\n    tank, start = 0, 0\n    for i in range(len(gas)):\n        tank += gas[i] - cost[i]\n        if tank < 0:\n            start = i + 1\n            tank = 0\n    return start",
+      "js_code_example": "// Non-overlapping intervals\nintervals.sort((a, b) => a[1] - b[1]);\nlet count = 0, end = -Infinity;\nfor (const [s, e] of intervals) {\n  if (s >= end) end = e;\n  else count++;\n}\nreturn count;",
+      "thinking_questions": [
+        "Why does sorting by end time (not start time) work for interval scheduling maximization?",
+        "How do you distinguish when to use greedy vs dynamic programming? What property does greedy require that DP doesn't?"
+      ]
+    },
+    {
+      "id": "ds_iv01",
+      "title": "Intervals",
+      "neetcode_category": "Intervals",
+      "summary": "Problems involving ranges [start, end]. Key operations: merge overlapping, detect conflicts, insert into sorted list, find minimum coverage.",
+      "key_concepts": [
+        "Two intervals [a,b] and [c,d] overlap if a <= d AND c <= b",
+        "Sort by start time to process intervals left to right",
+        "Merge: if cur.start <= last.end → extend last.end = max(last.end, cur.end)",
+        "Meeting rooms: count max overlapping at any point → sort start+end separately",
+        "Insert interval: binary search or linear scan to find where new interval fits"
+      ],
+      "time_complexity": {
+        "sort_and_merge": "O(n log n)",
+        "insert_into_sorted": "O(n)"
+      },
+      "when_to_use": [
+        "Merge overlapping intervals into minimum set",
+        "Insert a new interval into sorted non-overlapping list",
+        "Minimum meeting rooms / resources needed",
+        "Check if any intervals overlap (meeting conflict detection)",
+        "Find gaps between intervals"
+      ],
+      "common_patterns": [
+        "Sort by start, iterate and merge: result[-1][1] = max(result[-1][1], cur[1])",
+        "Two-array trick: separate starts[] and ends[], sort both, scan with two pointers",
+        "Sweep line: events at start (+1) and end (-1), find max active count"
+      ],
+      "code_example": "# Merge Intervals — O(n log n)\ndef merge(intervals):\n    intervals.sort(key=lambda x: x[0])\n    res = [intervals[0]]\n    for s, e in intervals[1:]:\n        if s <= res[-1][1]:\n            res[-1][1] = max(res[-1][1], e)  # merge\n        else:\n            res.append([s, e])\n    return res\n\n# Meeting Rooms II — O(n log n)\nimport heapq\ndef min_meeting_rooms(intervals):\n    intervals.sort()\n    heap = []  # end times of active meetings\n    for s, e in intervals:\n        if heap and heap[0] <= s:\n            heapq.heapreplace(heap, e)\n        else:\n            heapq.heappush(heap, e)\n    return len(heap)",
+      "js_code_example": "// Merge intervals\nintervals.sort((a, b) => a[0] - b[0]);\nconst res = [intervals[0]];\nfor (const [s, e] of intervals.slice(1)) {\n  if (s <= res.at(-1)[1]) res.at(-1)[1] = Math.max(res.at(-1)[1], e);\n  else res.push([s, e]);\n}\nreturn res;",
+      "thinking_questions": [
+        "What's the edge case when two intervals share exactly one endpoint — do they overlap?",
+        "For minimum meeting rooms, why does the two-pointer approach on sorted starts and ends work?"
+      ]
+    },
+    {
+      "id": "ds_mg01",
+      "title": "Math & Geometry",
+      "neetcode_category": "Math & Geometry",
+      "summary": "Number theory, geometry, and simulation problems. Key patterns: modulo arithmetic, prime sieve, GCD, spiral/rotation matrix, digit manipulation.",
+      "key_concepts": [
+        "Modulo: (a * b) % m == ((a % m) * (b % m)) % m — prevents overflow in large computations",
+        "GCD (Euclidean): gcd(a, b) = gcd(b, a % b), base case gcd(a, 0) = a",
+        "Prime sieve (Sieve of Eratosthenes): O(n log log n) to find all primes up to n",
+        "Matrix rotation 90°: transpose then reverse each row",
+        "Spiral traversal: shrink boundaries (top, bottom, left, right) layer by layer",
+        "Digit extraction: n % 10 gives last digit, n // 10 removes it"
+      ],
+      "time_complexity": {
+        "gcd": "O(log min(a,b))",
+        "prime_sieve": "O(n log log n)",
+        "matrix_ops": "O(n²)"
+      },
+      "when_to_use": [
+        "Rotate image / spiral matrix → boundary simulation",
+        "Count primes → Sieve of Eratosthenes",
+        "Happy number / detect cycle → fast/slow pointer on digit transform",
+        "Reverse integer / palindrome number → digit extraction loop",
+        "Power(x, n) → fast exponentiation O(log n)"
+      ],
+      "common_patterns": [
+        "Fast power: x^n = x^(n/2) * x^(n/2) — halve exponent each step",
+        "Cycle detection via hash set: seen = set(), loop until n in seen or n == 1",
+        "Layer-by-layer simulation: four-pointer bounds shrinking for matrix problems"
+      ],
+      "code_example": "# Rotate Matrix 90° clockwise — O(n²)\ndef rotate(matrix):\n    # Step 1: Transpose (swap [i][j] and [j][i])\n    n = len(matrix)\n    for i in range(n):\n        for j in range(i+1, n):\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n    # Step 2: Reverse each row\n    for row in matrix:\n        row.reverse()\n\n# Count Primes — Sieve of Eratosthenes O(n log log n)\ndef count_primes(n):\n    sieve = [True] * n\n    sieve[0] = sieve[1] = False\n    for i in range(2, int(n**0.5) + 1):\n        if sieve[i]:\n            for j in range(i*i, n, i):\n                sieve[j] = False\n    return sum(sieve)\n\n# Fast Power — O(log n)\ndef my_pow(x, n):\n    if n < 0: x, n = 1/x, -n\n    result = 1\n    while n:\n        if n % 2: result *= x\n        x *= x\n        n //= 2\n    return result",
+      "js_code_example": "// Rotate matrix\n// Transpose\nfor (let i = 0; i < n; i++)\n  for (let j = i+1; j < n; j++)\n    [m[i][j], m[j][i]] = [m[j][i], m[i][j]];\n// Reverse rows\nfor (const row of m) row.reverse();",
+      "thinking_questions": [
+        "Why does transpose + reverse-row equal a 90° clockwise rotation? Verify with a 3x3 example.",
+        "In the Sieve of Eratosthenes, why do we start marking multiples at i*i instead of 2*i?"
+      ]
+    },
+    {
+      "id": "ds_ag01",
+      "title": "Advanced Graphs",
+      "neetcode_category": "Advanced Graphs",
+      "summary": "Algorithms beyond basic BFS/DFS: shortest paths (Dijkstra, Bellman-Ford), minimum spanning trees (Kruskal, Prim), topological sort, and union-find.",
+      "key_concepts": [
+        "Dijkstra: min-heap BFS for shortest path in weighted graphs — O((V+E) log V), no negative weights",
+        "Bellman-Ford: relax all edges V-1 times — O(VE), handles negative weights, detects negative cycles",
+        "Topological Sort: Kahn's algorithm (in-degree BFS) or DFS post-order for DAG ordering",
+        "Union-Find (DSU): path compression + union by rank — near O(1) amortized per operation",
+        "Kruskal's MST: sort edges by weight, union-find to avoid cycles — O(E log E)",
+        "Prim's MST: grow tree greedily from source using min-heap — O(E log V)"
+      ],
+      "time_complexity": {
+        "dijkstra": "O((V+E) log V)",
+        "bellman_ford": "O(VE)",
+        "topological_sort": "O(V+E)",
+        "union_find": "O(α(n)) amortized",
+        "kruskal": "O(E log E)"
+      },
+      "when_to_use": [
+        "Shortest path with weights, no negatives → Dijkstra",
+        "Shortest path with negative weights / cycle detection → Bellman-Ford",
+        "Course scheduling, build order, task dependencies → Topological Sort",
+        "Connected components, cycle detection, dynamic connectivity → Union-Find",
+        "Minimum cost to connect all nodes → MST (Kruskal or Prim)"
+      ],
+      "common_patterns": [
+        "Dijkstra: heap = [(0, src)]; dist = {src: 0}; expand cheapest unvisited",
+        "Topological sort via in-degree: queue all nodes with in-degree 0, decrement neighbors",
+        "Union-Find with path compression: parent[find(x)] collapses chain to root",
+        "Detect cycle in directed graph: DFS with 3 states (unvisited, visiting, visited)"
+      ],
+      "code_example": "import heapq\nfrom collections import defaultdict, deque\n\n# Dijkstra — O((V+E) log V)\ndef dijkstra(graph, src):\n    dist = {src: 0}\n    heap = [(0, src)]\n    while heap:\n        d, u = heapq.heappop(heap)\n        if d > dist.get(u, float('inf')): continue\n        for v, w in graph[u]:\n            if dist.get(u, 0) + w < dist.get(v, float('inf')):\n                dist[v] = dist[u] + w\n                heapq.heappush(heap, (dist[v], v))\n    return dist\n\n# Topological Sort (Kahn's) — O(V+E)\ndef topo_sort(num_nodes, edges):\n    in_deg = [0] * num_nodes\n    graph = defaultdict(list)\n    for u, v in edges:\n        graph[u].append(v)\n        in_deg[v] += 1\n    q = deque(i for i in range(num_nodes) if in_deg[i] == 0)\n    order = []\n    while q:\n        u = q.popleft(); order.append(u)\n        for v in graph[u]:\n            in_deg[v] -= 1\n            if in_deg[v] == 0: q.append(v)\n    return order if len(order) == num_nodes else []  # [] = cycle\n\n# Union-Find with path compression\nclass DSU:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])  # path compression\n        return self.parent[x]\n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py: return False\n        if self.rank[px] < self.rank[py]: px, py = py, px\n        self.parent[py] = px\n        if self.rank[px] == self.rank[py]: self.rank[px] += 1\n        return True",
+      "js_code_example": "// Union-Find\nclass DSU {\n  constructor(n) { this.p = Array.from({length:n},(_,i)=>i); }\n  find(x) { if(this.p[x]!==x) this.p[x]=this.find(this.p[x]); return this.p[x]; }\n  union(x,y) { const [px,py]=[this.find(x),this.find(y)]; if(px===py) return false; this.p[py]=px; return true; }\n}",
+      "thinking_questions": [
+        "Why can't Dijkstra handle negative edge weights? What goes wrong when you relax a node that's already been 'settled'?",
+        "In topological sort, how do you detect if the graph has a cycle using Kahn's algorithm?"
+      ]
+    }
+  ]
+}
