@@ -1,0 +1,494 @@
+{
+  "schema_version": "2.0",
+  "design_patterns": {
+    "schema_version": "2.0",
+    "patterns": [
+      {
+        "id": "gof_001",
+        "name": "Singleton",
+        "neetcode_essential": true,
+        "category": "Creational",
+        "source": "refactoring_guru",
+        "description": "Ensures a class has only one instance and provides a global access point.",
+        "core_concept": "One instance only — trade testability for global access control",
+        "questions": [
+          "What problem does Singleton solve, and what's its main tradeoff?",
+          "How would you implement a thread-safe Singleton in Python?",
+          "When would you prefer dependency injection over Singleton?",
+          "How does Singleton violate the Single Responsibility Principle?",
+          "What's the difference between lazy and eager initialization in Singleton?",
+          "How would you test code that depends on a Singleton? What makes it hard?",
+          "Give a real-world example where Singleton is appropriate vs. where it's an antipattern."
+        ]
+      },
+      {
+        "id": "gof_002",
+        "name": "Factory Method",
+        "neetcode_essential": true,
+        "category": "Creational",
+        "source": "refactoring_guru",
+        "description": "Defines an interface for creating objects, but lets subclasses decide which classes to instantiate.",
+        "core_concept": "Defer object creation to subclasses — decouple client from concrete types",
+        "questions": [
+          "What's the key difference between Factory Method and a simple factory function?",
+          "How does Factory Method follow the Open/Closed Principle?",
+          "Design a notification system using Factory Method for Email, SMS, and Push notifications.",
+          "When would you choose Abstract Factory over Factory Method?",
+          "How does Factory Method relate to polymorphism?",
+          "What problem does Factory Method solve that constructor calls don't?",
+          "Implement a logger factory where the concrete logger (file, console, remote) is determined at runtime."
+        ]
+      },
+      {
+        "id": "gof_003",
+        "name": "Abstract Factory",
+        "category": "Creational",
+        "source": "refactoring_guru",
+        "description": "Creates families of related objects without specifying concrete classes.",
+        "core_concept": "Create families of related objects — enforce product consistency without naming concrete types",
+        "questions": [
+          "What's the difference between Abstract Factory and Factory Method?",
+          "Design a UI toolkit using Abstract Factory that supports Windows and Mac themes.",
+          "How do you add a new product family to an Abstract Factory without modifying existing code?",
+          "What principle does Abstract Factory implement to enforce product consistency?",
+          "When would you choose Abstract Factory — what's the telltale sign you need it?",
+          "How does Abstract Factory handle the dependency inversion principle?",
+          "What are the downsides of Abstract Factory (maintainability, extensibility)?"
+        ]
+      },
+      {
+        "id": "gof_004",
+        "name": "Builder",
+        "neetcode_essential": true,
+        "category": "Creational",
+        "source": "refactoring_guru",
+        "description": "Constructs complex objects step by step, separating construction from representation.",
+        "core_concept": "Build complex objects step-by-step — separate construction from representation",
+        "questions": [
+          "What problem does Builder solve that a constructor with many parameters doesn't?",
+          "Implement a QueryBuilder for SQL with select, where, orderBy, limit steps.",
+          "What's the Director role in the Builder pattern — when do you need it?",
+          "How does Builder compare to the telescoping constructor antipattern?",
+          "When would you use Builder vs Factory Method?",
+          "How do fluent interfaces (method chaining) relate to Builder?",
+          "Design a Builder for a Pizza object with optional toppings, size, and crust type."
+        ]
+      },
+      {
+        "id": "gof_005",
+        "name": "Prototype",
+        "neetcode_essential": true,
+        "category": "Creational",
+        "source": "refactoring_guru",
+        "description": "Creates new objects by cloning an existing object (the prototype).",
+        "core_concept": "Clone existing objects to skip expensive initialization — watch shallow vs deep copy",
+        "questions": [
+          "What's the difference between shallow copy and deep copy in the context of Prototype?",
+          "When is Prototype more efficient than using a constructor?",
+          "How would you implement Prototype for a complex object graph with circular references?",
+          "What problem does Prototype solve in systems where object initialization is expensive?",
+          "How does Python's copy.deepcopy relate to the Prototype pattern?",
+          "Design a game enemy spawning system using Prototype.",
+          "What are the pitfalls of shallow copying when using Prototype?"
+        ]
+      },
+      {
+        "id": "gof_006",
+        "name": "Adapter",
+        "neetcode_essential": true,
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Allows incompatible interfaces to work together by wrapping one interface to match another.",
+        "core_concept": "Wrap an incompatible interface to match what the client expects — the 'translator' pattern",
+        "questions": [
+          "What's the difference between class adapter and object adapter?",
+          "Design an Adapter to make a legacy payment system work with a new payment interface.",
+          "How does Adapter differ from Facade?",
+          "When would you use Adapter vs. rewriting the interface directly?",
+          "Implement an Adapter that makes a third-party JSON API work with your XML-based codebase.",
+          "How does Adapter follow the Open/Closed Principle?",
+          "What are the composition vs. inheritance tradeoffs in Adapter?"
+        ]
+      },
+      {
+        "id": "gof_007",
+        "name": "Bridge",
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Decouples abstraction from implementation so both can vary independently.",
+        "core_concept": "Decouple abstraction from implementation so both can evolve independently — prefer composition",
+        "questions": [
+          "What problem does Bridge solve that inheritance doesn't handle well?",
+          "Design a bridge for rendering shapes (Circle, Square) on different platforms (Windows, Mac).",
+          "How does Bridge differ from Adapter?",
+          "When does class hierarchy explosion indicate you need Bridge?",
+          "How does Bridge implement the 'prefer composition over inheritance' principle?",
+          "What's the 'abstraction' and what's the 'implementation' in Bridge?",
+          "How would you extend a Bridge-based system to add new abstractions and implementations?"
+        ]
+      },
+      {
+        "id": "gof_008",
+        "name": "Composite",
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Composes objects into tree structures to represent part-whole hierarchies.",
+        "core_concept": "Treat individual objects and compositions uniformly — recursive tree structure",
+        "questions": [
+          "What's the key interface that both leaf and composite nodes must implement?",
+          "Design a file system using Composite (files and directories).",
+          "How does Composite simplify client code when working with tree structures?",
+          "What's the tradeoff of Composite (when does it overly generalize)?",
+          "How would you implement a total size calculation for a composite file system?",
+          "How does Composite relate to recursive data structures?",
+          "When would you use Composite vs. a simple recursive function?"
+        ]
+      },
+      {
+        "id": "gof_009",
+        "name": "Decorator",
+        "neetcode_essential": true,
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Attaches additional responsibilities to objects dynamically by wrapping them.",
+        "core_concept": "Add behavior by wrapping objects at runtime — avoid subclass explosion",
+        "questions": [
+          "How does Decorator differ from inheritance for adding behavior?",
+          "Design a coffee ordering system using Decorator (add milk, sugar, espresso shots).",
+          "What's the key requirement for the Decorator to be transparent to clients?",
+          "How do Python's @decorators relate to the Decorator design pattern?",
+          "What's the order of decoration and why does it matter?",
+          "When would you choose Decorator over subclassing?",
+          "What are the downsides of deep decorator chains?"
+        ]
+      },
+      {
+        "id": "gof_010",
+        "name": "Facade",
+        "neetcode_essential": true,
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Provides a simplified interface to a complex subsystem.",
+        "core_concept": "Single simplified entry point to a complex subsystem — doesn't restrict access, just simplifies it",
+        "questions": [
+          "What's the difference between Facade and Adapter?",
+          "Design a home theater Facade for a complex system of TV, sound, streaming, lights.",
+          "Does Facade restrict access to the subsystem, or just provide a simpler interface?",
+          "How does Facade help with the 'Law of Demeter'?",
+          "When would layered Facades make sense?",
+          "How does Facade relate to the 'separation of concerns' principle?",
+          "What's the risk of a Facade becoming a 'god object'?"
+        ]
+      },
+      {
+        "id": "gof_011",
+        "name": "Flyweight",
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Shares common state among many objects to support large numbers efficiently.",
+        "core_concept": "Share intrinsic state across many objects — trade CPU for memory",
+        "questions": [
+          "What's the difference between intrinsic and extrinsic state in Flyweight?",
+          "Design a text editor using Flyweight for character objects.",
+          "When does Flyweight make sense vs. just using a cache?",
+          "How does Flyweight factory manage shared instances?",
+          "What are the memory vs. CPU tradeoffs in Flyweight?",
+          "How would you implement Flyweight in a particle system for a game?",
+          "What makes Flyweight objects immutable by necessity?"
+        ]
+      },
+      {
+        "id": "gof_012",
+        "name": "Proxy",
+        "category": "Structural",
+        "source": "refactoring_guru",
+        "description": "Provides a surrogate or placeholder to control access to another object.",
+        "core_concept": "Control access to another object — add lazy load, caching, logging, or protection transparently",
+        "questions": [
+          "What are the 4 main types of Proxy (virtual, protection, remote, logging)?",
+          "Design a caching proxy for an expensive database query object.",
+          "How does Proxy differ from Decorator?",
+          "How would you implement a lazy-loading proxy for a large image?",
+          "When would you use a protection proxy for access control?",
+          "How does a remote proxy hide network communication from clients?",
+          "What's the interface requirement for Proxy to be transparent?"
+        ]
+      },
+      {
+        "id": "gof_013",
+        "name": "Chain of Responsibility",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Passes requests along a chain of handlers, each deciding to handle or pass on.",
+        "core_concept": "Pass requests along a handler chain until one claims it — decouple sender from receiver",
+        "questions": [
+          "How does Chain of Responsibility decouple senders from receivers?",
+          "Design a support ticket escalation system (L1→L2→L3) using CoR.",
+          "What's the difference between Chain of Responsibility and a pipeline?",
+          "How do you handle the case where no handler handles the request?",
+          "When would you choose CoR over a simple if-else chain?",
+          "How does CoR relate to middleware in web frameworks like Express.js?",
+          "What are the performance implications of long chains?"
+        ]
+      },
+      {
+        "id": "gof_014",
+        "name": "Command",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Encapsulates a request as an object, enabling undo/redo, queuing, and logging.",
+        "core_concept": "Encapsulate requests as objects — enable undo, queue, and audit trail",
+        "questions": [
+          "What are the 4 components of Command pattern (invoker, command, receiver, client)?",
+          "Design an undo/redo system for a text editor using Command.",
+          "How does Command enable transaction-like behavior?",
+          "How does Command support queuing and scheduled execution?",
+          "When would you use Command vs. a callback function?",
+          "How does Command implement the 'encapsulate what varies' principle?",
+          "Design a macro-recording feature using Command."
+        ]
+      },
+      {
+        "id": "gof_015",
+        "name": "Iterator",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Provides a way to access elements of a collection sequentially without exposing its implementation.",
+        "core_concept": "Traverse a collection without exposing its internal structure — uniform access interface",
+        "questions": [
+          "What interface must an Iterator implement?",
+          "How does Iterator decouple traversal logic from the collection?",
+          "Design a tree iterator that traverses nodes in-order without exposing tree internals.",
+          "How do Python's __iter__ and __next__ implement the Iterator pattern?",
+          "What's the difference between internal and external iterators?",
+          "When would you implement a custom iterator vs. use a generator?",
+          "How do lazy iterators save memory vs. materializing a full list?"
+        ]
+      },
+      {
+        "id": "gof_016",
+        "name": "Mediator",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Reduces direct dependencies between components by centralizing communication.",
+        "core_concept": "Replace many-to-many component connections with one-to-many through a central hub",
+        "questions": [
+          "How does Mediator reduce the number of connections between components?",
+          "Design a chat room using Mediator where users communicate through a central server.",
+          "What's the risk of Mediator becoming a 'god object'?",
+          "How does Mediator differ from Observer?",
+          "When should you use Mediator vs. direct component communication?",
+          "How does the air traffic control system exemplify Mediator?",
+          "How does Mediator relate to the 'star topology' vs. 'mesh topology' tradeoff?"
+        ]
+      },
+      {
+        "id": "gof_017",
+        "name": "Memento",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Captures and externalizes an object's internal state so it can be restored later.",
+        "core_concept": "Capture and restore object state without breaking encapsulation — the snapshot pattern",
+        "questions": [
+          "What are the 3 participants of Memento (originator, memento, caretaker)?",
+          "How does Memento preserve encapsulation while saving state?",
+          "Design an undo/redo system for a drawing app using Memento.",
+          "How does Memento differ from Command pattern for implementing undo?",
+          "What are the memory implications of storing many mementos?",
+          "How would you implement incremental mementos instead of full snapshots?",
+          "When is Memento better than serialization for state capture?"
+        ]
+      },
+      {
+        "id": "gof_018",
+        "name": "Observer",
+        "neetcode_essential": true,
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Defines a one-to-many dependency so that when one object changes state, dependents are notified.",
+        "core_concept": "One publisher, many subscribers — notify dependents automatically on state change",
+        "questions": [
+          "What's the difference between push and pull notification in Observer?",
+          "Design an event system for a stock ticker using Observer.",
+          "What's the 'dangling observer' problem and how do you avoid it?",
+          "How does Observer relate to the pub/sub pattern?",
+          "How does Observer implement the dependency inversion principle?",
+          "When would you use Observer vs. direct method calls?",
+          "How do you handle ordering guarantees with multiple observers?"
+        ]
+      },
+      {
+        "id": "gof_019",
+        "name": "State",
+        "neetcode_essential": true,
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Allows an object to alter its behavior when its internal state changes.",
+        "core_concept": "Replace conditionals with state objects — behavior changes as state changes",
+        "questions": [
+          "How does State eliminate complex if/else or switch statements?",
+          "Design a traffic light system using State pattern.",
+          "What's the difference between State and Strategy pattern?",
+          "When does a state machine become complex enough to warrant the State pattern?",
+          "How do state objects transition to other states?",
+          "Can a State have multiple contexts? What are the implications?",
+          "Design a vending machine with State (idle, has_money, dispensing, out_of_stock)."
+        ]
+      },
+      {
+        "id": "gof_020",
+        "name": "Strategy",
+        "neetcode_essential": true,
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Defines a family of algorithms, encapsulates each one, and makes them interchangeable.",
+        "core_concept": "Swap algorithms at runtime — encapsulate what varies, favor composition over inheritance",
+        "questions": [
+          "How does Strategy implement the Open/Closed Principle?",
+          "Design a sorting strategy system where the algorithm is selected at runtime.",
+          "What's the difference between Strategy and State?",
+          "How does Strategy eliminate conditional logic in the context class?",
+          "When would you use Strategy vs. a simple function parameter?",
+          "Design a payment processing system with Strategy (credit card, PayPal, crypto).",
+          "How do Python's key= parameters in sort() relate to Strategy?"
+        ]
+      },
+      {
+        "id": "gof_021",
+        "name": "Template Method",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Defines the skeleton of an algorithm in a base class, deferring some steps to subclasses.",
+        "core_concept": "Define algorithm skeleton in base class, defer steps to subclasses — Hollywood Principle",
+        "questions": [
+          "What's the difference between Template Method and Strategy?",
+          "Design a data mining framework using Template Method for CSV, PDF, and DOC files.",
+          "What are 'hooks' in Template Method and when do you use them?",
+          "How does Template Method implement the Hollywood Principle ('don't call us, we'll call you')?",
+          "When would you prefer Strategy (composition) over Template Method (inheritance)?",
+          "How does Template Method encourage code reuse across subclasses?",
+          "What are the risks of deep Template Method hierarchies?"
+        ]
+      },
+      {
+        "id": "gof_022",
+        "name": "Visitor",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Lets you add new operations to objects without modifying their classes.",
+        "core_concept": "Add new operations to objects without modifying them — double dispatch separates algorithm from structure",
+        "questions": [
+          "What's 'double dispatch' and how does Visitor use it?",
+          "Design an AST (Abstract Syntax Tree) with Visitor for compilation passes.",
+          "How does Visitor violate the Open/Closed Principle for adding new element types?",
+          "When would you choose Visitor vs. adding methods directly to the element classes?",
+          "How does Visitor separate algorithms from the object structure?",
+          "What's the performance cost of Visitor's double dispatch?",
+          "Design a shape area calculator using Visitor for Circle, Rectangle, Triangle."
+        ]
+      },
+      {
+        "id": "gof_023",
+        "name": "Interpreter",
+        "category": "Behavioral",
+        "source": "refactoring_guru",
+        "description": "Defines a grammar for a language and provides an interpreter to deal with that grammar.",
+        "core_concept": "Represent grammar rules as objects — parse and evaluate expressions or DSLs",
+        "questions": [
+          "When would you implement a full Interpreter vs. use an existing parser?",
+          "Design a simple expression interpreter for arithmetic (1+2*3).",
+          "How does Composite pattern relate to Interpreter?",
+          "What are the performance limitations of the Interpreter pattern for complex grammars?",
+          "How would you extend an Interpreter to support new expressions without modifying existing ones?",
+          "What's the difference between Interpreter and Template Method for handling grammar?",
+          "Give a real example where Interpreter is used (regex, SQL, config DSLs)."
+        ]
+      },
+      {
+        "id": "solid_001",
+        "name": "Single Responsibility Principle",
+        "category": "SOLID",
+        "source": "clean_code",
+        "description": "A class should have only one reason to change — one job, one owner.",
+        "core_concept": "One class, one job — if two things change for different reasons, they belong in different classes",
+        "questions": [
+          "How do you define 'responsibility' in SRP — what's the test for a single responsibility?",
+          "Refactor a User class that handles authentication, profile updates, and email sending to follow SRP.",
+          "How does SRP relate to cohesion and coupling?",
+          "Is SRP only about classes, or does it apply to functions and modules too?",
+          "When does following SRP too strictly lead to over-engineering?",
+          "How do you identify SRP violations in a code review?",
+          "How does SRP make testing easier? Give a concrete example."
+        ]
+      },
+      {
+        "id": "solid_002",
+        "name": "Open/Closed Principle",
+        "category": "SOLID",
+        "source": "clean_code",
+        "description": "Software entities should be open for extension but closed for modification.",
+        "core_concept": "Add behavior by extending, not editing — protect existing code from change-induced bugs",
+        "questions": [
+          "What does 'open for extension, closed for modification' mean in practice?",
+          "How do Strategy and Template Method patterns directly implement OCP?",
+          "Design a discount system that can add new discount types without modifying existing code.",
+          "When is it acceptable to violate OCP — is it always wrong to modify existing code?",
+          "How does OCP relate to the need for abstraction and interfaces?",
+          "How does OCP apply to plugin architectures and feature flags?",
+          "What's the relationship between OCP and the 'shotgun surgery' code smell?"
+        ]
+      },
+      {
+        "id": "solid_003",
+        "name": "Liskov Substitution Principle",
+        "category": "SOLID",
+        "source": "clean_code",
+        "description": "Subtypes must be substitutable for their base types without altering program correctness.",
+        "core_concept": "A subclass must honor the contract of its parent — behavioral compatibility, not just type compatibility",
+        "questions": [
+          "Why does the classic Square extends Rectangle example violate LSP?",
+          "What are the three contract rules LSP requires (preconditions, postconditions, invariants)?",
+          "How does violating LSP break the Open/Closed Principle at the call site?",
+          "Design a Bird hierarchy that avoids LSP violations with non-flying birds.",
+          "How does LSP relate to interface design — what makes a good base type?",
+          "What's the 'is-a' vs 'behaves-like-a' distinction and why does it matter for inheritance?",
+          "How would you detect LSP violations in a code review?"
+        ]
+      },
+      {
+        "id": "solid_004",
+        "name": "Interface Segregation Principle",
+        "category": "SOLID",
+        "source": "clean_code",
+        "description": "Clients should not be forced to depend on interfaces they don't use.",
+        "core_concept": "Split fat interfaces into focused ones — don't force clients to implement unused methods",
+        "questions": [
+          "What's the sign that an interface violates ISP?",
+          "Refactor a fat IAnimal interface (eat, sleep, fly, swim) to follow ISP.",
+          "How does ISP relate to the Single Responsibility Principle?",
+          "How does ISP affect class coupling and testability?",
+          "When does splitting interfaces go too far — what's the granularity sweet spot?",
+          "How does ISP apply to REST API design (not just OOP)?",
+          "How do role interfaces vs. header interfaces relate to ISP?"
+        ]
+      },
+      {
+        "id": "solid_005",
+        "name": "Dependency Inversion Principle",
+        "category": "SOLID",
+        "source": "clean_code",
+        "description": "High-level modules should not depend on low-level modules. Both should depend on abstractions.",
+        "core_concept": "Depend on abstractions not concretions — invert the ownership of dependencies with interfaces",
+        "questions": [
+          "What's the difference between Dependency Inversion Principle and Dependency Injection?",
+          "How does DIP eliminate tight coupling between high-level and low-level modules?",
+          "Refactor a ReportGenerator that directly instantiates a MySQLDatabase to follow DIP.",
+          "How does DIP enable swapping implementations without changing the high-level module?",
+          "How do DI containers (Spring, NestJS) implement DIP automatically?",
+          "What's the relationship between DIP and the Abstract Factory pattern?",
+          "How does DIP make unit testing easier? Show a concrete before/after example."
+        ]
+      }
+    ]
+  }
+}
