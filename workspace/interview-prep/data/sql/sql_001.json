@@ -1,0 +1,21 @@
+{
+  "id": "sql_001",
+  "leetcode_id": 175,
+  "difficulty": "Easy",
+  "category": "JOIN",
+  "title": "Combine Two Tables",
+  "url": "https://leetcode.com/problems/combine-two-tables/",
+  "description": "Report firstName, lastName, city, state for every person. Include persons even if no address exists.",
+  "constraints": [
+    "personId is the primary key of Person",
+    "addressId is the primary key of Address",
+    "Each person may have zero or one address (no guarantee of an address row existing)"
+  ],
+  "key_concept": "LEFT JOIN — include all rows from left table even when no matching row in right table. NULL for missing right-side columns.",
+  "hints": {
+    "L1": "You need all persons, even those without an address. Which JOIN preserves all rows from Person?",
+    "L2": "LEFT JOIN Person ON Address.personId = Person.personId. All Person rows kept; Address columns are NULL when no match.",
+    "L3": "SELECT p.firstName, p.lastName, a.city, a.state FROM Person p LEFT JOIN Address a ON p.personId = a.personId"
+  },
+  "optimal_solution": "SELECT p.firstName, p.lastName, a.city, a.state\nFROM Person p\nLEFT JOIN Address a ON p.personId = a.personId;"
+}
