@@ -1,0 +1,21 @@
+{
+  "id": "sql_002",
+  "leetcode_id": 182,
+  "difficulty": "Easy",
+  "category": "GROUP BY / HAVING",
+  "title": "Duplicate Emails",
+  "url": "https://leetcode.com/problems/duplicate-emails/",
+  "description": "Find all emails that appear more than once in the Person table.",
+  "constraints": [
+    "id is the primary key (unique per row)",
+    "email is NOT NULL",
+    "Multiple rows can share the same email value"
+  ],
+  "key_concept": "GROUP BY + HAVING COUNT > 1 to find duplicates. HAVING filters aggregated groups.",
+  "hints": {
+    "L1": "Group by email and count occurrences. Filter groups where count > 1.",
+    "L2": "SELECT email FROM Person GROUP BY email HAVING COUNT(*) > 1.",
+    "L3": "SELECT email FROM Person GROUP BY email HAVING COUNT(email) > 1"
+  },
+  "optimal_solution": "SELECT email FROM Person GROUP BY email HAVING COUNT(*) > 1;"
+}
