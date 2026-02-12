@@ -1,0 +1,21 @@
+{
+  "id": "sql_004",
+  "difficulty": "Easy",
+  "category": "CASE / EXPRESSION",
+  "title": "Calculate Special Bonus",
+  "url": "https://leetcode.com/problems/calculate-special-bonus/",
+  "description": "Calculate bonus for each employee: bonus = salary if employee_id is odd AND name doesn't start with 'M', else 0.",
+  "constraints": [
+    "employee_id is the primary key and is a positive integer",
+    "salary is a positive integer",
+    "name is NOT NULL",
+    "1 <= rows in Employees <= 1000"
+  ],
+  "key_concept": "CASE WHEN for conditional columns. Modulo (%) for odd/even check. String functions: LIKE.",
+  "hints": {
+    "L1": "Use CASE WHEN to return salary or 0 based on two conditions joined by AND.",
+    "L2": "CASE WHEN employee_id % 2 = 1 AND name NOT LIKE 'M%' THEN salary ELSE 0 END",
+    "L3": "SELECT employee_id, CASE WHEN employee_id % 2 <> 0 AND name NOT LIKE 'M%' THEN salary ELSE 0 END AS bonus FROM Employees ORDER BY employee_id"
+  },
+  "optimal_solution": "SELECT employee_id,\n  CASE WHEN employee_id % 2 <> 0 AND name NOT LIKE 'M%' THEN salary ELSE 0 END AS bonus\nFROM Employees\nORDER BY employee_id;"
+}
