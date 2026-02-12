@@ -1,0 +1,21 @@
+{
+  "id": "sql_003",
+  "difficulty": "Easy",
+  "category": "JOIN / ANTI-JOIN",
+  "title": "Customers Without Orders",
+  "url": "https://leetcode.com/problems/customers-who-never-order/",
+  "description": "Find customers who never placed an order.",
+  "constraints": [
+    "id is the primary key of Customers",
+    "id is the primary key of Orders",
+    "customerId in Orders is a foreign key referencing Customers.id",
+    "Table may be empty"
+  ],
+  "key_concept": "NOT IN subquery OR LEFT JOIN + IS NULL. Anti-join pattern.",
+  "hints": {
+    "L1": "Find customers whose ID doesn't appear in the Orders table.",
+    "L2": "Option 1: SELECT name FROM Customers WHERE id NOT IN (SELECT customerId FROM Orders). Option 2: LEFT JOIN and filter NULL.",
+    "L3": "SELECT c.name AS Customers FROM Customers c LEFT JOIN Orders o ON c.id = o.customerId WHERE o.customerId IS NULL"
+  },
+  "optimal_solution": "SELECT c.name AS Customers\nFROM Customers c\nLEFT JOIN Orders o ON c.id = o.customerId\nWHERE o.customerId IS NULL;"
+}
