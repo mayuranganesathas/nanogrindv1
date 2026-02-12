@@ -1,0 +1,20 @@
+{
+  "id": "sql_005",
+  "difficulty": "Easy",
+  "category": "SELECT / WHERE",
+  "title": "Customers With Positive Revenue",
+  "url": "https://leetcode.com/problems/find-customers-with-positive-revenue-this-year/",
+  "description": "Find customers who had positive revenue in year 2021.",
+  "constraints": [
+    "(customer_id, year) is the primary key",
+    "revenue can be negative, zero, or positive",
+    "The table contains data for multiple years — filter to 2021 only"
+  ],
+  "key_concept": "Simple WHERE filter on multiple conditions.",
+  "hints": {
+    "L1": "Filter the Customers table for year = 2021 and revenue > 0.",
+    "L2": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0.",
+    "L3": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0"
+  },
+  "optimal_solution": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0;"
+}
