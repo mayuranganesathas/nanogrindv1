@@ -1,0 +1,22 @@
+{
+  "id": "sql_007",
+  "difficulty": "Easy",
+  "category": "JOIN / DATE FILTER",
+  "title": "Sellers With No Sales",
+  "url": "https://leetcode.com/problems/sellers-with-no-sales/",
+  "description": "Find sellers who had no sales in year 2020.",
+  "constraints": [
+    "seller_id is the primary key of Seller",
+    "order_id is the primary key of Orders",
+    "A seller may have zero orders",
+    "sale_date is a DATE column — use YEAR() or date range filter",
+    "Result must be ordered by seller_name ascending"
+  ],
+  "key_concept": "LEFT JOIN with date filter IN JOIN condition (not WHERE) to preserve NULL rows for no-match detection.",
+  "hints": {
+    "L1": "LEFT JOIN Orders on seller_id where order_date is in 2020. WHERE order_id IS NULL means no 2020 sales.",
+    "L2": "Put the year filter in the JOIN condition, NOT the WHERE clause — otherwise NULL rows get filtered out.",
+    "L3": "SELECT s.seller_name FROM Seller s LEFT JOIN Orders o ON s.seller_id = o.seller_id AND YEAR(o.sale_date) = 2020 WHERE o.order_id IS NULL ORDER BY s.seller_name"
+  },
+  "optimal_solution": "SELECT s.seller_name FROM Seller s\nLEFT JOIN Orders o ON s.seller_id = o.seller_id AND YEAR(o.sale_date) = 2020\nWHERE o.order_id IS NULL\nORDER BY s.seller_name;"
+}
