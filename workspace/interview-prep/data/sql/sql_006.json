@@ -1,0 +1,22 @@
+{
+  "id": "sql_006",
+  "difficulty": "Easy",
+  "category": "JOIN / ANTI-JOIN",
+  "title": "Sales Person",
+  "url": "https://leetcode.com/problems/sales-person/",
+  "description": "Find salespeople who did NOT have any orders related to the company named 'RED'.",
+  "constraints": [
+    "sales_id is the primary key of SalesPerson",
+    "com_id is the primary key of Company",
+    "order_id is the primary key of Orders",
+    "A salesperson may have zero orders",
+    "Company name 'RED' is guaranteed to exist or may not exist — query must handle both"
+  ],
+  "key_concept": "NOT IN with multi-table subquery. Find set to exclude, then negate.",
+  "hints": {
+    "L1": "First find all salesperson IDs who have orders with 'RED'. Then exclude them from SalesPerson.",
+    "L2": "Subquery: SELECT DISTINCT sales_id FROM Orders o JOIN Company c ON o.com_id = c.com_id WHERE c.name = 'RED'",
+    "L3": "SELECT name FROM SalesPerson WHERE sales_id NOT IN (SELECT DISTINCT o.sales_id FROM Orders o JOIN Company c ON o.com_id = c.com_id WHERE c.name = 'RED')"
+  },
+  "optimal_solution": "SELECT name FROM SalesPerson\nWHERE sales_id NOT IN (\n  SELECT DISTINCT o.sales_id FROM Orders o\n  JOIN Company c ON o.com_id = c.com_id\n  WHERE c.name = 'RED'\n);"
+}
