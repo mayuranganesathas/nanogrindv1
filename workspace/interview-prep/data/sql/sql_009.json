@@ -1,0 +1,20 @@
+{
+  "id": "sql_009",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Game Play Analysis I",
+  "url": "https://leetcode.com/problems/game-play-analysis-i/",
+  "description": "Find the first login date for each player.",
+  "constraints": [
+    "(player_id, event_date) is the primary key — no duplicate rows per player per day",
+    "Each player has at least one row",
+    "games_played >= 0"
+  ],
+  "key_concept": "MIN() aggregation with GROUP BY. First occurrence per group.",
+  "hints": {
+    "L1": "Group by player and find the minimum event_date.",
+    "L2": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id",
+    "L3": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id"
+  },
+  "optimal_solution": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id;"
+}
