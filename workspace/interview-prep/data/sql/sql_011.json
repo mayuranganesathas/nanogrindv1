@@ -1,0 +1,20 @@
+{
+  "id": "sql_011",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Customer Placing the Largest Number of Orders",
+  "url": "https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/",
+  "description": "Find the customer with the most orders.",
+  "constraints": [
+    "order_number is the primary key of Orders",
+    "There is guaranteed to be exactly one customer with the most orders (no tie at the top)",
+    "1 <= rows in Orders <= 10^6"
+  ],
+  "key_concept": "GROUP BY + ORDER BY COUNT DESC + LIMIT 1. Top-1 pattern.",
+  "hints": {
+    "L1": "Count orders per customer, sort descending, take the top 1.",
+    "L2": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1",
+    "L3": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1"
+  },
+  "optimal_solution": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1;"
+}
