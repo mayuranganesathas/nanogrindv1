@@ -1,0 +1,20 @@
+{
+  "id": "sql_012",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Find Total Time Spent by Each Employee",
+  "url": "https://leetcode.com/problems/find-total-time-spent-by-each-employee/",
+  "description": "Calculate total time (in minutes) each employee spent in the office each day.",
+  "constraints": [
+    "(event_day, emp_id, enter_time) is the primary key",
+    "0 <= enter_time < leave_time <= 1440 (minutes in a day)",
+    "An employee can enter and leave multiple times per day"
+  ],
+  "key_concept": "SUM of expression (column subtraction). GROUP BY multiple columns.",
+  "hints": {
+    "L1": "Time per entry = out_time - in_time. Sum per employee per day.",
+    "L2": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id",
+    "L3": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id"
+  },
+  "optimal_solution": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id;"
+}
