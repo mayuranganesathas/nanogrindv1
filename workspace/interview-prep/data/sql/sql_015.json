@@ -1,0 +1,20 @@
+{
+  "id": "sql_015",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Actors and Directors Who Cooperated At Least Three Times",
+  "url": "https://leetcode.com/problems/actors-and-directors-who-cooperated-at-least-three-times/",
+  "description": "Find all (actor_id, director_id) pairs who worked together at least 3 times.",
+  "constraints": [
+    "timestamp is the primary key",
+    "The same (actor_id, director_id) pair can appear multiple times — no uniqueness on that pair",
+    "1 <= rows in ActorDirector <= 10^5"
+  ],
+  "key_concept": "GROUP BY multiple columns + HAVING COUNT >= N.",
+  "hints": {
+    "L1": "Group by both actor_id and director_id together. Filter pairs with count >= 3.",
+    "L2": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3",
+    "L3": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3"
+  },
+  "optimal_solution": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3;"
+}
