@@ -1,0 +1,21 @@
+{
+  "id": "sql_014",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Bank Account Summary II",
+  "url": "https://leetcode.com/problems/bank-account-summary-ii/",
+  "description": "Find account names and balances for accounts with total balance > 10000.",
+  "constraints": [
+    "account is the primary key of Users",
+    "transaction_id is the primary key of Transactions",
+    "amount can be positive (credit) or negative (debit)",
+    "account in Transactions is a foreign key referencing Users.account"
+  ],
+  "key_concept": "JOIN + GROUP BY + HAVING SUM() > threshold.",
+  "hints": {
+    "L1": "Join Users and Transactions, group by account, sum amounts, filter sum > 10000.",
+    "L2": "JOIN on account → GROUP BY u.name → HAVING SUM(amount) > 10000",
+    "L3": "SELECT u.name, SUM(t.amount) AS balance FROM Users u JOIN Transactions t ON u.account = t.account GROUP BY u.account HAVING balance > 10000"
+  },
+  "optimal_solution": "SELECT u.name, SUM(t.amount) AS balance\nFROM Users u JOIN Transactions t ON u.account = t.account\nGROUP BY u.account HAVING balance > 10000;"
+}
