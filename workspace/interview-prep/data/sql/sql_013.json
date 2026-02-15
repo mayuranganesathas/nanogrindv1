@@ -1,0 +1,20 @@
+{
+  "id": "sql_013",
+  "difficulty": "Easy",
+  "category": "AGGREGATION / PERCENTAGE",
+  "title": "Immediate Food Delivery I",
+  "url": "https://leetcode.com/problems/immediate-food-delivery-i/",
+  "description": "Find what percentage of orders are 'immediate' (preferred_delivery_date = order_date). Round to 2 decimal places.",
+  "constraints": [
+    "delivery_id is the primary key",
+    "preferred_delivery_date >= order_date (always same day or later)",
+    "Table has at least 1 row — no division by zero"
+  ],
+  "key_concept": "AVG of boolean expression * 100 = percentage. Or SUM(CASE WHEN...)/COUNT * 100.",
+  "hints": {
+    "L1": "Count immediate orders and divide by total, multiply by 100.",
+    "L2": "ROUND(100 * AVG(order_date = preferred_delivery_date), 2) — in MySQL, boolean comparison returns 0/1.",
+    "L3": "SELECT ROUND(100 * SUM(CASE WHEN order_date = preferred_delivery_date THEN 1 ELSE 0 END) / COUNT(*), 2) AS immediate_percentage FROM Delivery"
+  },
+  "optimal_solution": "SELECT ROUND(100 * AVG(order_date = preferred_delivery_date), 2) AS immediate_percentage FROM Delivery;"
+}
