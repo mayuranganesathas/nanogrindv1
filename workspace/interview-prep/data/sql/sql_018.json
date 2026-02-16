@@ -1,0 +1,21 @@
+{
+  "id": "sql_018",
+  "difficulty": "Easy",
+  "category": "JOIN",
+  "title": "Friendly Movies Streamed Last Month",
+  "url": "https://leetcode.com/problems/list-the-products-ordered-in-a-period/",
+  "description": "Find titles of movies rated for kids that were streamed in October 2020.",
+  "constraints": [
+    "content_id is the primary key of Content",
+    "(content_id, program_date, start_time, end_time) is the primary key of TVProgram",
+    "Kids_content is 'Y' or 'N'",
+    "content_type is one of: Movies, Series, etc."
+  ],
+  "key_concept": "JOIN + multiple WHERE filters (category and date range).",
+  "hints": {
+    "L1": "Join TVProgram with Content on content_id. Filter where Kids_content = 'Y' and October 2020.",
+    "L2": "WHERE c.Kids_content = 'Y' AND MONTH(t.program_date) = 10 AND YEAR(t.program_date) = 2020",
+    "L3": "SELECT DISTINCT c.title FROM TVProgram t JOIN Content c ON t.content_id = c.content_id WHERE c.Kids_content = 'Y' AND YEAR(t.program_date) = 2020 AND MONTH(t.program_date) = 10"
+  },
+  "optimal_solution": "SELECT DISTINCT c.title FROM TVProgram t\nJOIN Content c ON t.content_id = c.content_id\nWHERE c.Kids_content = 'Y' AND YEAR(t.program_date) = 2020 AND MONTH(t.program_date) = 10;"
+}
