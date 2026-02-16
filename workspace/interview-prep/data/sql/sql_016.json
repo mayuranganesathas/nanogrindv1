@@ -1,0 +1,20 @@
+{
+  "id": "sql_016",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Daily Leads and Partners",
+  "url": "https://leetcode.com/problems/daily-leads-and-partners/",
+  "description": "For each date and make, count unique leads and unique partners.",
+  "constraints": [
+    "(date_id, make_name, lead_id, partner_id) is the primary key",
+    "The same lead or partner can appear multiple times per date/make — use COUNT(DISTINCT)",
+    "1 <= rows in DailySales <= 500"
+  ],
+  "key_concept": "COUNT(DISTINCT col) — count unique values within each group.",
+  "hints": {
+    "L1": "GROUP BY date_id and make_name. Use COUNT(DISTINCT lead_id) and COUNT(DISTINCT partner_id).",
+    "L2": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name",
+    "L3": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name"
+  },
+  "optimal_solution": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name;"
+}
