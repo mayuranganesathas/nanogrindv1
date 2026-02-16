@@ -1,0 +1,20 @@
+{
+  "id": "sql_017",
+  "difficulty": "Easy",
+  "category": "SUBQUERY",
+  "title": "Find the Team Size",
+  "url": "https://leetcode.com/problems/find-the-team-size/",
+  "description": "For each employee, find the size of the team they belong to.",
+  "constraints": [
+    "employee_id is the primary key",
+    "Every employee belongs to exactly one team (team_id is NOT NULL)",
+    "1 <= rows in Employee <= 200"
+  ],
+  "key_concept": "Subquery count per group, joined back to each row.",
+  "hints": {
+    "L1": "Count employees per team. Join that count back to each employee row.",
+    "L2": "Subquery: SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id. Then join to Employee on team_id.",
+    "L3": "SELECT e.employee_id, t.team_size FROM Employee e JOIN (SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id) t ON e.team_id = t.team_id"
+  },
+  "optimal_solution": "SELECT e.employee_id, t.team_size FROM Employee e\nJOIN (SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id) t\nON e.team_id = t.team_id;"
+}
