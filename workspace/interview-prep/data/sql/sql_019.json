@@ -1,0 +1,21 @@
+{
+  "id": "sql_019",
+  "difficulty": "Easy",
+  "category": "JOIN / ANTI-JOIN",
+  "title": "Students With Invalid Departments",
+  "url": "https://leetcode.com/problems/students-with-invalid-departments/",
+  "description": "Find students whose department_id does not exist in the Departments table.",
+  "constraints": [
+    "id is the primary key of Students",
+    "id is the primary key of Departments",
+    "department_id in Students has no foreign key constraint — invalid IDs are possible",
+    "Table may be empty"
+  ],
+  "key_concept": "NOT IN subquery or LEFT JOIN + IS NULL. Anti-join.",
+  "hints": {
+    "L1": "LEFT JOIN Departments. Students with no matching department will have NULL for department columns.",
+    "L2": "SELECT s.id, s.name FROM Students s LEFT JOIN Departments d ON s.department_id = d.id WHERE d.id IS NULL",
+    "L3": "SELECT id, name FROM Students WHERE department_id NOT IN (SELECT id FROM Departments)"
+  },
+  "optimal_solution": "SELECT id, name FROM Students WHERE department_id NOT IN (SELECT id FROM Departments);"
+}
