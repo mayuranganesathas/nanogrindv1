@@ -1,0 +1,20 @@
+{
+  "id": "sql_020",
+  "difficulty": "Easy",
+  "category": "UNION / FULL-OUTER-JOIN",
+  "title": "Employees With Missing Information",
+  "url": "https://leetcode.com/problems/employees-with-missing-information/",
+  "description": "Find employee IDs who are in either Employees or Salaries table but not both.",
+  "constraints": [
+    "employee_id is the primary key in both Employees and Salaries tables",
+    "An employee_id may exist in one table but not the other — no FK constraint enforced",
+    "Result must be ordered by employee_id ascending"
+  ],
+  "key_concept": "FULL OUTER JOIN via UNION of two LEFT JOINs in MySQL.",
+  "hints": {
+    "L1": "You need IDs that exist in one table but not the other. MySQL lacks FULL OUTER JOIN — use UNION.",
+    "L2": "NOT IN subquery for each direction.",
+    "L3": "SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries) UNION SELECT employee_id FROM Salaries WHERE employee_id NOT IN (SELECT employee_id FROM Employees) ORDER BY employee_id"
+  },
+  "optimal_solution": "SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)\nUNION\nSELECT employee_id FROM Salaries WHERE employee_id NOT IN (SELECT employee_id FROM Employees)\nORDER BY employee_id;"
+}
