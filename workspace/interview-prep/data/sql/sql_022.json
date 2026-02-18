@@ -1,0 +1,21 @@
+{
+  "id": "sql_022",
+  "difficulty": "Easy",
+  "category": "SELF-JOIN",
+  "title": "Consecutive Available Seats",
+  "url": "https://leetcode.com/problems/consecutive-available-seats/",
+  "description": "Find all seats that are free and consecutive (adjacent seat_id values, both free).",
+  "constraints": [
+    "seat_id is an auto-increment primary key (consecutive integers starting from 1)",
+    "free is 1 (available) or 0 (occupied)",
+    "Result must be ordered by seat_id ascending",
+    "1 <= rows in Cinema <= 10000"
+  ],
+  "key_concept": "Self-join on same table with adjacent row condition: ABS(c1.seat_id - c2.seat_id) = 1. Both must be free.",
+  "hints": {
+    "L1": "Self-join the cinema table to find adjacent seats. Both must have free = 1.",
+    "L2": "JOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1 WHERE c1.free = 1 AND c2.free = 1.",
+    "L3": "SELECT DISTINCT c1.seat_id FROM Cinema c1 JOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1 WHERE c1.free = 1 AND c2.free = 1 ORDER BY c1.seat_id"
+  },
+  "optimal_solution": "SELECT DISTINCT c1.seat_id FROM Cinema c1\nJOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1\nWHERE c1.free = 1 AND c2.free = 1 ORDER BY c1.seat_id;"
+}
