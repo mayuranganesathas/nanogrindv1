@@ -1,0 +1,21 @@
+{
+  "id": "sql_023",
+  "difficulty": "Easy",
+  "category": "PIVOT / UNION",
+  "title": "Rearrange Products Table",
+  "url": "https://leetcode.com/problems/rearrange-products-table/",
+  "description": "Unpivot a wide products table (product_id, store1, store2, store3) to long format (product_id, store, price).",
+  "constraints": [
+    "product_id is the primary key",
+    "store1, store2, store3 prices can be NULL (product not sold there — exclude those rows)",
+    "price > 0 when not NULL",
+    "1 <= rows in Products <= 1000"
+  ],
+  "key_concept": "UNION ALL to unpivot wide format to long format. One SELECT per column. Filter NULL prices.",
+  "hints": {
+    "L1": "Write one SELECT per store column. UNION ALL them together.",
+    "L2": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL UNION ALL ...",
+    "L3": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL UNION ALL SELECT product_id, 'store2', store2 FROM Products WHERE store2 IS NOT NULL UNION ALL SELECT product_id, 'store3', store3 FROM Products WHERE store3 IS NOT NULL"
+  },
+  "optimal_solution": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL\nUNION ALL SELECT product_id, 'store2', store2 FROM Products WHERE store2 IS NOT NULL\nUNION ALL SELECT product_id, 'store3', store3 FROM Products WHERE store3 IS NOT NULL;"
+}
