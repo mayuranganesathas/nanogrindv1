@@ -1,0 +1,21 @@
+{
+  "id": "sql_025",
+  "difficulty": "Medium",
+  "category": "CONDITIONAL AGGREGATION",
+  "title": "Customers Who Bought A and B but Not C",
+  "url": "https://leetcode.com/problems/customers-who-bought-products-a-and-b-but-not-c/",
+  "description": "Find customers who bought products A and B but not product C.",
+  "constraints": [
+    "order_id is the primary key of Orders",
+    "customer_id is the primary key of Customers",
+    "product_name is one of 'A', 'B', or 'C'",
+    "A customer may buy the same product multiple times"
+  ],
+  "key_concept": "Conditional aggregation: HAVING SUM(product='A')>0 AND SUM(product='B')>0 AND SUM(product='C')=0.",
+  "hints": {
+    "L1": "Use HAVING with SUM(CASE WHEN ...) to check which products each customer bought.",
+    "L2": "GROUP BY customer_id. HAVING SUM(product_name='A')>0 AND SUM(product_name='B')>0 AND SUM(product_name='C')=0",
+    "L3": "SELECT c.customer_id, c.customer_name FROM Customers c JOIN Orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id HAVING SUM(o.product_name = 'A') > 0 AND SUM(o.product_name = 'B') > 0 AND SUM(o.product_name = 'C') = 0"
+  },
+  "optimal_solution": "SELECT c.customer_id, c.customer_name FROM Customers c\nJOIN Orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id\nHAVING SUM(o.product_name = 'A') > 0 AND SUM(o.product_name = 'B') > 0 AND SUM(o.product_name = 'C') = 0;"
+}
