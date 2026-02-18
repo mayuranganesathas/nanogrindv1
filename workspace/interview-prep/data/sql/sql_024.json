@@ -1,0 +1,20 @@
+{
+  "id": "sql_024",
+  "difficulty": "Easy",
+  "category": "AGGREGATION",
+  "title": "Shortest Distance in a Line",
+  "url": "https://leetcode.com/problems/shortest-distance-in-a-line/",
+  "description": "Find the shortest distance between any two points on a line.",
+  "constraints": [
+    "x is the primary key — all x values are unique",
+    "There are at least 2 points (so a minimum distance always exists)",
+    "-10000 <= x <= 10000"
+  ],
+  "key_concept": "Self-join on p1.x < p2.x, compute p2.x - p1.x for all pairs, take MIN.",
+  "hints": {
+    "L1": "Self-join and compute differences. Use x < other_x to avoid duplicates.",
+    "L2": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p1.x < p2.x",
+    "L3": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p2.x > p1.x"
+  },
+  "optimal_solution": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p2.x > p1.x;"
+}
