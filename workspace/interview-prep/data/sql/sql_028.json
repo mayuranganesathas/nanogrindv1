@@ -1,0 +1,21 @@
+{
+  "id": "sql_028",
+  "difficulty": "Medium",
+  "category": "AGGREGATION / NORMALIZE",
+  "title": "Number of Calls Between Two Persons",
+  "url": "https://leetcode.com/problems/number-of-calls-between-two-persons/",
+  "description": "For each unique pair (person1, person2), return total calls and duration. Normalize so person1 < person2.",
+  "constraints": [
+    "(from_id, to_id, duration) has no explicit primary key — duplicate rows possible",
+    "from_id != to_id (no self-calls)",
+    "Calls between A→B and B→A are the same pair and must be aggregated together",
+    "duration >= 1"
+  ],
+  "key_concept": "LEAST/GREATEST to normalize direction, then GROUP BY normalized pair.",
+  "hints": {
+    "L1": "Normalize (caller, recipient) pairs using LEAST/GREATEST regardless of direction.",
+    "L2": "SELECT LEAST(from_id,to_id) AS person1, GREATEST(from_id,to_id) AS person2, COUNT(*) AS call_count, SUM(duration) AS total_duration FROM Calls GROUP BY person1, person2",
+    "L3": "SELECT LEAST(from_id,to_id) AS person1, GREATEST(from_id,to_id) AS person2, COUNT(*) AS call_count, SUM(duration) AS total_duration FROM Calls GROUP BY 1,2"
+  },
+  "optimal_solution": "SELECT LEAST(from_id, to_id) AS person1, GREATEST(from_id, to_id) AS person2,\n  COUNT(*) AS call_count, SUM(duration) AS total_duration\nFROM Calls GROUP BY person1, person2;"
+}
