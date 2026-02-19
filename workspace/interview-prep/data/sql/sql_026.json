@@ -1,0 +1,21 @@
+{
+  "id": "sql_026",
+  "difficulty": "Medium",
+  "category": "SUBQUERY / TIE-BREAKING",
+  "title": "Highest Grade For Each Student",
+  "url": "https://leetcode.com/problems/highest-grade-for-each-student/",
+  "description": "For each student, find the course with the highest grade. If tie, pick the lowest course_id.",
+  "constraints": [
+    "(student_id, course_id) is the primary key",
+    "grade is between 0 and 100",
+    "Ties on grade are resolved by smallest course_id",
+    "Each student has at least one enrollment"
+  ],
+  "key_concept": "Filter with max subquery, then MIN(course_id) for tie-breaking.",
+  "hints": {
+    "L1": "First find max grade per student. Then find the minimum course_id for rows matching that max.",
+    "L2": "Use correlated subquery or rank with PARTITION BY student_id ORDER BY grade DESC, course_id ASC then filter rank=1.",
+    "L3": "SELECT student_id, MIN(course_id) AS course_id, grade FROM Enrollments WHERE (student_id, grade) IN (SELECT student_id, MAX(grade) FROM Enrollments GROUP BY student_id) GROUP BY student_id, grade ORDER BY student_id"
+  },
+  "optimal_solution": "SELECT student_id, MIN(course_id) AS course_id, grade\nFROM Enrollments\nWHERE (student_id, grade) IN (SELECT student_id, MAX(grade) FROM Enrollments GROUP BY student_id)\nGROUP BY student_id, grade ORDER BY student_id;"
+}
