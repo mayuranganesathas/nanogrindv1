@@ -1,0 +1,21 @@
+{
+  "id": "sql_027",
+  "difficulty": "Medium",
+  "category": "CONDITIONAL AGGREGATION",
+  "title": "Apples & Oranges",
+  "url": "https://leetcode.com/problems/apples-oranges/",
+  "description": "For each sale_date, find the difference between number of apples and oranges sold.",
+  "constraints": [
+    "(sale_date, item) is the primary key",
+    "item is either 'apples' or 'oranges' — exactly one row per item per date",
+    "sold_num >= 1",
+    "Every sale_date has exactly one apples row and one oranges row"
+  ],
+  "key_concept": "SUM(CASE WHEN ...) - SUM(CASE WHEN ...) or SUM with signed values.",
+  "hints": {
+    "L1": "For each date, you need counts of apples and oranges. Use conditional SUM.",
+    "L2": "SUM(CASE WHEN item = 'apples' THEN sold_num ELSE -sold_num END)",
+    "L3": "SELECT sale_date, SUM(CASE WHEN item='apples' THEN sold_num ELSE -sold_num END) AS diff FROM Sales GROUP BY sale_date ORDER BY sale_date"
+  },
+  "optimal_solution": "SELECT sale_date, SUM(CASE WHEN item = 'apples' THEN sold_num ELSE -sold_num END) AS diff\nFROM Sales GROUP BY sale_date ORDER BY sale_date;"
+}
