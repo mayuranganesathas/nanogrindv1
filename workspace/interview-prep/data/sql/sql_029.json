@@ -1,0 +1,22 @@
+{
+  "id": "sql_029",
+  "difficulty": "Medium",
+  "category": "CONDITIONAL AGGREGATION",
+  "title": "Customer Order Frequency",
+  "url": "https://leetcode.com/problems/customer-order-frequency/",
+  "description": "Find customers who spent at least $100 in June 2020 AND at least $100 in July 2020.",
+  "constraints": [
+    "customer_id is the primary key of Customers",
+    "order_id is the primary key of Orders",
+    "product_id is the primary key of Product",
+    "order_date is in 2020 — both June and July conditions must be met independently",
+    "quantity >= 1, price >= 1"
+  ],
+  "key_concept": "HAVING with two conditional SUM conditions on different date ranges.",
+  "hints": {
+    "L1": "Join customers with orders and products. Filter to 2020. Group by customer, check spending by month.",
+    "L2": "HAVING SUM(IF(MONTH(order_date)=6, quantity*price, 0)) >= 100 AND SUM(IF(MONTH(order_date)=7, ...))",
+    "L3": "SELECT c.customer_id, c.name FROM Customers c JOIN Orders o ON c.customer_id=o.customer_id JOIN Product p ON o.product_id=p.product_id WHERE YEAR(o.order_date)=2020 GROUP BY c.customer_id HAVING SUM(IF(MONTH(o.order_date)=6, o.quantity*p.price, 0))>=100 AND SUM(IF(MONTH(o.order_date)=7, o.quantity*p.price, 0))>=100"
+  },
+  "optimal_solution": "SELECT c.customer_id, c.name FROM Customers c\nJOIN Orders o ON c.customer_id = o.customer_id\nJOIN Product p ON o.product_id = p.product_id\nWHERE YEAR(o.order_date) = 2020\nGROUP BY c.customer_id\nHAVING SUM(IF(MONTH(o.order_date)=6, o.quantity*p.price, 0)) >= 100\n   AND SUM(IF(MONTH(o.order_date)=7, o.quantity*p.price, 0)) >= 100;"
+}
