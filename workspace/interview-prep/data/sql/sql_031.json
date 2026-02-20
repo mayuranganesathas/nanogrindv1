@@ -1,0 +1,21 @@
+{
+  "id": "sql_031",
+  "difficulty": "Medium",
+  "category": "SUBQUERY / MULTI-STEP",
+  "title": "Page Recommendations",
+  "url": "https://leetcode.com/problems/page-recommendations/",
+  "description": "Recommend pages to user_id=1 that are liked by friends of user 1 but not already liked by user 1.",
+  "constraints": [
+    "(user1_id, user2_id) is the primary key of Friendship — friendship is stored with user1_id < user2_id",
+    "(user_id, page_id) is the primary key of Likes",
+    "user_id = 1 is guaranteed to exist",
+    "Result must not include duplicates (use DISTINCT)"
+  ],
+  "key_concept": "Multi-step: find friends (bidirectional), find pages liked by friends, exclude already liked pages.",
+  "hints": {
+    "L1": "Step 1: find all friends of user 1 (bidirectional). Step 2: pages liked by those friends. Step 3: exclude pages already liked by user 1.",
+    "L2": "Friends: UNION of (user2_id WHERE user1_id=1) and (user1_id WHERE user2_id=1).",
+    "L3": "SELECT DISTINCT l.page_id AS recommended_page FROM Likes l WHERE l.user_id IN (SELECT user2_id FROM Friendship WHERE user1_id=1 UNION SELECT user1_id FROM Friendship WHERE user2_id=1) AND l.page_id NOT IN (SELECT page_id FROM Likes WHERE user_id=1)"
+  },
+  "optimal_solution": "SELECT DISTINCT l.page_id AS recommended_page FROM Likes l\nWHERE l.user_id IN (\n  SELECT user2_id FROM Friendship WHERE user1_id = 1\n  UNION\n  SELECT user1_id FROM Friendship WHERE user2_id = 1\n)\nAND l.page_id NOT IN (SELECT page_id FROM Likes WHERE user_id = 1);"
+}
