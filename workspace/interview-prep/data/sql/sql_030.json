@@ -1,0 +1,22 @@
+{
+  "id": "sql_030",
+  "difficulty": "Medium",
+  "category": "SUBQUERY / SCALAR",
+  "title": "Countries You Can Safely Invest In",
+  "url": "https://leetcode.com/problems/countries-you-can-safely-invest-in/",
+  "description": "Find countries where average call duration exceeds the global average.",
+  "constraints": [
+    "id is the primary key of Person",
+    "country_code is the first 3 characters of phone_number",
+    "A call involves both caller and callee — each call contributes to both their countries",
+    "duration >= 1",
+    "(caller_id, callee_id) is the primary key of Calls"
+  ],
+  "key_concept": "Multi-table join + HAVING AVG > (scalar subquery for global average).",
+  "hints": {
+    "L1": "Get each country's average call duration. Compare to global average (subquery returning one number).",
+    "L2": "HAVING AVG(duration) > (SELECT AVG(duration) FROM Calls).",
+    "L3": "SELECT co.name AS country FROM Person p JOIN Calls c ON p.id IN (c.caller_id, c.callee_id) JOIN Country co ON LEFT(p.phone_number,3) = co.country_code GROUP BY co.name HAVING AVG(c.duration) > (SELECT AVG(duration) FROM Calls)"
+  },
+  "optimal_solution": "SELECT co.name AS country\nFROM Person p\nJOIN Calls c ON p.id IN (c.caller_id, c.callee_id)\nJOIN Country co ON LEFT(p.phone_number, 3) = co.country_code\nGROUP BY co.name\nHAVING AVG(c.duration) > (SELECT AVG(duration) FROM Calls);"
+}
