@@ -1,0 +1,20 @@
+{
+  "id": "sql_033",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION",
+  "title": "Game Play Analysis II",
+  "url": "https://leetcode.com/problems/game-play-analysis-ii/",
+  "description": "Find the device_id each player first logged in from.",
+  "constraints": [
+    "(player_id, event_date) is the primary key — no two logins for the same player on the same day",
+    "Each player has at least one login",
+    "games_played >= 0"
+  ],
+  "key_concept": "Correlated subquery or ROW_NUMBER PARTITION BY player ORDER BY date — pick row 1.",
+  "hints": {
+    "L1": "For each player, you need the device from their earliest login.",
+    "L2": "WHERE event_date = (SELECT MIN(event_date) FROM Activity WHERE player_id = a.player_id).",
+    "L3": "SELECT player_id, device_id FROM Activity WHERE (player_id, event_date) IN (SELECT player_id, MIN(event_date) FROM Activity GROUP BY player_id)"
+  },
+  "optimal_solution": "SELECT player_id, device_id FROM Activity\nWHERE (player_id, event_date) IN (SELECT player_id, MIN(event_date) FROM Activity GROUP BY player_id);"
+}
