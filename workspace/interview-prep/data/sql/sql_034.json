@@ -1,0 +1,20 @@
+{
+  "id": "sql_034",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION",
+  "title": "Game Play Analysis III",
+  "url": "https://leetcode.com/problems/game-play-analysis-iii/",
+  "description": "For each player and each date, find the running total of games played.",
+  "constraints": [
+    "(player_id, event_date) is the primary key",
+    "games_played >= 0",
+    "Running total resets per player (PARTITION BY player_id)"
+  ],
+  "key_concept": "SUM() OVER (PARTITION BY player_id ORDER BY event_date) — cumulative sum window function.",
+  "hints": {
+    "L1": "You need a running total per player ordered by date. Use a window function.",
+    "L2": "SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date). Default frame includes all preceding rows.",
+    "L3": "SELECT player_id, event_date, SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date) AS games_played_so_far FROM Activity"
+  },
+  "optimal_solution": "SELECT player_id, event_date,\n  SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date) AS games_played_so_far\nFROM Activity;"
+}
