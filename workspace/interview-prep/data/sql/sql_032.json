@@ -1,0 +1,22 @@
+{
+  "id": "sql_032",
+  "leetcode_id": 608,
+  "difficulty": "Medium",
+  "category": "CASE / SUBQUERY",
+  "title": "Tree Node",
+  "url": "https://leetcode.com/problems/tree-node/",
+  "description": "Classify each node as Root, Inner, or Leaf based on parent relationships.",
+  "constraints": [
+    "id is the primary key",
+    "p_id is NULL for the root node only — exactly one root exists",
+    "There are no cycles — the table represents a valid tree",
+    "1 <= rows in Tree <= 1000"
+  ],
+  "key_concept": "CASE WHEN with subqueries: Root (p_id IS NULL), Leaf (not in any p_id), Inner (rest).",
+  "hints": {
+    "L1": "Root: p_id is NULL. Leaf: id does not appear as any node's p_id. Inner: everything else.",
+    "L2": "CASE WHEN p_id IS NULL THEN 'Root' WHEN id NOT IN (SELECT p_id WHERE p_id IS NOT NULL) THEN 'Leaf' ELSE 'Inner' END",
+    "L3": "SELECT id, CASE WHEN p_id IS NULL THEN 'Root' WHEN id IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) THEN 'Inner' ELSE 'Leaf' END AS type FROM Tree"
+  },
+  "optimal_solution": "SELECT id,\n  CASE WHEN p_id IS NULL THEN 'Root'\n       WHEN id IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) THEN 'Inner'\n       ELSE 'Leaf' END AS type\nFROM Tree;"
+}
