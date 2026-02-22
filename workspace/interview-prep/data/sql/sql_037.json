@@ -1,0 +1,21 @@
+{
+  "id": "sql_037",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / RANK",
+  "title": "Grand Slam Titles",
+  "url": "https://leetcode.com/problems/grand-slam-titles/",
+  "description": "Count how many Grand Slam titles each player won across 4 tournament columns.",
+  "constraints": [
+    "year is the primary key of Championships",
+    "player_id is the primary key of Players",
+    "Columns wimbledon, Fr_open, US_open, Au_open each contain a player_id (winner for that year)",
+    "Only players with at least one title appear in the result — players with 0 titles are excluded"
+  ],
+  "key_concept": "UNION ALL to unpivot tournament columns, then COUNT per player.",
+  "hints": {
+    "L1": "The Championships table has 4 tournament columns. UNION ALL to create one row per player per title.",
+    "L2": "SELECT wimbledon AS player_id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open. Then GROUP BY COUNT.",
+    "L3": "SELECT p.player_id, p.player_name, COUNT(*) AS grand_slams_count FROM Players p JOIN (SELECT wimbledon as id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open) t ON p.player_id = t.id GROUP BY p.player_id"
+  },
+  "optimal_solution": "SELECT p.player_id, p.player_name, COUNT(*) AS grand_slams_count\nFROM Players p\nJOIN (\n  SELECT wimbledon AS id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open\n) t ON p.player_id = t.id GROUP BY p.player_id;"
+}
