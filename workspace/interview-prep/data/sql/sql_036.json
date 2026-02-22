@@ -1,0 +1,21 @@
+{
+  "id": "sql_036",
+  "difficulty": "Medium",
+  "category": "AGGREGATION",
+  "title": "The Latest Login in 2020",
+  "url": "https://leetcode.com/problems/the-latest-login-in-2020/",
+  "description": "Find the latest login for each user in year 2020.",
+  "constraints": [
+    "(user_id, time_stamp) is the primary key",
+    "The table contains logins from multiple years — filter to 2020 only",
+    "Each returned user must have logged in at least once in 2020",
+    "time_stamp is a DATETIME value"
+  ],
+  "key_concept": "MAX() GROUP BY with date filter.",
+  "hints": {
+    "L1": "Filter to 2020, group by user_id, take MAX(time_stamp).",
+    "L2": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id",
+    "L3": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id"
+  },
+  "optimal_solution": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id;"
+}
