@@ -1,0 +1,22 @@
+{
+  "id": "sql_035",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION",
+  "title": "Department Highest Salary",
+  "url": "https://leetcode.com/problems/department-highest-salary/",
+  "description": "Find employees who earn the highest salary in their department.",
+  "constraints": [
+    "id is the primary key of Employee",
+    "id is the primary key of Department",
+    "departmentId is a foreign key referencing Department.id",
+    "Multiple employees in the same department can share the highest salary (ties are included)",
+    "salary is a positive integer"
+  ],
+  "key_concept": "Correlated subquery with MAX() or window RANK() PARTITION BY dept ORDER BY salary DESC.",
+  "hints": {
+    "L1": "For each employee, check if their salary equals the max in their department.",
+    "L2": "WHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId).",
+    "L3": "SELECT d.name AS Department, e.name AS Employee, e.salary FROM Employee e JOIN Department d ON e.departmentId = d.id WHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId)"
+  },
+  "optimal_solution": "SELECT d.name AS Department, e.name AS Employee, e.salary\nFROM Employee e JOIN Department d ON e.departmentId = d.id\nWHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId);"
+}
