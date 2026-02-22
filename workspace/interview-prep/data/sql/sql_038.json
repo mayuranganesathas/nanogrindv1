@@ -1,0 +1,21 @@
+{
+  "id": "sql_038",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / RANK",
+  "title": "The Most Recent Orders for Each Product",
+  "url": "https://leetcode.com/problems/the-most-recent-orders-for-each-product/",
+  "description": "Find the most recent order(s) for each product. Include all if tied on date.",
+  "constraints": [
+    "order_id is the primary key of Orders",
+    "product_id is the primary key of Products",
+    "Multiple orders for the same product on the same latest date must all be included (ties kept)",
+    "Result ordered by product_name ASC, product_id ASC, order_id ASC"
+  ],
+  "key_concept": "Filter with (product_id, order_date) IN (SELECT product_id, MAX(order_date) ...).",
+  "hints": {
+    "L1": "For each product, find the maximum order_date. Return all orders matching that date.",
+    "L2": "(o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id)",
+    "L3": "SELECT p.product_name, o.product_id, o.order_id, o.order_date FROM Orders o JOIN Products p ON o.product_id = p.product_id WHERE (o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id) ORDER BY p.product_name, o.product_id, o.order_id"
+  },
+  "optimal_solution": "SELECT p.product_name, o.product_id, o.order_id, o.order_date\nFROM Orders o JOIN Products p ON o.product_id = p.product_id\nWHERE (o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id)\nORDER BY p.product_name, o.product_id, o.order_id;"
+}
