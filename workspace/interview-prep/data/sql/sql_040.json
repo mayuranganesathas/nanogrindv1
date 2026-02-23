@@ -1,0 +1,21 @@
+{
+  "id": "sql_040",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION",
+  "title": "Maximum Transaction Each Day",
+  "url": "https://leetcode.com/problems/maximum-transaction-each-day/",
+  "description": "Find transaction(s) with the maximum amount for each day. Include ties.",
+  "constraints": [
+    "transaction_id is the primary key",
+    "Multiple transactions on the same day with the same max amount must all be included",
+    "day is a DATETIME — use DATE(day) to extract the date portion",
+    "amount >= 1"
+  ],
+  "key_concept": "Filter with (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) ...).",
+  "hints": {
+    "L1": "For each day, find max amount. Return all transactions matching that max.",
+    "L2": "WHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day))",
+    "L3": "SELECT transaction_id FROM Transactions WHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day)) ORDER BY transaction_id"
+  },
+  "optimal_solution": "SELECT transaction_id FROM Transactions\nWHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day))\nORDER BY transaction_id;"
+}
