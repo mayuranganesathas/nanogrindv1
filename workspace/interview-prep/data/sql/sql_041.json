@@ -1,0 +1,22 @@
+{
+  "id": "sql_041",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / EVALUATE",
+  "title": "Evaluate Boolean Expression",
+  "url": "https://leetcode.com/problems/evaluate-boolean-expression/",
+  "description": "Evaluate expressions stored as rows. Each row has left_operand, operator, right_operand. Look up variable values and evaluate.",
+  "constraints": [
+    "(left_operand, operator, right_operand) is the primary key of Expressions",
+    "name is the primary key of Variables",
+    "operator is one of '<', '>', '='",
+    "All variable names in Expressions are guaranteed to exist in Variables",
+    "value is an integer between 0 and 1000"
+  ],
+  "key_concept": "Multi-table JOIN with CASE WHEN to evaluate operators. Join Variables twice for left and right.",
+  "hints": {
+    "L1": "Join Variables twice (for left and right operand) to get their values. Use CASE WHEN operator='>' ...",
+    "L2": "JOIN Variables lv ON e.left_operand = lv.name JOIN Variables rv ON e.right_operand = rv.name. CASE WHEN ...",
+    "L3": "SELECT e.left_operand, e.operator, e.right_operand, CASE WHEN e.operator='>' AND lv.value>rv.value THEN 'true' WHEN e.operator='<' AND lv.value<rv.value THEN 'true' WHEN e.operator='=' AND lv.value=rv.value THEN 'true' ELSE 'false' END AS value FROM Expressions e JOIN Variables lv ON e.left_operand=lv.name JOIN Variables rv ON e.right_operand=rv.name"
+  },
+  "optimal_solution": "SELECT e.left_operand, e.operator, e.right_operand,\n  CASE WHEN e.operator='>' AND lv.value>rv.value THEN 'true' WHEN e.operator='<' AND lv.value<rv.value THEN 'true' WHEN e.operator='=' AND lv.value=rv.value THEN 'true' ELSE 'false' END AS value\nFROM Expressions e JOIN Variables lv ON e.left_operand=lv.name JOIN Variables rv ON e.right_operand=rv.name;"
+}
