@@ -1,0 +1,22 @@
+{
+  "id": "sql_039",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / ROW_NUMBER",
+  "title": "The Most Recent Three Orders",
+  "url": "https://leetcode.com/problems/the-most-recent-three-orders/",
+  "description": "Find the three most recent orders for each customer.",
+  "constraints": [
+    "order_id is the primary key of Orders",
+    "customer_id is the primary key of Customers",
+    "A customer with fewer than 3 orders — return all their orders",
+    "No two orders for the same customer share the same order_date",
+    "Result ordered by customer_name ASC, customer_id ASC, order_date DESC"
+  ],
+  "key_concept": "ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) <= 3.",
+  "hints": {
+    "L1": "Assign row numbers per customer ordered by date descending. Keep rows 1, 2, 3.",
+    "L2": "WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) SELECT ... WHERE rn <= 3",
+    "L3": "SELECT c.name AS customer_name, o.customer_id, o.order_id, o.order_date FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) o JOIN Customers c ON o.customer_id = c.customer_id WHERE o.rn <= 3"
+  },
+  "optimal_solution": "SELECT c.name AS customer_name, o.customer_id, o.order_id, o.order_date\nFROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) o\nJOIN Customers c ON o.customer_id = c.customer_id\nWHERE o.rn <= 3 ORDER BY customer_name, o.customer_id, o.order_date DESC;"
+}
