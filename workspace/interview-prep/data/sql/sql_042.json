@@ -1,0 +1,22 @@
+{
+  "id": "sql_042",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / TEAM",
+  "title": "Team Scores in Football Tournament",
+  "url": "https://leetcode.com/problems/team-scores-in-football-tournament/",
+  "description": "Calculate total points for each team (win=3, draw=1, loss=0).",
+  "constraints": [
+    "team_id is the primary key of Teams",
+    "match_id is the primary key of Matches",
+    "Teams with no matches must still appear with 0 points (use LEFT JOIN)",
+    "host_goals and guest_goals are non-negative integers",
+    "Result ordered by num_points DESC, team_id ASC"
+  ],
+  "key_concept": "UNION ALL to expand match results to one row per team, then conditional SUM.",
+  "hints": {
+    "L1": "Each match has home and away team. UNION ALL to create one row per team per match.",
+    "L2": "CASE WHEN host_goals > guest_goals THEN 3 WHEN equal THEN 1 ELSE 0. Symmetric for away team.",
+    "L3": "SELECT t.team_id, t.team_name, COALESCE(SUM(pts),0) AS num_points FROM Teams t LEFT JOIN (SELECT host_team id, CASE WHEN host_goals>guest_goals THEN 3 WHEN host_goals=guest_goals THEN 1 ELSE 0 END pts FROM Matches UNION ALL SELECT guest_team, CASE WHEN guest_goals>host_goals THEN 3 WHEN guest_goals=host_goals THEN 1 ELSE 0 END FROM Matches) p ON t.team_id=p.id GROUP BY t.team_id ORDER BY num_points DESC, t.team_id"
+  },
+  "optimal_solution": "SELECT t.team_id, t.team_name, COALESCE(SUM(p.pts), 0) AS num_points\nFROM Teams t LEFT JOIN (\n  SELECT host_team AS id, CASE WHEN host_goals>guest_goals THEN 3 WHEN host_goals=guest_goals THEN 1 ELSE 0 END AS pts FROM Matches\n  UNION ALL\n  SELECT guest_team, CASE WHEN guest_goals>host_goals THEN 3 WHEN guest_goals=host_goals THEN 1 ELSE 0 END FROM Matches\n) p ON t.team_id = p.id\nGROUP BY t.team_id ORDER BY num_points DESC, t.team_id;"
+}
