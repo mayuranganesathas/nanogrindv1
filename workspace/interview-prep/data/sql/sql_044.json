@@ -1,0 +1,21 @@
+{
+  "id": "sql_044",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / LEAD",
+  "title": "Biggest Window Between Visits",
+  "url": "https://leetcode.com/problems/biggest-window-between-visits/",
+  "description": "For each user, find the largest window (in days) between consecutive visits, including to 2021-01-01.",
+  "constraints": [
+    "(user_id, visit_date) is the primary key",
+    "All visit_dates are before 2021-01-01",
+    "The sentinel end date is always 2021-01-01 — include gap from last visit to this date",
+    "Each user has at least one visit"
+  ],
+  "key_concept": "LEAD() window function with sentinel date. DATEDIFF between current and next visit.",
+  "hints": {
+    "L1": "Use LEAD to get next visit_date per user. Compute gap. Include gap from last visit to 2021-01-01.",
+    "L2": "LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) gives next date.",
+    "L3": "WITH t AS (SELECT user_id, visit_date, LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) AS next_visit FROM UserVisits) SELECT user_id, MAX(DATEDIFF(next_visit, visit_date)) AS biggest_window FROM t GROUP BY user_id"
+  },
+  "optimal_solution": "WITH t AS (\n  SELECT user_id, visit_date,\n    LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) AS next_visit\n  FROM UserVisits\n)\nSELECT user_id, MAX(DATEDIFF(next_visit, visit_date)) AS biggest_window FROM t GROUP BY user_id;"
+}
