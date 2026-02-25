@@ -1,0 +1,22 @@
+{
+  "id": "sql_047",
+  "difficulty": "Medium",
+  "category": "RECURSIVE CTE",
+  "title": "All People Report to the Given Manager",
+  "url": "https://leetcode.com/problems/all-people-report-to-the-given-manager/",
+  "description": "Find all employee IDs who directly or indirectly report to manager_id = 1.",
+  "constraints": [
+    "employee_id is the primary key",
+    "employee_id = 1 is the head manager — manager_id = 1 for themselves",
+    "No cycles in the hierarchy",
+    "1 <= rows in Employees <= 1000",
+    "Must exclude employee_id = 1 from the result"
+  ],
+  "key_concept": "Recursive CTE to traverse management hierarchy. Base: direct reports. Recursive: their reports.",
+  "hints": {
+    "L1": "This is a tree traversal. Use a recursive CTE.",
+    "L2": "Anchor: SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1. Recursive: JOIN on manager_id = cte.employee_id.",
+    "L3": "WITH RECURSIVE cte AS (SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1 UNION ALL SELECT e.employee_id FROM Employees e JOIN cte ON e.manager_id = cte.employee_id WHERE e.employee_id != 1) SELECT employee_id FROM cte"
+  },
+  "optimal_solution": "WITH RECURSIVE cte AS (\n  SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1\n  UNION ALL\n  SELECT e.employee_id FROM Employees e JOIN cte ON e.manager_id = cte.employee_id WHERE e.employee_id != 1\n)\nSELECT employee_id FROM cte;"
+}
