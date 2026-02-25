@@ -1,0 +1,21 @@
+{
+  "id": "sql_046",
+  "difficulty": "Medium",
+  "category": "GAPS AND ISLANDS",
+  "title": "Find the Start and End Number of Continuous Ranges",
+  "url": "https://leetcode.com/problems/find-the-start-and-end-number-of-continuous-ranges/",
+  "description": "Given sorted log_ids, find the start and end of each continuous range.",
+  "constraints": [
+    "log_id is the primary key — all values are unique positive integers",
+    "log_id values are not necessarily consecutive — gaps indicate range boundaries",
+    "1 <= log_id <= 10^8",
+    "Result ordered by start_id ascending"
+  ],
+  "key_concept": "Gaps-and-islands: log_id - ROW_NUMBER() gives a constant for consecutive sequences. Group by this key.",
+  "hints": {
+    "L1": "Consecutive integers form islands. Subtract ROW_NUMBER from value to get a group identifier.",
+    "L2": "grouping_key = log_id - ROW_NUMBER() OVER (ORDER BY log_id). Same island = same group key.",
+    "L3": "WITH t AS (SELECT log_id, log_id - ROW_NUMBER() OVER (ORDER BY log_id) AS grp FROM Logs) SELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id FROM t GROUP BY grp ORDER BY start_id"
+  },
+  "optimal_solution": "WITH t AS (SELECT log_id, log_id - ROW_NUMBER() OVER (ORDER BY log_id) AS grp FROM Logs)\nSELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id FROM t GROUP BY grp ORDER BY start_id;"
+}
