@@ -1,0 +1,22 @@
+{
+  "id": "sql_048",
+  "difficulty": "Hard",
+  "category": "WINDOW FUNCTION / ADVANCED",
+  "title": "Find the Quiet Students in All Exams",
+  "url": "https://leetcode.com/problems/find-the-quiet-students-in-all-exams/",
+  "description": "Find students who never scored the highest or lowest in any exam they took.",
+  "constraints": [
+    "student_id is the primary key of Student",
+    "(exam_id, student_id) is the primary key of Exam",
+    "score is between 0 and 100",
+    "A student must have taken at least one exam to be eligible",
+    "If an exam has only one student, that student is both highest and lowest — exclude them"
+  ],
+  "key_concept": "Exclude students who ever appear as max or min scorer in any exam they attended.",
+  "hints": {
+    "L1": "Find students who ever scored the max or min in any exam. Exclude them from all students who took exams.",
+    "L2": "Get max/min per exam. Find student_ids matching those scores in their respective exams. Negate.",
+    "L3": "WITH exam_stats AS (SELECT exam_id, MAX(score) max_s, MIN(score) min_s FROM Exam GROUP BY exam_id) SELECT DISTINCT s.student_id, s.student_name FROM Student s JOIN Exam e ON s.student_id=e.student_id WHERE s.student_id NOT IN (SELECT e2.student_id FROM Exam e2 JOIN exam_stats es ON e2.exam_id=es.exam_id WHERE e2.score=es.max_s OR e2.score=es.min_s) ORDER BY s.student_id"
+  },
+  "optimal_solution": "WITH exam_stats AS (SELECT exam_id, MAX(score) AS max_s, MIN(score) AS min_s FROM Exam GROUP BY exam_id)\nSELECT DISTINCT s.student_id, s.student_name FROM Student s JOIN Exam e ON s.student_id = e.student_id\nWHERE s.student_id NOT IN (\n  SELECT e2.student_id FROM Exam e2 JOIN exam_stats es ON e2.exam_id = es.exam_id\n  WHERE e2.score = es.max_s OR e2.score = es.min_s\n) ORDER BY s.student_id;"
+}
