@@ -1,0 +1,21 @@
+{
+  "id": "sql_045",
+  "difficulty": "Medium",
+  "category": "WINDOW FUNCTION / PROJECT",
+  "title": "Project Employees III",
+  "url": "https://leetcode.com/problems/project-employees-iii/",
+  "description": "Find employees with the most experience for each project. Include ties.",
+  "constraints": [
+    "(project_id, employee_id) is the primary key of Project",
+    "employee_id is the primary key of Employee",
+    "experience_years >= 0",
+    "Multiple employees can share the maximum experience on a project — all must be returned"
+  ],
+  "key_concept": "Filter with (project_id, experience_years) IN (SELECT project_id, MAX(experience_years) ...).",
+  "hints": {
+    "L1": "For each project, find the maximum experience. Return all employees with that max.",
+    "L2": "(p.project_id, e.experience_years) IN (SELECT project_id, MAX(exp) from joined table GROUP BY project_id)",
+    "L3": "SELECT p.project_id, p.employee_id FROM Project p JOIN Employee e ON p.employee_id = e.employee_id WHERE (p.project_id, e.experience_years) IN (SELECT p2.project_id, MAX(e2.experience_years) FROM Project p2 JOIN Employee e2 ON p2.employee_id = e2.employee_id GROUP BY p2.project_id)"
+  },
+  "optimal_solution": "SELECT p.project_id, p.employee_id FROM Project p JOIN Employee e ON p.employee_id = e.employee_id\nWHERE (p.project_id, e.experience_years) IN (\n  SELECT p2.project_id, MAX(e2.experience_years) FROM Project p2 JOIN Employee e2 ON p2.employee_id = e2.employee_id GROUP BY p2.project_id\n);"
+}
