@@ -1,0 +1,847 @@
+{
+  "schema_version": "2.0",
+  "description": "NeetCode Core Skills SQL — 50 problems ordered by progression. Categories: Basic SELECT → JOINs → Aggregation → Subqueries → Window Functions → CTEs → Advanced. Plus DB Concepts for system design interviews.",
+  "schedule": "2 problems per session, daily from week 1, ~20 min",
+  "problems": [
+    {
+      "id": "sql_001",
+      "leetcode_id": 175,
+      "difficulty": "Easy",
+      "category": "JOIN",
+      "title": "Combine Two Tables",
+      "url": "https://leetcode.com/problems/combine-two-tables/",
+      "description": "Report firstName, lastName, city, state for every person. Include persons even if no address exists.",
+      "key_concept": "LEFT JOIN — include all rows from left table even when no matching row in right table. NULL for missing right-side columns.",
+      "hints": {
+        "L1": "You need all persons, even those without an address. Which JOIN preserves all rows from Person?",
+        "L2": "LEFT JOIN Person ON Address.personId = Person.personId. All Person rows kept; Address columns are NULL when no match.",
+        "L3": "SELECT p.firstName, p.lastName, a.city, a.state FROM Person p LEFT JOIN Address a ON p.personId = a.personId"
+      },
+      "optimal_solution": "SELECT p.firstName, p.lastName, a.city, a.state\nFROM Person p\nLEFT JOIN Address a ON p.personId = a.personId;"
+    },
+    {
+      "id": "sql_002",
+      "leetcode_id": 182,
+      "difficulty": "Easy",
+      "category": "GROUP BY / HAVING",
+      "title": "Duplicate Emails",
+      "url": "https://leetcode.com/problems/duplicate-emails/",
+      "description": "Find all emails that appear more than once in the Person table.",
+      "key_concept": "GROUP BY + HAVING COUNT > 1 to find duplicates. HAVING filters aggregated groups.",
+      "hints": {
+        "L1": "Group by email and count occurrences. Filter groups where count > 1.",
+        "L2": "SELECT email FROM Person GROUP BY email HAVING COUNT(*) > 1.",
+        "L3": "SELECT email FROM Person GROUP BY email HAVING COUNT(email) > 1"
+      },
+      "optimal_solution": "SELECT email FROM Person GROUP BY email HAVING COUNT(*) > 1;"
+    },
+    {
+      "id": "sql_003",
+      "difficulty": "Easy",
+      "category": "JOIN / ANTI-JOIN",
+      "title": "Customers Without Orders",
+      "url": "https://leetcode.com/problems/customers-who-never-order/",
+      "description": "Find customers who never placed an order.",
+      "key_concept": "NOT IN subquery OR LEFT JOIN + IS NULL. Anti-join pattern.",
+      "hints": {
+        "L1": "Find customers whose ID doesn't appear in the Orders table.",
+        "L2": "Option 1: SELECT name FROM Customers WHERE id NOT IN (SELECT customerId FROM Orders). Option 2: LEFT JOIN and filter NULL.",
+        "L3": "SELECT c.name AS Customers FROM Customers c LEFT JOIN Orders o ON c.id = o.customerId WHERE o.customerId IS NULL"
+      },
+      "optimal_solution": "SELECT c.name AS Customers\nFROM Customers c\nLEFT JOIN Orders o ON c.id = o.customerId\nWHERE o.customerId IS NULL;"
+    },
+    {
+      "id": "sql_004",
+      "difficulty": "Easy",
+      "category": "CASE / EXPRESSION",
+      "title": "Calculate Special Bonus",
+      "url": "https://leetcode.com/problems/calculate-special-bonus/",
+      "description": "Calculate bonus for each employee: bonus = salary if employee_id is odd AND name doesn't start with 'M', else 0.",
+      "key_concept": "CASE WHEN for conditional columns. Modulo (%) for odd/even check. String functions: LIKE.",
+      "hints": {
+        "L1": "Use CASE WHEN to return salary or 0 based on two conditions joined by AND.",
+        "L2": "CASE WHEN employee_id % 2 = 1 AND name NOT LIKE 'M%' THEN salary ELSE 0 END",
+        "L3": "SELECT employee_id, CASE WHEN employee_id % 2 <> 0 AND name NOT LIKE 'M%' THEN salary ELSE 0 END AS bonus FROM Employees ORDER BY employee_id"
+      },
+      "optimal_solution": "SELECT employee_id,\n  CASE WHEN employee_id % 2 <> 0 AND name NOT LIKE 'M%' THEN salary ELSE 0 END AS bonus\nFROM Employees\nORDER BY employee_id;"
+    },
+    {
+      "id": "sql_005",
+      "difficulty": "Easy",
+      "category": "SELECT / WHERE",
+      "title": "Customers With Positive Revenue",
+      "url": "https://leetcode.com/problems/find-customers-with-positive-revenue-this-year/",
+      "description": "Find customers who had positive revenue in year 2021.",
+      "key_concept": "Simple WHERE filter on multiple conditions.",
+      "hints": {
+        "L1": "Filter the Customers table for year = 2021 and revenue > 0.",
+        "L2": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0.",
+        "L3": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0"
+      },
+      "optimal_solution": "SELECT customer_id FROM Customers WHERE year = 2021 AND revenue > 0;"
+    },
+    {
+      "id": "sql_006",
+      "difficulty": "Easy",
+      "category": "JOIN / ANTI-JOIN",
+      "title": "Sales Person",
+      "url": "https://leetcode.com/problems/sales-person/",
+      "description": "Find salespeople who did NOT have any orders related to the company named 'RED'.",
+      "key_concept": "NOT IN with multi-table subquery. Find set to exclude, then negate.",
+      "hints": {
+        "L1": "First find all salesperson IDs who have orders with 'RED'. Then exclude them from SalesPerson.",
+        "L2": "Subquery: SELECT DISTINCT sales_id FROM Orders o JOIN Company c ON o.com_id = c.com_id WHERE c.name = 'RED'",
+        "L3": "SELECT name FROM SalesPerson WHERE sales_id NOT IN (SELECT DISTINCT o.sales_id FROM Orders o JOIN Company c ON o.com_id = c.com_id WHERE c.name = 'RED')"
+      },
+      "optimal_solution": "SELECT name FROM SalesPerson\nWHERE sales_id NOT IN (\n  SELECT DISTINCT o.sales_id FROM Orders o\n  JOIN Company c ON o.com_id = c.com_id\n  WHERE c.name = 'RED'\n);"
+    },
+    {
+      "id": "sql_007",
+      "difficulty": "Easy",
+      "category": "JOIN / DATE FILTER",
+      "title": "Sellers With No Sales",
+      "url": "https://leetcode.com/problems/sellers-with-no-sales/",
+      "description": "Find sellers who had no sales in year 2020.",
+      "key_concept": "LEFT JOIN with date filter IN JOIN condition (not WHERE) to preserve NULL rows for no-match detection.",
+      "hints": {
+        "L1": "LEFT JOIN Orders on seller_id where order_date is in 2020. WHERE order_id IS NULL means no 2020 sales.",
+        "L2": "Put the year filter in the JOIN condition, NOT the WHERE clause — otherwise NULL rows get filtered out.",
+        "L3": "SELECT s.seller_name FROM Seller s LEFT JOIN Orders o ON s.seller_id = o.seller_id AND YEAR(o.sale_date) = 2020 WHERE o.order_id IS NULL ORDER BY s.seller_name"
+      },
+      "optimal_solution": "SELECT s.seller_name FROM Seller s\nLEFT JOIN Orders o ON s.seller_id = o.seller_id AND YEAR(o.sale_date) = 2020\nWHERE o.order_id IS NULL\nORDER BY s.seller_name;"
+    },
+    {
+      "id": "sql_008",
+      "difficulty": "Easy",
+      "category": "JOIN / AGGREGATION",
+      "title": "Top Travellers",
+      "url": "https://leetcode.com/problems/top-travellers/",
+      "description": "Report name and total distance travelled for each user. Users who never travelled count as 0.",
+      "key_concept": "LEFT JOIN to include users with no trips + IFNULL for NULL sum. GROUP BY + ORDER BY multiple columns.",
+      "hints": {
+        "L1": "LEFT JOIN to include users with no rides. SUM(distance) with IFNULL(..., 0).",
+        "L2": "GROUP BY u.id, ORDER BY SUM(distance) DESC, u.name ASC",
+        "L3": "SELECT u.name, IFNULL(SUM(r.distance), 0) AS travelled_distance FROM Users u LEFT JOIN Rides r ON u.id = r.user_id GROUP BY u.id ORDER BY travelled_distance DESC, u.name ASC"
+      },
+      "optimal_solution": "SELECT u.name, IFNULL(SUM(r.distance), 0) AS travelled_distance\nFROM Users u LEFT JOIN Rides r ON u.id = r.user_id\nGROUP BY u.id\nORDER BY travelled_distance DESC, u.name ASC;"
+    },
+    {
+      "id": "sql_009",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Game Play Analysis I",
+      "url": "https://leetcode.com/problems/game-play-analysis-i/",
+      "description": "Find the first login date for each player.",
+      "key_concept": "MIN() aggregation with GROUP BY. First occurrence per group.",
+      "hints": {
+        "L1": "Group by player and find the minimum event_date.",
+        "L2": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id",
+        "L3": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id"
+      },
+      "optimal_solution": "SELECT player_id, MIN(event_date) AS first_login FROM Activity GROUP BY player_id;"
+    },
+    {
+      "id": "sql_010",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Warehouse Manager",
+      "url": "https://leetcode.com/problems/warehouse-manager/",
+      "description": "Calculate total cubic footage stored in each warehouse (volume = units × Width × Length × Height).",
+      "key_concept": "SUM of expression (multi-column multiplication). JOIN then aggregate.",
+      "hints": {
+        "L1": "Join Warehouse with Products. Volume per row = units * product dimensions. SUM per warehouse.",
+        "L2": "SELECT w.name, SUM(w.units * p.Width * p.Length * p.Height) AS volume FROM Warehouse w JOIN Products p ON w.product_id = p.product_id GROUP BY w.name",
+        "L3": "SELECT w.name AS warehouse_name, SUM(w.units * p.Width * p.Length * p.Height) AS volume FROM Warehouse w JOIN Products p ON w.product_id = p.product_id GROUP BY w.name"
+      },
+      "optimal_solution": "SELECT w.name AS warehouse_name, SUM(w.units * p.Width * p.Length * p.Height) AS volume\nFROM Warehouse w JOIN Products p ON w.product_id = p.product_id\nGROUP BY w.name;"
+    },
+    {
+      "id": "sql_011",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Customer Placing the Largest Number of Orders",
+      "url": "https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/",
+      "description": "Find the customer with the most orders.",
+      "key_concept": "GROUP BY + ORDER BY COUNT DESC + LIMIT 1. Top-1 pattern.",
+      "hints": {
+        "L1": "Count orders per customer, sort descending, take the top 1.",
+        "L2": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1",
+        "L3": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1"
+      },
+      "optimal_solution": "SELECT customer_number FROM Orders GROUP BY customer_number ORDER BY COUNT(*) DESC LIMIT 1;"
+    },
+    {
+      "id": "sql_012",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Find Total Time Spent by Each Employee",
+      "url": "https://leetcode.com/problems/find-total-time-spent-by-each-employee/",
+      "description": "Calculate total time (in minutes) each employee spent in the office each day.",
+      "key_concept": "SUM of expression (column subtraction). GROUP BY multiple columns.",
+      "hints": {
+        "L1": "Time per entry = out_time - in_time. Sum per employee per day.",
+        "L2": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id",
+        "L3": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id"
+      },
+      "optimal_solution": "SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time FROM Employees GROUP BY event_day, emp_id;"
+    },
+    {
+      "id": "sql_013",
+      "difficulty": "Easy",
+      "category": "AGGREGATION / PERCENTAGE",
+      "title": "Immediate Food Delivery I",
+      "url": "https://leetcode.com/problems/immediate-food-delivery-i/",
+      "description": "Find what percentage of orders are 'immediate' (preferred_delivery_date = order_date). Round to 2 decimal places.",
+      "key_concept": "AVG of boolean expression * 100 = percentage. Or SUM(CASE WHEN...)/COUNT * 100.",
+      "hints": {
+        "L1": "Count immediate orders and divide by total, multiply by 100.",
+        "L2": "ROUND(100 * AVG(order_date = preferred_delivery_date), 2) — in MySQL, boolean comparison returns 0/1.",
+        "L3": "SELECT ROUND(100 * SUM(CASE WHEN order_date = preferred_delivery_date THEN 1 ELSE 0 END) / COUNT(*), 2) AS immediate_percentage FROM Delivery"
+      },
+      "optimal_solution": "SELECT ROUND(100 * AVG(order_date = preferred_delivery_date), 2) AS immediate_percentage FROM Delivery;"
+    },
+    {
+      "id": "sql_014",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Bank Account Summary II",
+      "url": "https://leetcode.com/problems/bank-account-summary-ii/",
+      "description": "Find account names and balances for accounts with total balance > 10000.",
+      "key_concept": "JOIN + GROUP BY + HAVING SUM() > threshold.",
+      "hints": {
+        "L1": "Join Users and Transactions, group by account, sum amounts, filter sum > 10000.",
+        "L2": "JOIN on account → GROUP BY u.name → HAVING SUM(amount) > 10000",
+        "L3": "SELECT u.name, SUM(t.amount) AS balance FROM Users u JOIN Transactions t ON u.account = t.account GROUP BY u.account HAVING balance > 10000"
+      },
+      "optimal_solution": "SELECT u.name, SUM(t.amount) AS balance\nFROM Users u JOIN Transactions t ON u.account = t.account\nGROUP BY u.account HAVING balance > 10000;"
+    },
+    {
+      "id": "sql_015",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Actors and Directors Who Cooperated At Least Three Times",
+      "url": "https://leetcode.com/problems/actors-and-directors-who-cooperated-at-least-three-times/",
+      "description": "Find all (actor_id, director_id) pairs who worked together at least 3 times.",
+      "key_concept": "GROUP BY multiple columns + HAVING COUNT >= N.",
+      "hints": {
+        "L1": "Group by both actor_id and director_id together. Filter pairs with count >= 3.",
+        "L2": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3",
+        "L3": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3"
+      },
+      "optimal_solution": "SELECT actor_id, director_id FROM ActorDirector GROUP BY actor_id, director_id HAVING COUNT(*) >= 3;"
+    },
+    {
+      "id": "sql_016",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Daily Leads and Partners",
+      "url": "https://leetcode.com/problems/daily-leads-and-partners/",
+      "description": "For each date and make, count unique leads and unique partners.",
+      "key_concept": "COUNT(DISTINCT col) — count unique values within each group.",
+      "hints": {
+        "L1": "GROUP BY date_id and make_name. Use COUNT(DISTINCT lead_id) and COUNT(DISTINCT partner_id).",
+        "L2": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name",
+        "L3": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name"
+      },
+      "optimal_solution": "SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners FROM DailySales GROUP BY date_id, make_name;"
+    },
+    {
+      "id": "sql_017",
+      "difficulty": "Easy",
+      "category": "SUBQUERY",
+      "title": "Find the Team Size",
+      "url": "https://leetcode.com/problems/find-the-team-size/",
+      "description": "For each employee, find the size of the team they belong to.",
+      "key_concept": "Subquery count per group, joined back to each row.",
+      "hints": {
+        "L1": "Count employees per team. Join that count back to each employee row.",
+        "L2": "Subquery: SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id. Then join to Employee on team_id.",
+        "L3": "SELECT e.employee_id, t.team_size FROM Employee e JOIN (SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id) t ON e.team_id = t.team_id"
+      },
+      "optimal_solution": "SELECT e.employee_id, t.team_size FROM Employee e\nJOIN (SELECT team_id, COUNT(*) AS team_size FROM Employee GROUP BY team_id) t\nON e.team_id = t.team_id;"
+    },
+    {
+      "id": "sql_018",
+      "difficulty": "Easy",
+      "category": "JOIN",
+      "title": "Friendly Movies Streamed Last Month",
+      "url": "https://leetcode.com/problems/list-the-products-ordered-in-a-period/",
+      "description": "Find titles of movies rated for kids that were streamed in October 2020.",
+      "key_concept": "JOIN + multiple WHERE filters (category and date range).",
+      "hints": {
+        "L1": "Join TVProgram with Content on content_id. Filter where Kids_content = 'Y' and October 2020.",
+        "L2": "WHERE c.Kids_content = 'Y' AND MONTH(t.program_date) = 10 AND YEAR(t.program_date) = 2020",
+        "L3": "SELECT DISTINCT c.title FROM TVProgram t JOIN Content c ON t.content_id = c.content_id WHERE c.Kids_content = 'Y' AND YEAR(t.program_date) = 2020 AND MONTH(t.program_date) = 10"
+      },
+      "optimal_solution": "SELECT DISTINCT c.title FROM TVProgram t\nJOIN Content c ON t.content_id = c.content_id\nWHERE c.Kids_content = 'Y' AND YEAR(t.program_date) = 2020 AND MONTH(t.program_date) = 10;"
+    },
+    {
+      "id": "sql_019",
+      "difficulty": "Easy",
+      "category": "JOIN / ANTI-JOIN",
+      "title": "Students With Invalid Departments",
+      "url": "https://leetcode.com/problems/students-with-invalid-departments/",
+      "description": "Find students whose department_id does not exist in the Departments table.",
+      "key_concept": "NOT IN subquery or LEFT JOIN + IS NULL. Anti-join.",
+      "hints": {
+        "L1": "LEFT JOIN Departments. Students with no matching department will have NULL for department columns.",
+        "L2": "SELECT s.id, s.name FROM Students s LEFT JOIN Departments d ON s.department_id = d.id WHERE d.id IS NULL",
+        "L3": "SELECT id, name FROM Students WHERE department_id NOT IN (SELECT id FROM Departments)"
+      },
+      "optimal_solution": "SELECT id, name FROM Students WHERE department_id NOT IN (SELECT id FROM Departments);"
+    },
+    {
+      "id": "sql_020",
+      "difficulty": "Easy",
+      "category": "UNION / FULL-OUTER-JOIN",
+      "title": "Employees With Missing Information",
+      "url": "https://leetcode.com/problems/employees-with-missing-information/",
+      "description": "Find employee IDs who are in either Employees or Salaries table but not both.",
+      "key_concept": "FULL OUTER JOIN via UNION of two LEFT JOINs in MySQL.",
+      "hints": {
+        "L1": "You need IDs that exist in one table but not the other. MySQL lacks FULL OUTER JOIN — use UNION.",
+        "L2": "NOT IN subquery for each direction.",
+        "L3": "SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries) UNION SELECT employee_id FROM Salaries WHERE employee_id NOT IN (SELECT employee_id FROM Employees) ORDER BY employee_id"
+      },
+      "optimal_solution": "SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)\nUNION\nSELECT employee_id FROM Salaries WHERE employee_id NOT IN (SELECT employee_id FROM Employees)\nORDER BY employee_id;"
+    },
+    {
+      "id": "sql_021",
+      "difficulty": "Easy",
+      "category": "JOIN / ANTI-JOIN",
+      "title": "Neetflex Banned Accounts",
+      "url": "https://neetcode.io/problems/neetflexBannedAccounts",
+      "description": "Find account IDs that are active in the Accounts table but marked as banned in the BannedAccounts table.",
+      "key_concept": "Simple INNER JOIN or IN subquery to find matching IDs between two tables.",
+      "hints": {
+        "L1": "Find account_ids that appear in both tables.",
+        "L2": "SELECT account_id FROM Accounts WHERE account_id IN (SELECT account_id FROM BannedAccounts)",
+        "L3": "SELECT a.account_id FROM Accounts a JOIN BannedAccounts b ON a.account_id = b.account_id"
+      },
+      "optimal_solution": "SELECT account_id FROM Accounts WHERE account_id IN (SELECT account_id FROM BannedAccounts);"
+    },
+    {
+      "id": "sql_022",
+      "difficulty": "Easy",
+      "category": "SELF-JOIN",
+      "title": "Consecutive Available Seats",
+      "url": "https://leetcode.com/problems/consecutive-available-seats/",
+      "description": "Find all seats that are free and consecutive (adjacent seat_id values, both free).",
+      "key_concept": "Self-join on same table with adjacent row condition: ABS(c1.seat_id - c2.seat_id) = 1. Both must be free.",
+      "hints": {
+        "L1": "Self-join the cinema table to find adjacent seats. Both must have free = 1.",
+        "L2": "JOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1 WHERE c1.free = 1 AND c2.free = 1.",
+        "L3": "SELECT DISTINCT c1.seat_id FROM Cinema c1 JOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1 WHERE c1.free = 1 AND c2.free = 1 ORDER BY c1.seat_id"
+      },
+      "optimal_solution": "SELECT DISTINCT c1.seat_id FROM Cinema c1\nJOIN Cinema c2 ON ABS(c1.seat_id - c2.seat_id) = 1\nWHERE c1.free = 1 AND c2.free = 1 ORDER BY c1.seat_id;"
+    },
+    {
+      "id": "sql_023",
+      "difficulty": "Easy",
+      "category": "PIVOT / UNION",
+      "title": "Rearrange Products Table",
+      "url": "https://leetcode.com/problems/rearrange-products-table/",
+      "description": "Unpivot a wide products table (product_id, store1, store2, store3) to long format (product_id, store, price).",
+      "key_concept": "UNION ALL to unpivot wide format to long format. One SELECT per column. Filter NULL prices.",
+      "hints": {
+        "L1": "Write one SELECT per store column. UNION ALL them together.",
+        "L2": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL UNION ALL ...",
+        "L3": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL UNION ALL SELECT product_id, 'store2', store2 FROM Products WHERE store2 IS NOT NULL UNION ALL SELECT product_id, 'store3', store3 FROM Products WHERE store3 IS NOT NULL"
+      },
+      "optimal_solution": "SELECT product_id, 'store1' AS store, store1 AS price FROM Products WHERE store1 IS NOT NULL\nUNION ALL SELECT product_id, 'store2', store2 FROM Products WHERE store2 IS NOT NULL\nUNION ALL SELECT product_id, 'store3', store3 FROM Products WHERE store3 IS NOT NULL;"
+    },
+    {
+      "id": "sql_024",
+      "difficulty": "Easy",
+      "category": "AGGREGATION",
+      "title": "Shortest Distance in a Line",
+      "url": "https://leetcode.com/problems/shortest-distance-in-a-line/",
+      "description": "Find the shortest distance between any two points on a line.",
+      "key_concept": "Self-join on p1.x < p2.x, compute p2.x - p1.x for all pairs, take MIN.",
+      "hints": {
+        "L1": "Self-join and compute differences. Use x < other_x to avoid duplicates.",
+        "L2": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p1.x < p2.x",
+        "L3": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p2.x > p1.x"
+      },
+      "optimal_solution": "SELECT MIN(p2.x - p1.x) AS shortest FROM Point p1 JOIN Point p2 ON p2.x > p1.x;"
+    },
+    {
+      "id": "sql_025",
+      "difficulty": "Medium",
+      "category": "CONDITIONAL AGGREGATION",
+      "title": "Customers Who Bought A and B but Not C",
+      "url": "https://leetcode.com/problems/customers-who-bought-products-a-and-b-but-not-c/",
+      "description": "Find customers who bought products A and B but not product C.",
+      "key_concept": "Conditional aggregation: HAVING SUM(product='A')>0 AND SUM(product='B')>0 AND SUM(product='C')=0.",
+      "hints": {
+        "L1": "Use HAVING with SUM(CASE WHEN ...) to check which products each customer bought.",
+        "L2": "GROUP BY customer_id. HAVING SUM(product_name='A')>0 AND SUM(product_name='B')>0 AND SUM(product_name='C')=0",
+        "L3": "SELECT c.customer_id, c.customer_name FROM Customers c JOIN Orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id HAVING SUM(o.product_name = 'A') > 0 AND SUM(o.product_name = 'B') > 0 AND SUM(o.product_name = 'C') = 0"
+      },
+      "optimal_solution": "SELECT c.customer_id, c.customer_name FROM Customers c\nJOIN Orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id\nHAVING SUM(o.product_name = 'A') > 0 AND SUM(o.product_name = 'B') > 0 AND SUM(o.product_name = 'C') = 0;"
+    },
+    {
+      "id": "sql_026",
+      "difficulty": "Medium",
+      "category": "SUBQUERY / TIE-BREAKING",
+      "title": "Highest Grade For Each Student",
+      "url": "https://leetcode.com/problems/highest-grade-for-each-student/",
+      "description": "For each student, find the course with the highest grade. If tie, pick the lowest course_id.",
+      "key_concept": "Filter with max subquery, then MIN(course_id) for tie-breaking.",
+      "hints": {
+        "L1": "First find max grade per student. Then find the minimum course_id for rows matching that max.",
+        "L2": "Use correlated subquery or rank with PARTITION BY student_id ORDER BY grade DESC, course_id ASC then filter rank=1.",
+        "L3": "SELECT student_id, MIN(course_id) AS course_id, grade FROM Enrollments WHERE (student_id, grade) IN (SELECT student_id, MAX(grade) FROM Enrollments GROUP BY student_id) GROUP BY student_id, grade ORDER BY student_id"
+      },
+      "optimal_solution": "SELECT student_id, MIN(course_id) AS course_id, grade\nFROM Enrollments\nWHERE (student_id, grade) IN (SELECT student_id, MAX(grade) FROM Enrollments GROUP BY student_id)\nGROUP BY student_id, grade ORDER BY student_id;"
+    },
+    {
+      "id": "sql_027",
+      "difficulty": "Medium",
+      "category": "CONDITIONAL AGGREGATION",
+      "title": "Apples & Oranges",
+      "url": "https://leetcode.com/problems/apples-oranges/",
+      "description": "For each sale_date, find the difference between number of apples and oranges sold.",
+      "key_concept": "SUM(CASE WHEN ...) - SUM(CASE WHEN ...) or SUM with signed values.",
+      "hints": {
+        "L1": "For each date, you need counts of apples and oranges. Use conditional SUM.",
+        "L2": "SUM(CASE WHEN item = 'apples' THEN sold_num ELSE -sold_num END)",
+        "L3": "SELECT sale_date, SUM(CASE WHEN item='apples' THEN sold_num ELSE -sold_num END) AS diff FROM Sales GROUP BY sale_date ORDER BY sale_date"
+      },
+      "optimal_solution": "SELECT sale_date, SUM(CASE WHEN item = 'apples' THEN sold_num ELSE -sold_num END) AS diff\nFROM Sales GROUP BY sale_date ORDER BY sale_date;"
+    },
+    {
+      "id": "sql_028",
+      "difficulty": "Medium",
+      "category": "AGGREGATION / NORMALIZE",
+      "title": "Number of Calls Between Two Persons",
+      "url": "https://leetcode.com/problems/number-of-calls-between-two-persons/",
+      "description": "For each unique pair (person1, person2), return total calls and duration. Normalize so person1 < person2.",
+      "key_concept": "LEAST/GREATEST to normalize direction, then GROUP BY normalized pair.",
+      "hints": {
+        "L1": "Normalize (caller, recipient) pairs using LEAST/GREATEST regardless of direction.",
+        "L2": "SELECT LEAST(from_id,to_id) AS person1, GREATEST(from_id,to_id) AS person2, COUNT(*) AS call_count, SUM(duration) AS total_duration FROM Calls GROUP BY person1, person2",
+        "L3": "SELECT LEAST(from_id,to_id) AS person1, GREATEST(from_id,to_id) AS person2, COUNT(*) AS call_count, SUM(duration) AS total_duration FROM Calls GROUP BY 1,2"
+      },
+      "optimal_solution": "SELECT LEAST(from_id, to_id) AS person1, GREATEST(from_id, to_id) AS person2,\n  COUNT(*) AS call_count, SUM(duration) AS total_duration\nFROM Calls GROUP BY person1, person2;"
+    },
+    {
+      "id": "sql_029",
+      "difficulty": "Medium",
+      "category": "CONDITIONAL AGGREGATION",
+      "title": "Customer Order Frequency",
+      "url": "https://leetcode.com/problems/customer-order-frequency/",
+      "description": "Find customers who spent at least $100 in June 2020 AND at least $100 in July 2020.",
+      "key_concept": "HAVING with two conditional SUM conditions on different date ranges.",
+      "hints": {
+        "L1": "Join customers with orders and products. Filter to 2020. Group by customer, check spending by month.",
+        "L2": "HAVING SUM(IF(MONTH(order_date)=6, quantity*price, 0)) >= 100 AND SUM(IF(MONTH(order_date)=7, ...))",
+        "L3": "SELECT c.customer_id, c.name FROM Customers c JOIN Orders o ON c.customer_id=o.customer_id JOIN Product p ON o.product_id=p.product_id WHERE YEAR(o.order_date)=2020 GROUP BY c.customer_id HAVING SUM(IF(MONTH(o.order_date)=6, o.quantity*p.price, 0))>=100 AND SUM(IF(MONTH(o.order_date)=7, o.quantity*p.price, 0))>=100"
+      },
+      "optimal_solution": "SELECT c.customer_id, c.name FROM Customers c\nJOIN Orders o ON c.customer_id = o.customer_id\nJOIN Product p ON o.product_id = p.product_id\nWHERE YEAR(o.order_date) = 2020\nGROUP BY c.customer_id\nHAVING SUM(IF(MONTH(o.order_date)=6, o.quantity*p.price, 0)) >= 100\n   AND SUM(IF(MONTH(o.order_date)=7, o.quantity*p.price, 0)) >= 100;"
+    },
+    {
+      "id": "sql_030",
+      "difficulty": "Medium",
+      "category": "SUBQUERY / SCALAR",
+      "title": "Countries You Can Safely Invest In",
+      "url": "https://leetcode.com/problems/countries-you-can-safely-invest-in/",
+      "description": "Find countries where average call duration exceeds the global average.",
+      "key_concept": "Multi-table join + HAVING AVG > (scalar subquery for global average).",
+      "hints": {
+        "L1": "Get each country's average call duration. Compare to global average (subquery returning one number).",
+        "L2": "HAVING AVG(duration) > (SELECT AVG(duration) FROM Calls).",
+        "L3": "SELECT co.name AS country FROM Person p JOIN Calls c ON p.id IN (c.caller_id, c.callee_id) JOIN Country co ON LEFT(p.phone_number,3) = co.country_code GROUP BY co.name HAVING AVG(c.duration) > (SELECT AVG(duration) FROM Calls)"
+      },
+      "optimal_solution": "SELECT co.name AS country\nFROM Person p\nJOIN Calls c ON p.id IN (c.caller_id, c.callee_id)\nJOIN Country co ON LEFT(p.phone_number, 3) = co.country_code\nGROUP BY co.name\nHAVING AVG(c.duration) > (SELECT AVG(duration) FROM Calls);"
+    },
+    {
+      "id": "sql_031",
+      "difficulty": "Medium",
+      "category": "SUBQUERY / MULTI-STEP",
+      "title": "Page Recommendations",
+      "url": "https://leetcode.com/problems/page-recommendations/",
+      "description": "Recommend pages to user_id=1 that are liked by friends of user 1 but not already liked by user 1.",
+      "key_concept": "Multi-step: find friends (bidirectional), find pages liked by friends, exclude already liked pages.",
+      "hints": {
+        "L1": "Step 1: find all friends of user 1 (bidirectional). Step 2: pages liked by those friends. Step 3: exclude pages already liked by user 1.",
+        "L2": "Friends: UNION of (user2_id WHERE user1_id=1) and (user1_id WHERE user2_id=1).",
+        "L3": "SELECT DISTINCT l.page_id AS recommended_page FROM Likes l WHERE l.user_id IN (SELECT user2_id FROM Friendship WHERE user1_id=1 UNION SELECT user1_id FROM Friendship WHERE user2_id=1) AND l.page_id NOT IN (SELECT page_id FROM Likes WHERE user_id=1)"
+      },
+      "optimal_solution": "SELECT DISTINCT l.page_id AS recommended_page FROM Likes l\nWHERE l.user_id IN (\n  SELECT user2_id FROM Friendship WHERE user1_id = 1\n  UNION\n  SELECT user1_id FROM Friendship WHERE user2_id = 1\n)\nAND l.page_id NOT IN (SELECT page_id FROM Likes WHERE user_id = 1);"
+    },
+    {
+      "id": "sql_032",
+      "leetcode_id": 608,
+      "difficulty": "Medium",
+      "category": "CASE / SUBQUERY",
+      "title": "Tree Node",
+      "url": "https://leetcode.com/problems/tree-node/",
+      "description": "Classify each node as Root, Inner, or Leaf based on parent relationships.",
+      "key_concept": "CASE WHEN with subqueries: Root (p_id IS NULL), Leaf (not in any p_id), Inner (rest).",
+      "hints": {
+        "L1": "Root: p_id is NULL. Leaf: id does not appear as any node's p_id. Inner: everything else.",
+        "L2": "CASE WHEN p_id IS NULL THEN 'Root' WHEN id NOT IN (SELECT p_id WHERE p_id IS NOT NULL) THEN 'Leaf' ELSE 'Inner' END",
+        "L3": "SELECT id, CASE WHEN p_id IS NULL THEN 'Root' WHEN id IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) THEN 'Inner' ELSE 'Leaf' END AS type FROM Tree"
+      },
+      "optimal_solution": "SELECT id,\n  CASE WHEN p_id IS NULL THEN 'Root'\n       WHEN id IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) THEN 'Inner'\n       ELSE 'Leaf' END AS type\nFROM Tree;"
+    },
+    {
+      "id": "sql_033",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION",
+      "title": "Game Play Analysis II",
+      "url": "https://leetcode.com/problems/game-play-analysis-ii/",
+      "description": "Find the device_id each player first logged in from.",
+      "key_concept": "Correlated subquery or ROW_NUMBER PARTITION BY player ORDER BY date — pick row 1.",
+      "hints": {
+        "L1": "For each player, you need the device from their earliest login.",
+        "L2": "WHERE event_date = (SELECT MIN(event_date) FROM Activity WHERE player_id = a.player_id).",
+        "L3": "SELECT player_id, device_id FROM Activity WHERE (player_id, event_date) IN (SELECT player_id, MIN(event_date) FROM Activity GROUP BY player_id)"
+      },
+      "optimal_solution": "SELECT player_id, device_id FROM Activity\nWHERE (player_id, event_date) IN (SELECT player_id, MIN(event_date) FROM Activity GROUP BY player_id);"
+    },
+    {
+      "id": "sql_034",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION",
+      "title": "Game Play Analysis III",
+      "url": "https://leetcode.com/problems/game-play-analysis-iii/",
+      "description": "For each player and each date, find the running total of games played.",
+      "key_concept": "SUM() OVER (PARTITION BY player_id ORDER BY event_date) — cumulative sum window function.",
+      "hints": {
+        "L1": "You need a running total per player ordered by date. Use a window function.",
+        "L2": "SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date). Default frame includes all preceding rows.",
+        "L3": "SELECT player_id, event_date, SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date) AS games_played_so_far FROM Activity"
+      },
+      "optimal_solution": "SELECT player_id, event_date,\n  SUM(games_played) OVER (PARTITION BY player_id ORDER BY event_date) AS games_played_so_far\nFROM Activity;"
+    },
+    {
+      "id": "sql_035",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION",
+      "title": "Department Highest Salary",
+      "url": "https://leetcode.com/problems/department-highest-salary/",
+      "description": "Find employees who earn the highest salary in their department.",
+      "key_concept": "Correlated subquery with MAX() or window RANK() PARTITION BY dept ORDER BY salary DESC.",
+      "hints": {
+        "L1": "For each employee, check if their salary equals the max in their department.",
+        "L2": "WHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId).",
+        "L3": "SELECT d.name AS Department, e.name AS Employee, e.salary FROM Employee e JOIN Department d ON e.departmentId = d.id WHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId)"
+      },
+      "optimal_solution": "SELECT d.name AS Department, e.name AS Employee, e.salary\nFROM Employee e JOIN Department d ON e.departmentId = d.id\nWHERE (e.departmentId, e.salary) IN (SELECT departmentId, MAX(salary) FROM Employee GROUP BY departmentId);"
+    },
+    {
+      "id": "sql_036",
+      "difficulty": "Medium",
+      "category": "AGGREGATION",
+      "title": "The Latest Login in 2020",
+      "url": "https://leetcode.com/problems/the-latest-login-in-2020/",
+      "description": "Find the latest login for each user in year 2020.",
+      "key_concept": "MAX() GROUP BY with date filter.",
+      "hints": {
+        "L1": "Filter to 2020, group by user_id, take MAX(time_stamp).",
+        "L2": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id",
+        "L3": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id"
+      },
+      "optimal_solution": "SELECT user_id, MAX(time_stamp) AS last_stamp FROM Logins WHERE YEAR(time_stamp) = 2020 GROUP BY user_id;"
+    },
+    {
+      "id": "sql_037",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / RANK",
+      "title": "Grand Slam Titles",
+      "url": "https://leetcode.com/problems/grand-slam-titles/",
+      "description": "Count how many Grand Slam titles each player won across 4 tournament columns.",
+      "key_concept": "UNION ALL to unpivot tournament columns, then COUNT per player.",
+      "hints": {
+        "L1": "The Championships table has 4 tournament columns. UNION ALL to create one row per player per title.",
+        "L2": "SELECT wimbledon AS player_id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open. Then GROUP BY COUNT.",
+        "L3": "SELECT p.player_id, p.player_name, COUNT(*) AS grand_slams_count FROM Players p JOIN (SELECT wimbledon as id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open) t ON p.player_id = t.id GROUP BY p.player_id"
+      },
+      "optimal_solution": "SELECT p.player_id, p.player_name, COUNT(*) AS grand_slams_count\nFROM Players p\nJOIN (\n  SELECT wimbledon AS id FROM Championships UNION ALL SELECT Fr_open UNION ALL SELECT US_open UNION ALL SELECT Au_open\n) t ON p.player_id = t.id GROUP BY p.player_id;"
+    },
+    {
+      "id": "sql_038",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / RANK",
+      "title": "The Most Recent Orders for Each Product",
+      "url": "https://leetcode.com/problems/the-most-recent-orders-for-each-product/",
+      "description": "Find the most recent order(s) for each product. Include all if tied on date.",
+      "key_concept": "Filter with (product_id, order_date) IN (SELECT product_id, MAX(order_date) ...).",
+      "hints": {
+        "L1": "For each product, find the maximum order_date. Return all orders matching that date.",
+        "L2": "(o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id)",
+        "L3": "SELECT p.product_name, o.product_id, o.order_id, o.order_date FROM Orders o JOIN Products p ON o.product_id = p.product_id WHERE (o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id) ORDER BY p.product_name, o.product_id, o.order_id"
+      },
+      "optimal_solution": "SELECT p.product_name, o.product_id, o.order_id, o.order_date\nFROM Orders o JOIN Products p ON o.product_id = p.product_id\nWHERE (o.product_id, o.order_date) IN (SELECT product_id, MAX(order_date) FROM Orders GROUP BY product_id)\nORDER BY p.product_name, o.product_id, o.order_id;"
+    },
+    {
+      "id": "sql_039",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / ROW_NUMBER",
+      "title": "The Most Recent Three Orders",
+      "url": "https://leetcode.com/problems/the-most-recent-three-orders/",
+      "description": "Find the three most recent orders for each customer.",
+      "key_concept": "ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) <= 3.",
+      "hints": {
+        "L1": "Assign row numbers per customer ordered by date descending. Keep rows 1, 2, 3.",
+        "L2": "WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) SELECT ... WHERE rn <= 3",
+        "L3": "SELECT c.name AS customer_name, o.customer_id, o.order_id, o.order_date FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) o JOIN Customers c ON o.customer_id = c.customer_id WHERE o.rn <= 3"
+      },
+      "optimal_solution": "SELECT c.name AS customer_name, o.customer_id, o.order_id, o.order_date\nFROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM Orders) o\nJOIN Customers c ON o.customer_id = c.customer_id\nWHERE o.rn <= 3 ORDER BY customer_name, o.customer_id, o.order_date DESC;"
+    },
+    {
+      "id": "sql_040",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION",
+      "title": "Maximum Transaction Each Day",
+      "url": "https://leetcode.com/problems/maximum-transaction-each-day/",
+      "description": "Find transaction(s) with the maximum amount for each day. Include ties.",
+      "key_concept": "Filter with (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) ...).",
+      "hints": {
+        "L1": "For each day, find max amount. Return all transactions matching that max.",
+        "L2": "WHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day))",
+        "L3": "SELECT transaction_id FROM Transactions WHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day)) ORDER BY transaction_id"
+      },
+      "optimal_solution": "SELECT transaction_id FROM Transactions\nWHERE (DATE(day), amount) IN (SELECT DATE(day), MAX(amount) FROM Transactions GROUP BY DATE(day))\nORDER BY transaction_id;"
+    },
+    {
+      "id": "sql_041",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / EVALUATE",
+      "title": "Evaluate Boolean Expression",
+      "url": "https://leetcode.com/problems/evaluate-boolean-expression/",
+      "description": "Evaluate expressions stored as rows. Each row has left_operand, operator, right_operand. Look up variable values and evaluate.",
+      "key_concept": "Multi-table JOIN with CASE WHEN to evaluate operators. Join Variables twice for left and right.",
+      "hints": {
+        "L1": "Join Variables twice (for left and right operand) to get their values. Use CASE WHEN operator='>' ...",
+        "L2": "JOIN Variables lv ON e.left_operand = lv.name JOIN Variables rv ON e.right_operand = rv.name. CASE WHEN ...",
+        "L3": "SELECT e.left_operand, e.operator, e.right_operand, CASE WHEN e.operator='>' AND lv.value>rv.value THEN 'true' WHEN e.operator='<' AND lv.value<rv.value THEN 'true' WHEN e.operator='=' AND lv.value=rv.value THEN 'true' ELSE 'false' END AS value FROM Expressions e JOIN Variables lv ON e.left_operand=lv.name JOIN Variables rv ON e.right_operand=rv.name"
+      },
+      "optimal_solution": "SELECT e.left_operand, e.operator, e.right_operand,\n  CASE WHEN e.operator='>' AND lv.value>rv.value THEN 'true' WHEN e.operator='<' AND lv.value<rv.value THEN 'true' WHEN e.operator='=' AND lv.value=rv.value THEN 'true' ELSE 'false' END AS value\nFROM Expressions e JOIN Variables lv ON e.left_operand=lv.name JOIN Variables rv ON e.right_operand=rv.name;"
+    },
+    {
+      "id": "sql_042",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / TEAM",
+      "title": "Team Scores in Football Tournament",
+      "url": "https://leetcode.com/problems/team-scores-in-football-tournament/",
+      "description": "Calculate total points for each team (win=3, draw=1, loss=0).",
+      "key_concept": "UNION ALL to expand match results to one row per team, then conditional SUM.",
+      "hints": {
+        "L1": "Each match has home and away team. UNION ALL to create one row per team per match.",
+        "L2": "CASE WHEN host_goals > guest_goals THEN 3 WHEN equal THEN 1 ELSE 0. Symmetric for away team.",
+        "L3": "SELECT t.team_id, t.team_name, COALESCE(SUM(pts),0) AS num_points FROM Teams t LEFT JOIN (SELECT host_team id, CASE WHEN host_goals>guest_goals THEN 3 WHEN host_goals=guest_goals THEN 1 ELSE 0 END pts FROM Matches UNION ALL SELECT guest_team, CASE WHEN guest_goals>host_goals THEN 3 WHEN guest_goals=host_goals THEN 1 ELSE 0 END FROM Matches) p ON t.team_id=p.id GROUP BY t.team_id ORDER BY num_points DESC, t.team_id"
+      },
+      "optimal_solution": "SELECT t.team_id, t.team_name, COALESCE(SUM(p.pts), 0) AS num_points\nFROM Teams t LEFT JOIN (\n  SELECT host_team AS id, CASE WHEN host_goals>guest_goals THEN 3 WHEN host_goals=guest_goals THEN 1 ELSE 0 END AS pts FROM Matches\n  UNION ALL\n  SELECT guest_team, CASE WHEN guest_goals>host_goals THEN 3 WHEN guest_goals=host_goals THEN 1 ELSE 0 END FROM Matches\n) p ON t.team_id = p.id\nGROUP BY t.team_id ORDER BY num_points DESC, t.team_id;"
+    },
+    {
+      "id": "sql_043",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / CTE",
+      "title": "The Most Frequently Ordered Products for Each Customer",
+      "url": "https://leetcode.com/problems/the-most-frequently-ordered-products-for-each-customer/",
+      "description": "Find the most frequently ordered product(s) for each customer.",
+      "key_concept": "RANK() OVER (PARTITION BY customer ORDER BY COUNT DESC) = 1. Handles ties.",
+      "hints": {
+        "L1": "Count orders per (customer, product). Rank within customer by count descending. Keep rank = 1.",
+        "L2": "WITH cte AS (SELECT customer_id, product_id, RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(*) DESC) AS rk FROM Orders GROUP BY customer_id, product_id)",
+        "L3": "WITH cte AS (SELECT customer_id, product_id, RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(*) DESC) AS rk FROM Orders GROUP BY customer_id, product_id) SELECT c.customer_id, c.product_id, p.product_name FROM cte c JOIN Products p ON c.product_id=p.product_id WHERE c.rk=1"
+      },
+      "optimal_solution": "WITH cte AS (\n  SELECT customer_id, product_id, RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(*) DESC) AS rk\n  FROM Orders GROUP BY customer_id, product_id\n)\nSELECT c.customer_id, c.product_id, p.product_name\nFROM cte c JOIN Products p ON c.product_id = p.product_id WHERE c.rk = 1;"
+    },
+    {
+      "id": "sql_044",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / LEAD",
+      "title": "Biggest Window Between Visits",
+      "url": "https://leetcode.com/problems/biggest-window-between-visits/",
+      "description": "For each user, find the largest window (in days) between consecutive visits, including to 2021-01-01.",
+      "key_concept": "LEAD() window function with sentinel date. DATEDIFF between current and next visit.",
+      "hints": {
+        "L1": "Use LEAD to get next visit_date per user. Compute gap. Include gap from last visit to 2021-01-01.",
+        "L2": "LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) gives next date.",
+        "L3": "WITH t AS (SELECT user_id, visit_date, LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) AS next_visit FROM UserVisits) SELECT user_id, MAX(DATEDIFF(next_visit, visit_date)) AS biggest_window FROM t GROUP BY user_id"
+      },
+      "optimal_solution": "WITH t AS (\n  SELECT user_id, visit_date,\n    LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date) AS next_visit\n  FROM UserVisits\n)\nSELECT user_id, MAX(DATEDIFF(next_visit, visit_date)) AS biggest_window FROM t GROUP BY user_id;"
+    },
+    {
+      "id": "sql_045",
+      "difficulty": "Medium",
+      "category": "WINDOW FUNCTION / PROJECT",
+      "title": "Project Employees III",
+      "url": "https://leetcode.com/problems/project-employees-iii/",
+      "description": "Find employees with the most experience for each project. Include ties.",
+      "key_concept": "Filter with (project_id, experience_years) IN (SELECT project_id, MAX(experience_years) ...).",
+      "hints": {
+        "L1": "For each project, find the maximum experience. Return all employees with that max.",
+        "L2": "(p.project_id, e.experience_years) IN (SELECT project_id, MAX(exp) from joined table GROUP BY project_id)",
+        "L3": "SELECT p.project_id, p.employee_id FROM Project p JOIN Employee e ON p.employee_id = e.employee_id WHERE (p.project_id, e.experience_years) IN (SELECT p2.project_id, MAX(e2.experience_years) FROM Project p2 JOIN Employee e2 ON p2.employee_id = e2.employee_id GROUP BY p2.project_id)"
+      },
+      "optimal_solution": "SELECT p.project_id, p.employee_id FROM Project p JOIN Employee e ON p.employee_id = e.employee_id\nWHERE (p.project_id, e.experience_years) IN (\n  SELECT p2.project_id, MAX(e2.experience_years) FROM Project p2 JOIN Employee e2 ON p2.employee_id = e2.employee_id GROUP BY p2.project_id\n);"
+    },
+    {
+      "id": "sql_046",
+      "difficulty": "Medium",
+      "category": "GAPS AND ISLANDS",
+      "title": "Find the Start and End Number of Continuous Ranges",
+      "url": "https://leetcode.com/problems/find-the-start-and-end-number-of-continuous-ranges/",
+      "description": "Given sorted log_ids, find the start and end of each continuous range.",
+      "key_concept": "Gaps-and-islands: log_id - ROW_NUMBER() gives a constant for consecutive sequences. Group by this key.",
+      "hints": {
+        "L1": "Consecutive integers form islands. Subtract ROW_NUMBER from value to get a group identifier.",
+        "L2": "grouping_key = log_id - ROW_NUMBER() OVER (ORDER BY log_id). Same island = same group key.",
+        "L3": "WITH t AS (SELECT log_id, log_id - ROW_NUMBER() OVER (ORDER BY log_id) AS grp FROM Logs) SELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id FROM t GROUP BY grp ORDER BY start_id"
+      },
+      "optimal_solution": "WITH t AS (SELECT log_id, log_id - ROW_NUMBER() OVER (ORDER BY log_id) AS grp FROM Logs)\nSELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id FROM t GROUP BY grp ORDER BY start_id;"
+    },
+    {
+      "id": "sql_047",
+      "difficulty": "Medium",
+      "category": "RECURSIVE CTE",
+      "title": "All People Report to the Given Manager",
+      "url": "https://leetcode.com/problems/all-people-report-to-the-given-manager/",
+      "description": "Find all employee IDs who directly or indirectly report to manager_id = 1.",
+      "key_concept": "Recursive CTE to traverse management hierarchy. Base: direct reports. Recursive: their reports.",
+      "hints": {
+        "L1": "This is a tree traversal. Use a recursive CTE.",
+        "L2": "Anchor: SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1. Recursive: JOIN on manager_id = cte.employee_id.",
+        "L3": "WITH RECURSIVE cte AS (SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1 UNION ALL SELECT e.employee_id FROM Employees e JOIN cte ON e.manager_id = cte.employee_id WHERE e.employee_id != 1) SELECT employee_id FROM cte"
+      },
+      "optimal_solution": "WITH RECURSIVE cte AS (\n  SELECT employee_id FROM Employees WHERE manager_id = 1 AND employee_id != 1\n  UNION ALL\n  SELECT e.employee_id FROM Employees e JOIN cte ON e.manager_id = cte.employee_id WHERE e.employee_id != 1\n)\nSELECT employee_id FROM cte;"
+    },
+    {
+      "id": "sql_048",
+      "difficulty": "Hard",
+      "category": "WINDOW FUNCTION / ADVANCED",
+      "title": "Find the Quiet Students in All Exams",
+      "url": "https://leetcode.com/problems/find-the-quiet-students-in-all-exams/",
+      "description": "Find students who never scored the highest or lowest in any exam they took.",
+      "key_concept": "Exclude students who ever appear as max or min scorer in any exam they attended.",
+      "hints": {
+        "L1": "Find students who ever scored the max or min in any exam. Exclude them from all students who took exams.",
+        "L2": "Get max/min per exam. Find student_ids matching those scores in their respective exams. Negate.",
+        "L3": "WITH exam_stats AS (SELECT exam_id, MAX(score) max_s, MIN(score) min_s FROM Exam GROUP BY exam_id) SELECT DISTINCT s.student_id, s.student_name FROM Student s JOIN Exam e ON s.student_id=e.student_id WHERE s.student_id NOT IN (SELECT e2.student_id FROM Exam e2 JOIN exam_stats es ON e2.exam_id=es.exam_id WHERE e2.score=es.max_s OR e2.score=es.min_s) ORDER BY s.student_id"
+      },
+      "optimal_solution": "WITH exam_stats AS (SELECT exam_id, MAX(score) AS max_s, MIN(score) AS min_s FROM Exam GROUP BY exam_id)\nSELECT DISTINCT s.student_id, s.student_name FROM Student s JOIN Exam e ON s.student_id = e.student_id\nWHERE s.student_id NOT IN (\n  SELECT e2.student_id FROM Exam e2 JOIN exam_stats es ON e2.exam_id = es.exam_id\n  WHERE e2.score = es.max_s OR e2.score = es.min_s\n) ORDER BY s.student_id;"
+    },
+    {
+      "id": "sql_049",
+      "difficulty": "Hard",
+      "category": "RECURSIVE CTE",
+      "title": "Find the Subtasks That Did Not Execute",
+      "url": "https://leetcode.com/problems/find-the-subtasks-that-did-not-execute/",
+      "description": "Given Tasks with subtasks_count and Executed with completed subtasks, find (task_id, subtask_id) not executed.",
+      "key_concept": "Recursive CTE to generate all expected subtask numbers (1..N), then anti-join with executed.",
+      "hints": {
+        "L1": "First generate all expected (task_id, subtask_id) pairs. Then find which aren't in Executed.",
+        "L2": "Recursive CTE: anchor = (task_id, subtasks_count). Recursive: decrement subtask_id until 1.",
+        "L3": "WITH RECURSIVE gen AS (SELECT task_id, subtasks_count AS subtask_id FROM Tasks UNION ALL SELECT task_id, subtask_id-1 FROM gen WHERE subtask_id>1) SELECT g.task_id, g.subtask_id FROM gen g LEFT JOIN Executed e ON g.task_id=e.task_id AND g.subtask_id=e.subtask_id WHERE e.subtask_id IS NULL"
+      },
+      "optimal_solution": "WITH RECURSIVE gen AS (\n  SELECT task_id, subtasks_count AS subtask_id FROM Tasks\n  UNION ALL\n  SELECT task_id, subtask_id - 1 FROM gen WHERE subtask_id > 1\n)\nSELECT g.task_id, g.subtask_id FROM gen g\nLEFT JOIN Executed e ON g.task_id = e.task_id AND g.subtask_id = e.subtask_id\nWHERE e.subtask_id IS NULL;"
+    },
+    {
+      "id": "sql_050",
+      "difficulty": "Hard",
+      "category": "GAPS AND ISLANDS / ADVANCED",
+      "title": "Report Contiguous Dates",
+      "url": "https://leetcode.com/problems/report-contiguous-dates/",
+      "description": "Find contiguous date ranges in Failed and Succeeded tables. Report period_state, start_date, end_date.",
+      "key_concept": "Gaps-and-islands with two period types. UNION ALL both, apply ROW_NUMBER grouping per state.",
+      "hints": {
+        "L1": "UNION ALL Failed and Succeeded with state labels. Apply gaps-and-islands per state.",
+        "L2": "Island key: DATE - ROW_NUMBER() OVER (PARTITION BY state ORDER BY date). Same key = same island.",
+        "L3": "WITH all_dates AS (SELECT fail_date dt,'failed' state FROM Failed WHERE YEAR(fail_date)=2019 UNION ALL SELECT success_date,'succeeded' FROM Succeeded WHERE YEAR(success_date)=2019), grp AS (SELECT dt, state, SUBDATE(dt, ROW_NUMBER() OVER (PARTITION BY state ORDER BY dt)) grp_key FROM all_dates) SELECT state period_state, MIN(dt) start_date, MAX(dt) end_date FROM grp GROUP BY state, grp_key ORDER BY start_date"
+      },
+      "optimal_solution": "WITH all_dates AS (\n  SELECT fail_date AS dt, 'failed' AS state FROM Failed WHERE YEAR(fail_date) = 2019\n  UNION ALL SELECT success_date, 'succeeded' FROM Succeeded WHERE YEAR(success_date) = 2019\n),\ngrp AS (\n  SELECT dt, state, SUBDATE(dt, ROW_NUMBER() OVER (PARTITION BY state ORDER BY dt)) AS grp_key FROM all_dates\n)\nSELECT state AS period_state, MIN(dt) AS start_date, MAX(dt) AS end_date\nFROM grp GROUP BY state, grp_key ORDER BY start_date;"
+    }
+  ],
+  "db_concepts": [
+    {
+      "id": "db_c01",
+      "title": "Indexes",
+      "category": "Database Internals",
+      "summary": "B-tree index: O(log n) lookup, supports range queries. Hash index: O(1) lookup, equality only. Covering index: query satisfied entirely by index. Composite index: (a,b,c) — useful for (a), (a,b), (a,b,c) but NOT (b,c) alone.",
+      "interview_questions": [
+        "When would you NOT add an index? (High write volume — every write must update the index)",
+        "What is a covering index and when does the query planner use index-only scans?",
+        "Why does a composite index on (a, b) not help a query filtering only on column b?",
+        "What's the difference between a clustered index and a non-clustered index?"
+      ],
+      "key_insight": "Indexes trade write performance for read performance. Profile before adding. Over-indexing slows writes."
+    },
+    {
+      "id": "db_c02",
+      "title": "Query Optimization",
+      "category": "Database Internals",
+      "summary": "EXPLAIN shows query plan. Key patterns: seq scan (avoid on large filtered tables), index scan, nested loop (bad at scale), hash join (good for large unsorted joins). N+1 problem: avoid per-row queries in loops.",
+      "interview_questions": [
+        "How do you diagnose a slow query? What does EXPLAIN ANALYZE show?",
+        "What is the N+1 problem and how do you fix it?",
+        "When does the query planner ignore your index? (low cardinality, function on indexed column, type mismatch)"
+      ],
+      "key_insight": "Avoid functions on indexed columns in WHERE. Use JOINs instead of correlated subqueries. Maintain stats with ANALYZE."
+    },
+    {
+      "id": "db_c03",
+      "title": "Transactions and ACID",
+      "category": "Database Internals",
+      "summary": "Atomicity, Consistency, Isolation, Durability. Isolation levels: READ UNCOMMITTED → READ COMMITTED → REPEATABLE READ → SERIALIZABLE. Higher isolation = more locking = less throughput.",
+      "interview_questions": [
+        "What are the 4 isolation levels and which anomalies does each prevent?",
+        "What is a phantom read? Dirty read? Non-repeatable read?",
+        "How does optimistic locking differ from pessimistic locking?"
+      ],
+      "key_insight": "Default: READ COMMITTED. REPEATABLE READ prevents non-repeatable reads but not phantoms. SERIALIZABLE prevents all anomalies but kills throughput."
+    },
+    {
+      "id": "db_c04",
+      "title": "Sharding and Partitioning",
+      "category": "Distributed Systems",
+      "summary": "Horizontal sharding: split rows across nodes by key. Vertical partitioning: split columns. Strategies: range (dates), hash (even distribution), list (regions). Hotspot: popular shard overloaded.",
+      "interview_questions": [
+        "How would you shard a users table for 1 billion users? What key?",
+        "What problems does sharding introduce? (cross-shard joins, distributed transactions, rebalancing)",
+        "What is consistent hashing and why does it reduce reshuffling?"
+      ],
+      "key_insight": "Choose shard key to distribute load AND avoid cross-shard queries for common access patterns."
+    },
+    {
+      "id": "db_c05",
+      "title": "Replication",
+      "category": "Distributed Systems",
+      "summary": "Leader-follower: writes to leader, reads from followers. Sync: wait for follower ACK (strong consistency, higher latency). Async: don't wait (lower latency, risk of data loss on failover).",
+      "interview_questions": [
+        "Sync vs async replication tradeoffs?",
+        "What is read-your-writes consistency? How to implement with replicas?",
+        "How does leader election work in Raft?"
+      ],
+      "key_insight": "Async replication trades durability for latency. Most real systems use semi-sync: ACK from at least one replica."
+    },
+    {
+      "id": "db_c06",
+      "title": "CAP Theorem",
+      "category": "Distributed Systems",
+      "summary": "Consistency, Availability, Partition Tolerance — pick 2 (but P is mandatory in distributed systems, so really CP vs AP). Eventual consistency: replicas converge eventually. Strong consistency: all reads see latest write.",
+      "interview_questions": [
+        "Where does PostgreSQL vs Cassandra vs DynamoDB sit on CAP?",
+        "What is eventual consistency? Name 3 systems that use it.",
+        "What is linearizability vs serializability?"
+      ],
+      "key_insight": "CP (PostgreSQL, HBase): sacrifice availability on partition. AP (Cassandra, DynamoDB): sacrifice consistency."
+    },
+    {
+      "id": "db_c07",
+      "title": "Connection Pooling",
+      "category": "Database Internals",
+      "summary": "Opening a DB connection is expensive. Pools reuse connections. Pool size: CPU_cores × 2 + disk_spindles (HikariCP). Too many connections = context switching. Too few = queuing. PgBouncer for PostgreSQL at scale.",
+      "interview_questions": [
+        "What happens without connection pooling at scale?",
+        "What is the right pool size? How do you tune it?",
+        "What is a connection leak? How to detect and fix?"
+      ],
+      "key_insight": "1000 app servers × direct connections = connection exhaustion. Use a pool proxy. Pool size ≠ thread count."
+    }
+  ]
+}
