@@ -1,0 +1,23 @@
+{
+  "id": "sql_050",
+  "difficulty": "Hard",
+  "category": "GAPS AND ISLANDS / ADVANCED",
+  "title": "Report Contiguous Dates",
+  "url": "https://leetcode.com/problems/report-contiguous-dates/",
+  "description": "Find contiguous date ranges in Failed and Succeeded tables. Report period_state, start_date, end_date.",
+  "constraints": [
+    "fail_date is the primary key of Failed",
+    "success_date is the primary key of Succeeded",
+    "Only dates in year 2019 should be considered",
+    "No date appears in both tables",
+    "Contiguous ranges within the same state are merged; a switch in state starts a new range",
+    "Result ordered by start_date ascending"
+  ],
+  "key_concept": "Gaps-and-islands with two period types. UNION ALL both, apply ROW_NUMBER grouping per state.",
+  "hints": {
+    "L1": "UNION ALL Failed and Succeeded with state labels. Apply gaps-and-islands per state.",
+    "L2": "Island key: DATE - ROW_NUMBER() OVER (PARTITION BY state ORDER BY date). Same key = same island.",
+    "L3": "WITH all_dates AS (SELECT fail_date dt,'failed' state FROM Failed WHERE YEAR(fail_date)=2019 UNION ALL SELECT success_date,'succeeded' FROM Succeeded WHERE YEAR(success_date)=2019), grp AS (SELECT dt, state, SUBDATE(dt, ROW_NUMBER() OVER (PARTITION BY state ORDER BY dt)) grp_key FROM all_dates) SELECT state period_state, MIN(dt) start_date, MAX(dt) end_date FROM grp GROUP BY state, grp_key ORDER BY start_date"
+  },
+  "optimal_solution": "WITH all_dates AS (\n  SELECT fail_date AS dt, 'failed' AS state FROM Failed WHERE YEAR(fail_date) = 2019\n  UNION ALL SELECT success_date, 'succeeded' FROM Succeeded WHERE YEAR(success_date) = 2019\n),\ngrp AS (\n  SELECT dt, state, SUBDATE(dt, ROW_NUMBER() OVER (PARTITION BY state ORDER BY dt)) AS grp_key FROM all_dates\n)\nSELECT state AS period_state, MIN(dt) AS start_date, MAX(dt) AS end_date\nFROM grp GROUP BY state, grp_key ORDER BY start_date;"
+}
