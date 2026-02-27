@@ -1,0 +1,621 @@
+{
+  "schema_version": "2.0",
+  "system_design": {
+    "schema_version": "2.0",
+    "levels": {
+      "0_concepts": {
+        "description": "Foundational concepts — no mock interviews yet",
+        "topics": [
+          {
+            "id": "sd_c01",
+            "title": "Scalability Fundamentals",
+            "week": 5,
+            "day": 1,
+            "subtopics": [
+              "Vertical vs horizontal scaling",
+              "Load balancers (L4 vs L7)",
+              "CDN basics",
+              "Caching layers"
+            ]
+          },
+          {
+            "id": "sd_c02",
+            "title": "Database Fundamentals",
+            "week": 5,
+            "day": 1,
+            "subtopics": [
+              "SQL vs NoSQL tradeoffs",
+              "ACID properties",
+              "CAP theorem",
+              "Replication (master-slave, master-master)"
+            ]
+          },
+          {
+            "id": "sd_c03",
+            "title": "Caching Strategies",
+            "week": 5,
+            "day": 2,
+            "subtopics": [
+              "Cache-aside, write-through, write-back",
+              "LRU/LFU eviction",
+              "Redis vs Memcached",
+              "Cache invalidation problem"
+            ]
+          },
+          {
+            "id": "sd_c04",
+            "title": "Message Queues & Async",
+            "week": 5,
+            "day": 2,
+            "subtopics": [
+              "Kafka vs RabbitMQ",
+              "Producer-consumer pattern",
+              "At-least-once vs exactly-once delivery",
+              "Dead letter queues"
+            ]
+          },
+          {
+            "id": "sd_c05",
+            "title": "API Design",
+            "week": 5,
+            "day": 3,
+            "subtopics": [
+              "REST vs GraphQL vs gRPC",
+              "Pagination strategies",
+              "Rate limiting algorithms",
+              "Versioning strategies"
+            ]
+          },
+          {
+            "id": "sd_c06",
+            "title": "Consistency & Availability",
+            "week": 5,
+            "day": 3,
+            "subtopics": [
+              "Strong vs eventual consistency",
+              "Read-your-writes",
+              "Monotonic reads",
+              "Conflict resolution (CRDTs, vector clocks)"
+            ]
+          },
+          {
+            "id": "sd_c07",
+            "title": "Storage Systems",
+            "week": 5,
+            "day": 4,
+            "subtopics": [
+              "Object storage (S3)",
+              "Block vs file storage",
+              "LSM trees vs B-trees",
+              "Write-ahead logging"
+            ]
+          },
+          {
+            "id": "sd_c08",
+            "title": "Networking Basics",
+            "week": 5,
+            "day": 4,
+            "subtopics": [
+              "TCP vs UDP",
+              "HTTP/2 vs HTTP/3",
+              "WebSockets vs SSE",
+              "DNS and load balancing"
+            ]
+          },
+          {
+            "id": "sd_c09",
+            "title": "Sharding & Partitioning",
+            "week": 5,
+            "day": 5,
+            "subtopics": [
+              "Horizontal sharding strategies",
+              "Consistent hashing",
+              "Hot spots and rebalancing",
+              "Cross-shard queries"
+            ]
+          },
+          {
+            "id": "sd_c10",
+            "title": "Microservices",
+            "week": 5,
+            "day": 5,
+            "subtopics": [
+              "Service discovery",
+              "Circuit breakers",
+              "Saga pattern for distributed transactions",
+              "Service mesh basics"
+            ]
+          },
+          {
+            "id": "sd_c11",
+            "title": "Security Basics",
+            "week": 6,
+            "day": 1,
+            "subtopics": [
+              "Authentication vs authorization",
+              "JWT vs sessions",
+              "OAuth2 and OIDC",
+              "HTTPS and TLS"
+            ]
+          },
+          {
+            "id": "sd_c12",
+            "title": "Observability",
+            "week": 6,
+            "day": 1,
+            "subtopics": [
+              "Metrics, logs, traces",
+              "Distributed tracing (Jaeger)",
+              "SLIs/SLOs/SLAs",
+              "Alerting strategies"
+            ]
+          },
+          {
+            "id": "sd_c13",
+            "title": "Back-of-Envelope Estimation",
+            "week": 6,
+            "day": 2,
+            "subtopics": [
+              "DAU/MAU estimates",
+              "Storage calculations",
+              "Bandwidth estimates",
+              "QPS estimations"
+            ]
+          },
+          {
+            "id": "sd_c14",
+            "title": "Reliability Patterns",
+            "week": 6,
+            "day": 2,
+            "subtopics": [
+              "Retry with exponential backoff",
+              "Bulkhead pattern",
+              "Fallback patterns",
+              "Chaos engineering"
+            ]
+          },
+          {
+            "id": "sd_c15",
+            "title": "Data Pipelines",
+            "week": 6,
+            "day": 3,
+            "subtopics": [
+              "Lambda vs Kappa architecture",
+              "Batch vs stream processing",
+              "Spark vs Flink",
+              "ETL vs ELT"
+            ]
+          }
+        ]
+      },
+      "1_ood": {
+        "description": "Object-Oriented Design problems — smaller scope systems",
+        "problems": [
+          {
+            "id": "sd_o01",
+            "title": "Design a Parking Lot",
+            "week": 6,
+            "day": 3,
+            "focus": [
+              "Classes and relationships",
+              "Ticket/payment system",
+              "Different vehicle types",
+              "Extensibility"
+            ]
+          },
+          {
+            "id": "sd_o02",
+            "title": "Design a Library Management System",
+            "week": 6,
+            "day": 4,
+            "focus": [
+              "Book catalog",
+              "Member management",
+              "Borrow/return flow",
+              "Reservation system"
+            ]
+          },
+          {
+            "id": "sd_o03",
+            "title": "Design an ATM",
+            "week": 6,
+            "day": 4,
+            "focus": [
+              "State machine",
+              "Transaction atomicity",
+              "Card/PIN auth",
+              "Cash dispensing"
+            ]
+          },
+          {
+            "id": "sd_o04",
+            "title": "Design a Chess Game",
+            "week": 6,
+            "day": 5,
+            "focus": [
+              "Piece class hierarchy",
+              "Board representation",
+              "Move validation",
+              "Check/checkmate detection"
+            ]
+          },
+          {
+            "id": "sd_o05",
+            "title": "Design an Elevator System",
+            "week": 6,
+            "day": 5,
+            "focus": [
+              "Scheduling algorithm",
+              "Multiple elevators",
+              "Floor requests",
+              "State machine per elevator"
+            ]
+          },
+          {
+            "id": "sd_o06",
+            "title": "Design a Movie Ticket Booking System",
+            "week": 7,
+            "day": 1,
+            "focus": [
+              "Seat selection",
+              "Concurrency for same-seat booking",
+              "Payment flow",
+              "Cancellation policy"
+            ]
+          }
+        ]
+      },
+      "2_small_web": {
+        "description": "Small web system design — single service, backend focus",
+        "problems": [
+          {
+            "id": "sd_s01",
+            "title": "Design a URL Shortener (TinyURL)",
+            "week": 7,
+            "day": 1,
+            "focus": [
+              "Hash generation",
+              "Redirect mechanics",
+              "Custom aliases",
+              "Analytics"
+            ],
+            "companies": [
+              "google",
+              "amazon",
+              "twitter"
+            ]
+          },
+          {
+            "id": "sd_s02",
+            "title": "Design a Key-Value Store",
+            "week": 7,
+            "day": 2,
+            "focus": [
+              "Storage engine (LSM vs B-tree)",
+              "Replication",
+              "Consistency model",
+              "Failure handling"
+            ],
+            "companies": [
+              "amazon",
+              "google",
+              "microsoft"
+            ]
+          },
+          {
+            "id": "sd_s03",
+            "title": "Design a Rate Limiter",
+            "week": 7,
+            "day": 2,
+            "focus": [
+              "Token bucket vs sliding window",
+              "Distributed rate limiting",
+              "Redis implementation",
+              "API gateway integration"
+            ],
+            "companies": [
+              "stripe",
+              "cloudflare"
+            ]
+          },
+          {
+            "id": "sd_s04",
+            "title": "Design a Web Crawler",
+            "week": 7,
+            "day": 3,
+            "focus": [
+              "BFS vs DFS crawling",
+              "Deduplication",
+              "Politeness policy",
+              "Distributed crawlers"
+            ],
+            "companies": [
+              "google",
+              "amazon"
+            ]
+          }
+        ]
+      },
+      "3_distributed": {
+        "description": "Distributed systems — multi-service, consensus, replication",
+        "problems": [
+          {
+            "id": "sd_d01",
+            "title": "Design Twitter/X Feed",
+            "week": 7,
+            "day": 3,
+            "focus": [
+              "Fan-out vs pull on read",
+              "Celebrity problem",
+              "Timeline generation",
+              "Notification system"
+            ],
+            "companies": [
+              "twitter",
+              "facebook",
+              "instagram"
+            ]
+          },
+          {
+            "id": "sd_d02",
+            "title": "Design WhatsApp/Messaging",
+            "week": 7,
+            "day": 4,
+            "focus": [
+              "Real-time delivery (WebSocket)",
+              "Message ordering",
+              "End-to-end encryption",
+              "Offline delivery"
+            ],
+            "companies": [
+              "facebook",
+              "whatsapp",
+              "telegram"
+            ]
+          },
+          {
+            "id": "sd_d03",
+            "title": "Design YouTube/Video Streaming",
+            "week": 7,
+            "day": 4,
+            "focus": [
+              "Video upload/transcoding pipeline",
+              "CDN and chunked streaming",
+              "Recommendation engine",
+              "View counting"
+            ],
+            "companies": [
+              "youtube",
+              "netflix",
+              "twitch"
+            ]
+          },
+          {
+            "id": "sd_d04",
+            "title": "Design a Distributed Cache (Redis-like)",
+            "week": 7,
+            "day": 5,
+            "focus": [
+              "Consistent hashing",
+              "Replication and failover",
+              "Eviction policies",
+              "Cluster topology"
+            ],
+            "companies": [
+              "amazon",
+              "microsoft"
+            ]
+          },
+          {
+            "id": "sd_d05",
+            "title": "Design Uber/Lyft Ride Sharing",
+            "week": 7,
+            "day": 5,
+            "focus": [
+              "Driver location updates",
+              "Matching algorithm",
+              "Surge pricing",
+              "Trip lifecycle"
+            ],
+            "companies": [
+              "uber",
+              "lyft",
+              "doordash"
+            ]
+          },
+          {
+            "id": "sd_d06",
+            "title": "Design Google Search (Simplified)",
+            "week": 8,
+            "day": 1,
+            "focus": [
+              "Inverted index",
+              "PageRank basics",
+              "Query processing pipeline",
+              "Spell correction"
+            ],
+            "companies": [
+              "google",
+              "bing"
+            ]
+          },
+          {
+            "id": "sd_d07",
+            "title": "Design Amazon S3 (Object Storage)",
+            "week": 8,
+            "day": 1,
+            "focus": [
+              "Chunked uploads",
+              "Consistency guarantees",
+              "Geo-replication",
+              "Access control"
+            ],
+            "companies": [
+              "amazon",
+              "dropbox",
+              "google"
+            ]
+          },
+          {
+            "id": "sd_d08",
+            "title": "Design a Notification Service",
+            "week": 8,
+            "day": 2,
+            "focus": [
+              "Multi-channel delivery (push, SMS, email)",
+              "Priority queuing",
+              "Rate limiting",
+              "Delivery guarantees"
+            ],
+            "companies": [
+              "facebook",
+              "amazon",
+              "twilio"
+            ]
+          }
+        ]
+      },
+      "4_large_scale": {
+        "description": "Large scale — billions of users, cross-DC, global systems",
+        "problems": [
+          {
+            "id": "sd_l01",
+            "title": "Design Google Maps / Navigation",
+            "week": 8,
+            "day": 2,
+            "focus": [
+              "Graph for routing",
+              "Real-time traffic",
+              "Tile serving at scale",
+              "ETA calculation"
+            ],
+            "companies": [
+              "google",
+              "apple",
+              "uber"
+            ]
+          },
+          {
+            "id": "sd_l02",
+            "title": "Design a Distributed Message Queue (Kafka-like)",
+            "week": 8,
+            "day": 3,
+            "focus": [
+              "Log-structured storage",
+              "Consumer groups",
+              "Partition assignment",
+              "At-least-once vs exactly-once"
+            ],
+            "companies": [
+              "linkedin",
+              "netflix",
+              "uber"
+            ]
+          },
+          {
+            "id": "sd_l03",
+            "title": "Design Facebook/Instagram (Social Graph)",
+            "week": 8,
+            "day": 3,
+            "focus": [
+              "Social graph storage",
+              "News feed ranking",
+              "Photo storage at scale",
+              "Friendship graph queries"
+            ],
+            "companies": [
+              "facebook",
+              "instagram",
+              "linkedin"
+            ]
+          },
+          {
+            "id": "sd_l04",
+            "title": "Design Netflix Content Delivery",
+            "week": 8,
+            "day": 4,
+            "focus": [
+              "Global CDN architecture",
+              "ISP caching (Open Connect)",
+              "Adaptive bitrate streaming",
+              "Personalization pipeline"
+            ],
+            "companies": [
+              "netflix",
+              "disney",
+              "hulu"
+            ]
+          },
+          {
+            "id": "sd_l05",
+            "title": "Design a Distributed Database (Cassandra/DynamoDB-like)",
+            "week": 8,
+            "day": 4,
+            "focus": [
+              "Consistent hashing ring",
+              "Gossip protocol",
+              "Read/write quorum",
+              "Vector clocks"
+            ],
+            "companies": [
+              "amazon",
+              "netflix",
+              "apple"
+            ]
+          },
+          {
+            "id": "sd_l06",
+            "title": "Design a Metrics and Monitoring System (Prometheus-like)",
+            "week": 8,
+            "day": 5,
+            "focus": [
+              "Time series storage",
+              "Aggregation pipeline",
+              "Alerting engine",
+              "Long-term retention"
+            ],
+            "companies": [
+              "google",
+              "datadog",
+              "splunk"
+            ]
+          },
+          {
+            "id": "sd_l07",
+            "title": "Design a Payment System (Stripe-like)",
+            "week": 9,
+            "day": 1,
+            "focus": [
+              "Idempotency",
+              "Distributed transactions",
+              "Fraud detection",
+              "Reconciliation"
+            ],
+            "companies": [
+              "stripe",
+              "paypal",
+              "square"
+            ]
+          },
+          {
+            "id": "sd_l08",
+            "title": "Design a Global ID Generator (Snowflake-like)",
+            "week": 9,
+            "day": 1,
+            "focus": [
+              "64-bit ID structure",
+              "Clock synchronization",
+              "Monotonicity guarantee",
+              "Datacenter coordination"
+            ],
+            "companies": [
+              "twitter",
+              "instagram",
+              "discord"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
