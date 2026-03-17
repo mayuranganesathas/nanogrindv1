@@ -1,4 +1,27 @@
-.claude/
-scripts/
-*.pyc
+# Python
+.venv/
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data files (not tracked — live on VM)
+workspace/
+data/
+*.jsonl
+
+# Env
+.env
+*.env
+
+# Full config (contains secrets — keep on VM only)
+config.json
