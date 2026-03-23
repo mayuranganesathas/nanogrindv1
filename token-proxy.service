@@ -1,0 +1,16 @@
+[Unit]
+Description=Token logging proxy for llama-server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/mayu/nanogrindv2
+ExecStart=/home/mayu/nanogrindv2/.venv/bin/python token_proxy.py
+Restart=on-failure
+RestartSec=5
+Environment=PROXY_UPSTREAM=http://10.0.0.132:8080
+Environment=PROXY_PORT=18791
+Environment=PROXY_LOG_DIR=/home/mayu/nanogrindv2/logs
+
+[Install]
+WantedBy=default.target
