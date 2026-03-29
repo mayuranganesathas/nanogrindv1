@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0",
+  "curriculum_version": "2.0",
+  "start_date": "2026-03-17",
+  "last_active_date": "2026-03-25",
+  "streak_days": 3,
+  "rest_days": [
+    "sunday"
+  ],
+  "completed_problem_ids": [
+    "nc_001",
+    "nc_002",
+    "nc_003",
+    "nc_004",
+    "nc_005",
+    "nc_006",
+    "nc_007",
+    "nc_008",
+    "nc_009",
+    "nc_010",
+    "nc_013",
+    "nc_014",
+    "nc_011",
+    "nc_012",
+    "nc_015",
+    "nc_016",
+    "nc_017",
+    "nc_018",
+    "nc_019",
+    "nc_020",
+    "nc_021",
+    "nc_022",
+    "nc_023",
+    "nc_024",
+    "nc_025",
+    "nc_026"
+  ],
+  "skipped_problem_ids": [],
+  "completed_pattern_ids": [
+    "gof_001",
+    "gof_002"
+  ],
+  "completed_concept_ids": [
+    "ml_m01"
+  ],
+  "completed_design_ids": [],
+  "completed_behavioral_ids": [],
+  "completed_sql_ids": [
+    "sql_001",
+    "sql_002",
+    "sql_003",
+    "sql_004",
+    "sql_005"
+  ],
+  "completed_core_ids": [],
+  "postponed_problem_ids": [],
+  "postponed_pattern_ids": [],
+  "postponed_concept_ids": [
+    "ml_m02"
+  ],
+  "postponed_behavioral_ids": [],
+  "postponed_sql_ids": [],
+  "active_session": null,
+  "stats": {
+    "total_problems_solved": 26,
+    "total_design_mocks": 0,
+    "total_pattern_sessions": 2,
+    "total_reviews": 0,
+    "total_behavioral_sessions": 0,
+    "total_sql_solved": 5,
+    "total_aiml_sessions": 1
+  },
+  "in_progress": {
+    "track": "algo",
+    "id": "nc_027",
+    "start_time": "2026-03-29T00:10:50.947228+00:00"
+  },
+  "postponed_core_ids": [],
+  "completed_ds_ids": [],
+  "postponed_ds_ids": [],
+  "postponed_design_ids": [],
+  "week_start": "2026-03-23",
+  "week_completions": {
+    "algo": 6,
+    "sql": 2,
+    "gof": 1,
+    "aiml": 0,
+    "behavioral": 0,
+    "system_design": 0,
+    "nc_core": 0,
+    "ds": 0
+  },
+  "last_quiz_id": "nc_011",
+  "quiz_today_count": 0,
+  "quiz_today_date": null,
+  "last_lang_quiz_id": "py_023",
+  "completed_lang_quiz_ids": [],
+  "last_drill_id": "gof_001",
+  "drill_progress": {
+    "gof_002": {
+      "order": [0, 1, 2, 3, 4, 5, 6],
+      "cycle_asked": [0, 1, 2],
+      "history": [
+        {"index": 0, "asked_on": "2026-03-25"},
+        {"index": 1, "asked_on": "2026-03-25"},
+        {"index": 2, "asked_on": "2026-03-25"}
+      ]
+    },
+    "gof_001": {
+      "order": [0, 1, 2, 3, 4, 5, 6],
+      "cycle_asked": [0, 1, 2],
+      "history": [
+        {"index": 0, "asked_on": "2026-03-26"},
+        {"index": 1, "asked_on": "2026-03-26"},
+        {"index": 2, "asked_on": "2026-03-26"}
+      ]
+    }
+  }
+}
