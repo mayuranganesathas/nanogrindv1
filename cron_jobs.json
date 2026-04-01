@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "8ab0af9f",
+      "name": "🌅 Morning Interview Prep Reminder",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/morning-reminder",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "8a179242",
+      "name": "🌙 Evening Pattern Drill",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 21 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/evening-drill",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "c3f12a55",
+      "name": "📋 Day Review",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/day-review",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "7f3c912b",
+      "name": "📊 Weekly Summary",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/weekly-summary",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "d9e0f1a2",
+      "name": "🎯 Pop Quiz 9:00am",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1-5",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/pop-quiz",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "f3a4b5c6",
+      "name": "🎯 Pop Quiz 7:00pm",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 19 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/pop-quiz",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "a1b2c3d4",
+      "name": "📅 Week Kickoff",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 0",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/week-kickoff",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "e5f6a7b8",
+      "name": "📊 Midweek Check",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 18 * * 3",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/midweek-check",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "b2d93e44",
+      "name": "🌃 End of Day Summary",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "45 23 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/end-of-day",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "c7d8e9f0",
+      "name": "⏰ Quiz Window Close 9:30am",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 9 * * 1-5",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Quiz session is ending.",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "a3b4c5d6",
+      "name": "⏰ Quiz Window Close 7:30pm",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 19 * * 1-6",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Quiz session is ending.",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "f1a2b3c4",
+      "name": "☀️ Sunday Morning Reminder",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 0",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "/morning-reminder",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    },
+    {
+      "id": "d4e5f6a7",
+      "name": "💬 Sunday Behavioral Nudge",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * 0",
+        "tz": "America/Los_Angeles"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Sunday behavioral session — let's do 3–5 questions. Say 'behavioral' to start.",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "1851230297"
+      },
+      "deleteAfterRun": false
+    }
+  ]
+}
