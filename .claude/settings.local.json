@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -o \"\"start_date\"\".* /c/Users/U/Documents/nanogrindv2/data_generated/progress.json)",
+      "Bash(cp nanogrindv2/generate_language_quiz.py nanogrindv3/)",
+      "Bash(cp nanogrindv2/generate_sql_concepts.py nanogrindv3/)",
+      "Bash(cp nanogrindv2/split_design_patterns.py nanogrindv3/)",
+      "Bash(cp nanogrindv2/add_weekly_fields.py nanogrindv3/)",
+      "Bash(cp -r nanogrindv2/data_generated nanogrindv3/data_generated)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''servers/progress_server.py''\\).read\\(\\)\\); print\\(''OK''\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''servers/progress_server.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''OK''\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''servers/content_server.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''OK''\\)\")",
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(pip install:*)",
+      "Bash(python -m pytest tests/test_progress.py -v)",
+      "Bash(ssh -o StrictHostKeyChecking=no -o BatchMode=yes mayu@10.0.0.163 \"ls /home/mayu/.nanobot/workspace/interview-prep/\")",
+      "Bash(choco list:*)",
+      "Bash(where sshpass:*)",
+      "Bash(python:*)",
+      "Bash(ping:*)",
+      "Bash(powershell.exe -Command \"Get-VM -Name 'NanobotVM' | Get-VMNetworkAdapter | Format-Table VMName, IPAddresses, SwitchName -AutoSize\")",
+      "Bash(python3:*)",
+      "Bash(powershell.exe -Command \"Get-NetAdapter | Where-Object {$_.Status -eq 'Up'} | Format-Table Name, InterfaceDescription, LinkSpeed, Status -AutoSize\")",
+      "Bash(ssh:*)",
+      "Bash(sshpass:*)",
+      "Bash(find /c/Users/U/Documents/llama-cpp/ -name docker-compose* -o -name *.yml -o -name *.yaml)"
+    ]
+  }
+}
